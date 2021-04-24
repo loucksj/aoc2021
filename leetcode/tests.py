@@ -19,5 +19,13 @@ class Tests(unittest.TestCase):
         self.assertEqual(False, p._9.isPalindrome(-101))
         self.assertEqual(False, p._9.isPalindrome(1000021))
 
+    def test_13(self):
+        self.assertEqual(3, p._13.romanToInt("III"))
+        self.assertEqual(4, p._13.romanToInt("IV"))
+        self.assertEqual(9, p._13.romanToInt("IX"))
+        self.assertEqual(58, p._13.romanToInt("LVIII"))
+        self.assertEqual(1994, p._13.romanToInt("MCMXCIV"))
+
+
     def test_167(self):
         self.assertEqual([1, 2], p._167.twoSum([2, 7, 11, 15], 9))

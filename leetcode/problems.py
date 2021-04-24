@@ -34,6 +34,21 @@ class _9:
             i += 1
         return n == x
 
+class _13:
+    def romanToInt(s: str) -> int:
+        symbols = {
+            "I":1,
+            "V":5,
+            "X":10,
+            "L":50,
+            "C":100,
+            "D":500,
+            "M":1000,
+        }
+
+        
+
+
 class _167:
     def twoSum(numbers: list[int], target: int) -> list[int]:
         for end in range(len(numbers)-1, -1, -1):

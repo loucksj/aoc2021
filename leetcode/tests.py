@@ -13,9 +13,9 @@ class Tests(unittest.TestCase):
         self.assertEqual(0, p._7.reverse(1534236469))
 
     def test_9(self):
-        #self.assertEqual(True, p._9.isPalindrome(121))
+        self.assertEqual(True, p._9.isPalindrome(121))
         self.assertEqual(False, p._9.isPalindrome(-121))
-        #self.assertEqual(False, p._9.isPalindrome(10))
+        self.assertEqual(False, p._9.isPalindrome(10))
         self.assertEqual(False, p._9.isPalindrome(-101))
 
     def test_167(self):

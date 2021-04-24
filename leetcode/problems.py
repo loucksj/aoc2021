@@ -15,7 +15,7 @@ class _7:
             n = 10 * n + (x % 10)
             x = x//10
             i += 1
-        if neg :
+        if neg:
             n *= -1
         if abs(n) < 2**31 and n != 2**31 - 1:
             return n
@@ -25,7 +25,14 @@ class _9:
     def isPalindrome(x: int) -> bool:
         if x < 0:
             return False
-        return True
+        mut_x = x
+        n = 0
+        i = 0
+        while mut_x != 0:
+            n = 10 * n + (mut_x % 10)
+            mut_x = mut_x//10
+            i += 1
+        return n == x
 
 class _167:
     def twoSum(numbers: list[int], target: int) -> list[int]:

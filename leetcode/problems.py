@@ -46,7 +46,51 @@ class _13:
             "M":1000,
         }
 
-        
+        s = list(s)
+
+        sum = 0
+
+        i = 0
+        while i < len(s): #skip last
+            a = s[i]
+            
+            if i == len(s)-1:
+                sum += symbols[a]
+                break
+            
+            b = s[i+1]
+            
+            if a == "I":
+                if b == "V":
+                    sum += 4
+                    i += 2
+                    continue
+                if b == "X":
+                    sum += 9
+                    i += 2
+                    continue
+            elif a == "X":
+                if b == "L":
+                    sum += 40
+                    i += 2
+                    continue
+                if b == "C":
+                    sum += 90
+                    i += 2
+                    continue
+            elif a == "C":
+                if b == "D":
+                    sum += 400
+                    i += 2
+                    continue
+                if b == "M":
+                    sum += 900
+                    i += 2
+                    continue
+            sum += symbols[a]
+            i += 1
+        return sum
+
 
 
 class _167:

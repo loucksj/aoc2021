@@ -25,6 +25,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(9, p._13.romanToInt("IX"))
         self.assertEqual(58, p._13.romanToInt("LVIII"))
         self.assertEqual(1994, p._13.romanToInt("MCMXCIV"))
+        self.assertEqual(1695, p._13.romanToInt("MDCXCV"))
 
 
     def test_167(self):

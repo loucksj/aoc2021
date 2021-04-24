@@ -91,6 +91,24 @@ class _13:
             i += 1
         return sum
 
+class _14:
+    def longestCommonPrefix(strs: list[str]) -> str:
+        scores = { "": 0 }
+        highest = ""
+        for string in strs:
+            for i in range(1, len(string)+1):
+                s = string[0:i]
+                if s in scores:
+                    scores[s] += 1
+                else:
+                    scores[s] = 1
+                if scores[s] >= scores[highest]:
+                    highest = s
+        if len(strs) > 1 and scores[highest] < len(strs):
+            return ""
+        return highest
+                
+
 
 
 class _167:

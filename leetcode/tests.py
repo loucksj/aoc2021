@@ -27,6 +27,11 @@ class Tests(unittest.TestCase):
         self.assertEqual(1994, p._13.romanToInt("MCMXCIV"))
         self.assertEqual(1695, p._13.romanToInt("MDCXCV"))
 
+    def test_14(self):
+        self.assertEqual("fl", p._14.longestCommonPrefix(["flower","flow","flight"]))
+        self.assertEqual("", p._14.longestCommonPrefix(["dog","racecar","car"]))
+        self.assertEqual("a", p._14.longestCommonPrefix(["a"]))
+        self.assertEqual("", p._14.longestCommonPrefix(["reflower","flow","flight"]))
 
     def test_167(self):
         self.assertEqual([1, 2], p._167.twoSum([2, 7, 11, 15], 9))

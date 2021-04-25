@@ -155,14 +155,22 @@ class _14:
 
 class _69:
     def mySqrt(x: int) -> int:
-        for i in range(1, x+1):
-            square = i * i
-            if square > x:
-                return i-1
-            if square == x:
-                return i
-        return 0
+        return int(x**(1/2))
 
+class _118:
+    def pascalsTriangle(numRows: int) -> list[list[int]]:
+        rows = []
+        for r in range(numRows):
+            row = []
+            row.append(1)
+            if r == 0:
+                rows.append(row)
+                continue
+            for n in range(1, r):
+                row.append(rows[r-1][n-1] + rows[r-1][n])
+            row.append(1)
+            rows.append(row)
+        return rows
 
 class _167:
     def twoSum(numbers: list[int], target: int) -> list[int]:

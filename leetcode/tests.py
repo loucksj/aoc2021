@@ -60,5 +60,9 @@ class Tests(unittest.TestCase):
         self.assertEqual(3, p._69.mySqrt(9))
         self.assertEqual(1, p._69.mySqrt(2))
 
+    def test_118(self):
+        self.assertEqual([[1]], p._118.pascalsTriangle(1))
+        self.assertEqual([[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]], p._118.pascalsTriangle(5))
+
     def test_167(self):
         self.assertEqual([1, 2], p._167.twoSum([2, 7, 11, 15], 9))

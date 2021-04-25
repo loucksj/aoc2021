@@ -153,6 +153,32 @@ class _14:
                 break
         return highest
 
+class _15:
+    def threeSum(nums: list[int]) -> list[list[int]]:
+        triplets = []
+        nums.sort()
+        size = len(nums)
+        dupe_range = 0
+        for x in range(0, size-2):
+            if nums[x] + nums[-2] + nums[-1] < 0:
+                continue
+            for y in range(x+1, size-1):
+                if nums[x] + nums[y] + nums[-1] < 0:
+                    continue
+                for z in range(size-1, y, -1):
+                    triplet = [nums[x], nums[y], nums[z]]
+                    s = sum(triplet)
+                    if s == 0:
+                        if (len(triplets) > 0 and triplet == triplets[-1]) or triplet in triplets[-dupe_range:-1]:
+                            continue
+                        triplets.append(triplet)
+                        dupe_range += 1
+                    if s < 0:
+                        break
+                dupe_range = 0
+            dupe_range = 0
+        return triplets
+
 class _69:
     def mySqrt(x: int) -> int:
         return int(x**(1/2))

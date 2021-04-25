@@ -1,4 +1,4 @@
-import math
+import math #_2
 
 class _1:
     def twoSums(nums: list[int], target: int) -> list[int]:
@@ -11,7 +11,6 @@ class ListNode: #_2
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
-
 class _2:  
     def addTwoNumbers(l1: ListNode, l2: ListNode) -> ListNode:
         a = l1.val
@@ -52,8 +51,6 @@ class _2:
             l = ListNode(0, l)
 
         return l
-
-
 
 class _7:
     def reverse(x: int) -> int:
@@ -155,6 +152,17 @@ class _14:
             else:
                 break
         return highest
+
+class _69:
+    def mySqrt(x: int) -> int:
+        for i in range(1, x+1):
+            square = i * i
+            if square > x:
+                return i-1
+            if square == x:
+                return i
+        return 0
+
 
 class _167:
     def twoSum(numbers: list[int], target: int) -> list[int]:

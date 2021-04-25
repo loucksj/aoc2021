@@ -172,6 +172,18 @@ class _118:
             rows.append(row)
         return rows
 
+class _119:
+    def pascalsTriangle(rowIndex: int) -> list[int]:
+        prev = [1]
+        for r in range(1, rowIndex+1):
+            row = []
+            row.append(1)
+            for n in range(1, r):
+                row.append(prev[n-1] + prev[n])
+            row.append(1)
+            prev = row
+        return prev
+
 class _167:
     def twoSum(numbers: list[int], target: int) -> list[int]:
         for end in range(len(numbers)-1, -1, -1):

@@ -1,3 +1,5 @@
+import math
+
 class _1:
     def twoSums(nums: list[int], target: int) -> list[int]:
         for i in range(len(nums)):
@@ -5,16 +7,62 @@ class _1:
                 if nums[i] + nums[j] == target:
                     return [i, j]
 
+class ListNode: #_2
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class _2:  
+    def addTwoNumbers(l1: ListNode, l2: ListNode) -> ListNode:
+        a = l1.val
+        i = 1
+        while l1.next != None:
+            l1 = l1.next
+            a += l1.val * pow(10, i)
+            i += 1
+        b = l2.val
+        i = 1
+        while l2.next != None:
+            l2 = l2.next
+            b += l2.val * pow(10, i)
+            i += 1
+        
+        sum = a + b
+        
+        if sum == 0:
+            return ListNode(0)
+
+        sum_len = int(math.log10(sum))+1
+        
+        backsum = 0
+        i = 0
+        while sum != 0:
+            backsum = 10 * backsum + (sum % 10)
+            sum = sum//10
+            i += 1
+
+        backsum_len = int(math.log10(backsum))+1
+        
+        l = ListNode(backsum % 10)
+        while backsum > 9:
+            backsum = backsum // 10
+            l = ListNode(backsum % 10, l)
+        
+        for _ in range(sum_len - backsum_len):
+            l = ListNode(0, l)
+
+        return l
+
+
+
 class _7:
     def reverse(x: int) -> int:
         neg = x < 0
         x = abs(x)
         n = 0
-        i = 0
         while x != 0:
             n = 10 * n + (x % 10)
             x = x//10
-            i += 1
         if neg:
             n *= -1
         if abs(n) < 2**31 and n != 2**31 - 1:
@@ -95,12 +143,8 @@ class _14:
     def longestCommonPrefix(strs: list[str]) -> str:
         if len(strs) == 1:
             return strs[0]
-        min = 200
-        for string in strs:
-            if len(string) < min:
-                min = len(string)
         highest = ""
-        for i in range(1, min+1):
+        for i in range(1, 201):
             common = True
             for j in range(1, len(strs)):
                 if strs[0][0:i] != strs[j][0:i]:
@@ -108,6 +152,8 @@ class _14:
                     break
             if common:
                 highest = strs[0][0:i]
+            else:
+                break
         return highest
 
 class _167:

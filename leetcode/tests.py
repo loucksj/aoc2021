@@ -5,6 +5,25 @@ class Tests(unittest.TestCase):
     def test_1(self):
         self.assertEqual([0, 1], p._1.twoSums([2, 7, 11, 15], 9))
     
+    def test_2(self):
+        l1 = p.ListNode(2, p.ListNode(4, p.ListNode(3)))
+        l2 = p.ListNode(5, p.ListNode(6, p.ListNode(4)))
+        l3 = p._2.addTwoNumbers(l1, l2)
+        self.assertEqual(7, l3.val)
+        self.assertEqual(0, l3.next.val)
+        self.assertEqual(8, l3.next.next.val)
+        
+        self.assertEqual(0, p._2.addTwoNumbers(p.ListNode(0), p.ListNode(0)).val)
+
+        l1 = p.ListNode(5, p.ListNode(6))
+        l2 = p.ListNode(5, p.ListNode(4, p.ListNode(9)))
+        l3 = p._2.addTwoNumbers(l1, l2)
+        self.assertEqual(0, l3.val)
+        self.assertEqual(1, l3.next.val)
+        self.assertEqual(0, l3.next.next.val)
+        self.assertEqual(1, l3.next.next.next.val)
+
+
     def test_7(self):
         self.assertEqual(321, p._7.reverse(123))
         self.assertEqual(-321, p._7.reverse(-123))

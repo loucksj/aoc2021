@@ -158,25 +158,34 @@ class _15:
         triplets = []
         nums.sort()
         size = len(nums)
-        dupe_range = 0
+        first = True
         for x in range(0, size-2):
-            if nums[x] + nums[-2] + nums[-1] < 0:
-                continue
+            if x > 0 and nums[x] == nums[x-1]:
+                continue #skip same starting x
+            if nums[x] + nums[-1] < 0:
+                continue #skip if x already too small
             for y in range(x+1, size-1):
-                if nums[x] + nums[y] + nums[-1] < 0:
-                    continue
-                for z in range(size-1, y, -1):
+                if y > x+1 and nums[y] == nums[y-1]:
+                    continue #skip same starting y
+                if nums[y] + nums[-1] < 0:
+                    continue #skip if y already too small
+                for z in range(size-1, y, -1): #highest to lowest
+                    if z < size-1 and nums[z] == nums[z+1]:
+                        continue #skip same starting z
+                    if nums[x] > 0 or nums[z] < 0:
+                        return triplets #done if either end too low/high
+                   
                     triplet = [nums[x], nums[y], nums[z]]
-                    s = sum(triplet)
-                    if s == 0:
-                        if (len(triplets) > 0 and triplet == triplets[-1]) or triplet in triplets[-dupe_range:-1]:
-                            continue
+                    triplet_sum = sum(triplet)
+
+                    if triplet_sum < 0:
+                        break #done with z
+                    if triplet_sum == 0:
+                        if not first and triplets[-1] == triplet:
+                            continue #skip duplicate
+                        else:
+                            first = False
                         triplets.append(triplet)
-                        dupe_range += 1
-                    if s < 0:
-                        break
-                dupe_range = 0
-            dupe_range = 0
         return triplets
 
 class _69:

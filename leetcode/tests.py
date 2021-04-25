@@ -32,6 +32,8 @@ class Tests(unittest.TestCase):
         self.assertEqual("", p._14.longestCommonPrefix(["dog","racecar","car"]))
         self.assertEqual("a", p._14.longestCommonPrefix(["a"]))
         self.assertEqual("", p._14.longestCommonPrefix(["reflower","flow","flight"]))
+        self.assertEqual("flower", p._14.longestCommonPrefix(["flower","flower","flower","flower"]))
+        self.assertEqual("aa", p._14.longestCommonPrefix(["aaa","aa","aaa"]))
 
     def test_167(self):
         self.assertEqual([1, 2], p._167.twoSum([2, 7, 11, 15], 9))

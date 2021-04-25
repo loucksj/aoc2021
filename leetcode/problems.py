@@ -93,23 +93,22 @@ class _13:
 
 class _14:
     def longestCommonPrefix(strs: list[str]) -> str:
-        scores = { "": 0 }
-        highest = ""
+        if len(strs) == 1:
+            return strs[0]
+        min = 200
         for string in strs:
-            for i in range(1, len(string)+1):
-                s = string[0:i]
-                if s in scores:
-                    scores[s] += 1
-                else:
-                    scores[s] = 1
-                if scores[s] >= scores[highest]:
-                    highest = s
-        if len(strs) > 1 and scores[highest] < len(strs):
-            return ""
+            if len(string) < min:
+                min = len(string)
+        highest = ""
+        for i in range(1, min+1):
+            common = True
+            for j in range(1, len(strs)):
+                if strs[0][0:i] != strs[j][0:i]:
+                    common = False
+                    break
+            if common:
+                highest = strs[0][0:i]
         return highest
-                
-
-
 
 class _167:
     def twoSum(numbers: list[int], target: int) -> list[int]:

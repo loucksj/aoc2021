@@ -160,21 +160,19 @@ class _15:
         size = len(nums)
         if size < 3:
             return triplets
-        if nums[-1] < 0:
-            return triplets
-        for x in range(0, size-2):
-            if nums[x] > 0:
-                return triplets
-            if x >= 1 and nums[x] == nums[x-1]:
+        for start in range(0, size-2):
+            if nums[start] > 0:
+                break
+            if start >= 1 and nums[start] == nums[start-1]:
                 continue #skip duplicate
-            for y in range(x+1, size-1):
-                if y-x >= 2 and nums[y] == nums[y-1]:
+            for end in range(size-1, start, -1):
+                if nums[end] < 0:
+                    break
+                if size-end >= 2 and nums[end] == nums[end+1]:
                     continue #skip duplicate
-                target = - (nums[x] + nums[y])
-                if target > nums[-1]:
-                    continue #target beyond
-                if self.binary_search(nums[y+1:], target):
-                    triplets.append([nums[x], nums[y], target])
+                target = - (nums[start] + nums[end])
+                if self.binary_search(nums[start+1:end], target):
+                    triplets.append([nums[start], target, nums[end]])
         return triplets
 
     def binary_search(self, nums: list[int], target: int) -> bool:

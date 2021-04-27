@@ -154,39 +154,44 @@ class _14:
         return highest
 
 class _15:
-    def threeSum(nums: list[int]) -> list[list[int]]:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
         triplets = []
         nums.sort()
         size = len(nums)
-        first = True
+        if size < 3:
+            return triplets
+        if nums[-1] < 0:
+            return triplets
         for x in range(0, size-2):
-            if x > 0 and nums[x] == nums[x-1]:
-                continue #skip same starting x
-            if nums[x] + nums[-1] < 0:
-                continue #skip if x already too small
+            if nums[x] > 0:
+                return triplets
+            if x >= 1 and nums[x] == nums[x-1]:
+                continue #skip duplicate
             for y in range(x+1, size-1):
-                if y > x+1 and nums[y] == nums[y-1]:
-                    continue #skip same starting y
-                if nums[y] + nums[-1] < 0:
-                    continue #skip if y already too small
-                for z in range(size-1, y, -1): #highest to lowest
-                    if z < size-1 and nums[z] == nums[z+1]:
-                        continue #skip same starting z
-                    if nums[x] > 0 or nums[z] < 0:
-                        return triplets #done if either end too low/high
-                   
-                    triplet = [nums[x], nums[y], nums[z]]
-                    triplet_sum = sum(triplet)
-
-                    if triplet_sum < 0:
-                        break #done with z
-                    if triplet_sum == 0:
-                        if not first and triplets[-1] == triplet:
-                            continue #skip duplicate
-                        else:
-                            first = False
-                        triplets.append(triplet)
+                if y-x >= 2 and nums[y] == nums[y-1]:
+                    continue #skip duplicate
+                target = - (nums[x] + nums[y])
+                if target > nums[-1]:
+                    continue #target beyond
+                if self.binary_search(nums[y+1:], target):
+                    triplets.append([nums[x], nums[y], target])
         return triplets
+
+    def binary_search(self, nums: list[int], target: int) -> bool:
+        if nums == []:
+            return False
+        if len(nums) == 1:
+            if nums[0] == target:
+                return True
+            return False
+        mid = (len(nums)-1)//2
+        if nums[mid] == target:
+            return True
+        if nums[mid] < target:
+            return self.binary_search(nums[mid+1:], target)
+        if nums[mid] > target:
+            return self.binary_search(nums[:mid], target)
+
 
 class _69:
     def mySqrt(x: int) -> int:

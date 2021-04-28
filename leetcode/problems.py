@@ -160,35 +160,32 @@ class _15:
         size = len(nums)
         if size < 3:
             return triplets
-        for start in range(0, size-2):
-            if nums[start] > 0:
+        for x in range(0, size-2):
+            if nums[x] > 0:
                 break
-            if start >= 1 and nums[start] == nums[start-1]:
+            if x >= 1 and nums[x] == nums[x-1]:
                 continue #skip duplicate
-            for end in range(size-1, start, -1):
-                if nums[end] < 0:
+            y = x + 1
+            z = size-1
+            while True:
+                if nums[z] < 0:
                     break
-                if size-end >= 2 and nums[end] == nums[end+1]:
-                    continue #skip duplicate
-                target = - (nums[start] + nums[end])
-                if self.binary_search(nums[start+1:end], target):
-                    triplets.append([nums[start], target, nums[end]])
+                if y >= z or y >= size-1:
+                    break
+                sum = nums[x] + nums[y] + nums[z]
+                if sum == 0:
+                    triplets.append([nums[x], nums[y], nums[z]])
+                if sum <= 0:
+                    while True:
+                        y += 1
+                        if nums[y] != nums[y-1] or y == z:
+                            break
+                if sum > 0:
+                    while True:
+                        z -= 1
+                        if nums[z] != nums[z+1] or z == y:
+                            break
         return triplets
-
-    def binary_search(self, nums: list[int], target: int) -> bool:
-        if nums == []:
-            return False
-        if len(nums) == 1:
-            if nums[0] == target:
-                return True
-            return False
-        mid = (len(nums)-1)//2
-        if nums[mid] == target:
-            return True
-        if nums[mid] < target:
-            return self.binary_search(nums[mid+1:], target)
-        if nums[mid] > target:
-            return self.binary_search(nums[:mid], target)
 
 
 class _69:

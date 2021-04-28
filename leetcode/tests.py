@@ -58,6 +58,7 @@ class Tests(unittest.TestCase):
         self.assertEqual([], p._15().threeSum([0]))
         self.assertEqual([[-1,-1,2], [-1,0,1]], p._15().threeSum([-1,0,1,2,-1,-4]))
         self.assertEqual([[0,0,0]], p._15().threeSum([0,0,0,0]))
+        self.assertEqual([[0,0,0]], p._15().threeSum([0,0,0]))
         self.assertEqual([[-1,0,1]], p._15().threeSum([1,-1,-1,0]))
         self.assertEqual(
             [[-4,-3,7],[-4,-2,6],[-4,-1,5],[-4,1,3],[-4,2,2],[-3,-2,5],[-3,-1,4],[-3,1,2],[-2,-1,3]],

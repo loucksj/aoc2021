@@ -229,3 +229,16 @@ class _167:
                     break
                 if numbers[start] + numbers[end] == target:
                     return [start+1, end+1]
+
+class _242:
+    def isAnagram(self, s: str, t: str) -> bool:
+        return self.charCount(s) == self.charCount(t)
+    
+    def charCount(self, s: str) -> {}:
+        d = {}
+        for char in s:
+            if not char in d:
+                d[char] = 1
+            else:
+                d[char] += 1
+        return d

@@ -86,3 +86,7 @@ class Tests(unittest.TestCase):
 
     def test_167(self):
         self.assertEqual([1, 2], p._167.twoSum([2, 7, 11, 15], 9))
+    
+    def test_242(self):
+        self.assertEqual(True, p._242().isAnagram("anagram", "nagaram"))
+        self.assertEqual(False, p._242().isAnagram("rat", "car"))

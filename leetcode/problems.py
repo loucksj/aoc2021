@@ -156,10 +156,10 @@ class _14:
 class _15:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
         triplets = []
-        nums.sort()
         size = len(nums)
         if size < 3:
             return triplets
+        nums.sort()
         for x in range(0, size-2):
             if nums[x] > 0:
                 break
@@ -170,23 +170,23 @@ class _15:
             while True:
                 if nums[z] < 0:
                     break
-                if y >= z or y >= size-1:
+                if y == z or y == size-1:
                     break
                 sum = nums[x] + nums[y] + nums[z]
                 if sum == 0:
                     triplets.append([nums[x], nums[y], nums[z]])
                 if sum <= 0:
-                    while True:
-                        y += 1
-                        if nums[y] != nums[y-1] or y == z:
-                            break
+                    y = self.nextIndex(nums, y, z, 1)
                 if sum > 0:
-                    while True:
-                        z -= 1
-                        if nums[z] != nums[z+1] or z == y:
-                            break
+                    z = self.nextIndex(nums, z, y, -1)
         return triplets
 
+    def nextIndex(self, nums: list[int], current: int, limit: int, move: int) -> int:
+        while True:
+            current += move
+            if nums[current] != nums[current-move] or current == limit:
+                break
+        return current
 
 class _69:
     def mySqrt(x: int) -> int:

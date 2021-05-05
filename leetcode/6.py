@@ -22,7 +22,6 @@ def convert(s: str, numRows: int) -> str:
             down = True
             row += 1
     
-    # create solution from indexes
     solution = ""
     for row in grid:
         for c in row:

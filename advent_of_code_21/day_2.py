@@ -1,4 +1,4 @@
-def part_1(file: str) -> list[int]:
+def part_1(file: str) -> int:
     lines = open(file, 'r').readlines()
     horizontal = 0
     depth = 0
@@ -14,7 +14,7 @@ def part_1(file: str) -> list[int]:
             depth -= amount
     return horizontal * depth
 
-def part_2(file: str) -> list[int]:
+def part_2(file: str) -> int:
     lines = open(file, 'r').readlines()
     horizontal = 0
     depth = 0

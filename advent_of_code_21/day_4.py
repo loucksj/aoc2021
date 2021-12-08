@@ -10,31 +10,15 @@ def part_1(file: str) -> int:
             boards.append(Board(lines[line_index+1:line_index+6]))
         line_index += 1
 
-    last_num = 0
     winner = []
     for num in nums:
-        last_num = num
         for board in boards:
             board.mark(num)
-        winner = get_winner(boards)
-        if winner != []:
-            break
-
-    return int(last_num) * winner.score()
-
-def get_winner(boards: list):
-    winner = []
-    for board in boards:
-        for row in board.rows:
-            if row.count('X') == 5:
+            if board.winner():
                 winner = board
-                break
-        columns = [list(i) for i in zip(*board.rows)]
-        for column in columns:
-            if column.count('X') == 5:
-                winner = board
-                break
-    return winner
+                return int(num) * winner.score()
+
+    return -1
 
 class Board:
     def __init__(self, data: str):
@@ -59,10 +43,20 @@ class Board:
                 if num != 'X':
                     score += int(num)
         return score
+    
+    def winner(self) -> bool:
+        for row in self.rows:
+            if row.count('X') == 5:
+                return True
+        columns = [list(i) for i in zip(*self.rows)]
+        for column in columns:
+            if column.count('X') == 5:
+                return True
+        return False
 
 if __name__ == '__main__':
     assert part_1('day_4_test.txt') == 4512
     assert part_1('day_4.txt') == 87456
 
-    #assert part_2('day_4_test.txt') == 0
+    #assert part_2('day_4_test.txt') == 1924
     #assert part_2('day_4.txt') == 0

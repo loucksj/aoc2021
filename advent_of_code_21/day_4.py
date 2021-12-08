@@ -3,22 +3,23 @@ def part_1(file: str) -> int:
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]
 
+    boards = make_boards(lines)
+
+    for num in nums:
+        for board in boards:
+            board.mark(num)
+            if board.winner():
+                return int(num) * board.score()
+    return -1
+
+def make_boards(lines: list) -> list:
     boards = []
     line_index = 0
     for line in lines:
         if line == '':
             boards.append(Board(lines[line_index+1:line_index+6]))
         line_index += 1
-
-    winner = []
-    for num in nums:
-        for board in boards:
-            board.mark(num)
-            if board.winner():
-                winner = board
-                return int(num) * winner.score()
-
-    return -1
+    return boards
 
 class Board:
     def __init__(self, data: str):

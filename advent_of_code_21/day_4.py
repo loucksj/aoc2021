@@ -12,6 +12,25 @@ def part_1(file: str) -> int:
                 return int(num) * board.score()
     return -1
 
+def part_2(file: str) -> int:
+    lines = open(file, 'r').readlines()
+    nums = lines.pop(0).strip().split(',')
+    lines = [s.strip() for s in lines]
+
+    boards = make_boards(lines)
+
+    last_num = 0
+    last_winner = []
+    for num in nums:
+        for board in boards:
+            board.mark(num)
+        for board in boards:
+            if board.winner():
+                last_num = num
+                last_winner = board
+                boards.remove(board)
+    return int(last_num) * last_winner.score()
+
 def make_boards(lines: list) -> list:
     boards = []
     line_index = 0
@@ -59,5 +78,5 @@ if __name__ == '__main__':
     assert part_1('day_4_test.txt') == 4512
     assert part_1('day_4.txt') == 87456
 
-    #assert part_2('day_4_test.txt') == 1924
-    #assert part_2('day_4.txt') == 0
+    assert part_2('day_4_test.txt') == 1924
+    assert part_2('day_4.txt') == 15561

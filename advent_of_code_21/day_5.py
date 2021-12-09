@@ -10,6 +10,20 @@ def part_1(file: str) -> int:
 
     return vents.score()
 
+def part_2(file: str) -> int:
+    lines = open(file, 'r').readlines()
+    lines = [s.strip() for s in lines]
+
+    coordinates = make_coordinates(lines)
+    vents = Vents(get_size(coordinates))
+
+    vents.mark_vertical(coordinates)
+    vents.mark_horizontal(coordinates)
+    vents.mark_down_diagonal(coordinates)
+    vents.mark_up_diagonal(coordinates)
+
+    return vents.score()
+
 class Vents:
     def __init__(self, size: int):
         self.rows = []
@@ -31,14 +45,34 @@ class Vents:
         for pair in coordinates:
             start = pair[0]
             end = pair[1]
-            
-            #horizontal lines
             if start[1] == end[1]:
                 col = min(start[0], end[0])
                 row = start[1]
                 diff = abs(start[0]-end[0])
                 for i in range(0, diff+1):
                     self.rows[row][col+i] += 1
+    
+    def mark_down_diagonal(self, coordinates: list):
+        for pair in coordinates:
+            start = pair[0]
+            end = pair[1]
+            if start[0] - end[0] == start[1] - end[1]:
+                col = min(start[0], end[0])
+                row = min(start[1], end[1])
+                diff = abs(start[0]-end[0])
+                for i in range(0, diff+1):
+                    self.rows[row+i][col+i] += 1
+    
+    def mark_up_diagonal(self, coordinates: list):
+        for pair in coordinates:
+            start = pair[0]
+            end = pair[1]
+            if start[0] - end[0] == -(start[1] - end[1]):
+                col = min(start[0], end[0])
+                row = max(start[1], end[1])
+                diff = abs(start[0]-end[0])
+                for i in range(0, diff+1):
+                    self.rows[row-i][col+i] += 1
 
     def score(self) -> int:
         total = 0
@@ -73,5 +107,5 @@ if __name__ == '__main__':
     assert part_1('day_5_test.txt') == 5
     assert part_1('day_5.txt') == 5608
 
-    #assert part_2('day_5_test.txt') == 0
-    #assert part_2('day_5.txt') == 0
+    assert part_2('day_5_test.txt') == 12
+    assert part_2('day_5.txt') == 20299

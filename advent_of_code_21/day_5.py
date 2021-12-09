@@ -2,40 +2,51 @@ def part_1(file: str) -> int:
     lines = open(file, 'r').readlines()
     lines = [s.strip() for s in lines]
 
-    coordinates = get_coordinates(lines)
-    size = max(get_size(coordinates)) + 1
+    coordinates = make_coordinates(lines)
+    vents = Vents(get_size(coordinates))
 
-    vents = []
-    for i in range(0, size):
-        vents.append([0]*size)
+    vents.mark_vertical(coordinates)
+    vents.mark_horizontal(coordinates)
 
-    for pair in coordinates:
-        start = pair[0]
-        end = pair[1]
+    return vents.score()
 
-        #vertical lines
-        if start[0] == end[0]:
-            col = start[0]
-            row = min(start[1], end[1])
-            diff = abs(start[1]-end[1])
-            for i in range(0, diff+1):
-                vents[row+i][col] += 1
-        
-        #horizontal lines
-        if start[1] == end[1]:
-            col = min(start[0], end[0])
-            row = start[1]
-            diff = abs(start[0]-end[0])
-            for i in range(0, diff+1):
-                vents[row][col+i] += 1
+class Vents:
+    def __init__(self, size: int):
+        self.rows = []
+        for _ in range(0, size):
+            self.rows.append([0]*size)
+    
+    def mark_vertical(self, coordinates: list):
+        for pair in coordinates:
+            start = pair[0]
+            end = pair[1]
+            if start[0] == end[0]:
+                col = start[0]
+                row = min(start[1], end[1])
+                diff = abs(start[1]-end[1])
+                for i in range(0, diff+1):
+                    self.rows[row+i][col] += 1
+    
+    def mark_horizontal(self, coordinates: list):
+        for pair in coordinates:
+            start = pair[0]
+            end = pair[1]
+            
+            #horizontal lines
+            if start[1] == end[1]:
+                col = min(start[0], end[0])
+                row = start[1]
+                diff = abs(start[0]-end[0])
+                for i in range(0, diff+1):
+                    self.rows[row][col+i] += 1
 
-    total = 0
-    for row in vents:
-        for num in row:
-            if num > 1:
-                total += 1
-
-    return total
+    def score(self) -> int:
+        total = 0
+        for row in self.rows:
+            for num in row:
+                if num > 1:
+                    total += 1
+        return total
 
 def get_size(coordinates: list) -> list:
     size = [0, 0]
@@ -43,22 +54,19 @@ def get_size(coordinates: list) -> list:
         for xy in pair:
             size[0] = max(size[0], xy[0])
             size[1] = max(size[1], xy[1])
-    return size
+    return max(size) + 1
 
-def get_coordinates(lines: list) -> list:
+def make_coordinates(lines: list) -> list:
     pairs = []
     for line in lines:
         pairs.append(line.split(' -> '))
-    
     for pair in pairs:
         pair[0] = pair[0].split(',')
         pair[1] = pair[1].split(',')
-    
     for pair in pairs:
         for xy in pair:
             xy[0] = int(xy[0])
             xy[1] = int(xy[1])
-    
     return pairs
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 def part_1(file: str) -> int:
     lines = open(file, 'r').readlines()
     lines = [s.strip() for s in lines]
-    
+
     fish = list(map(int, lines[0].split(',')))
 
     for _ in range(0, 80): #80 days

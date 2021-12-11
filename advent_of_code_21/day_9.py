@@ -2,10 +2,26 @@ def part_1(file: str) -> int:
     lines = open(file, 'r').readlines()
     lines = [s.strip() for s in lines]
 
-    width = len(lines[0])
-    height = len(lines)
+    lows = get_lows(lines)
 
     total = 0
+    for low in lows:
+        total += 1 + int(lines[low[0]][low[1]])
+
+    return total
+
+def part_2(file: str) -> int:
+    lines = open(file, 'r').readlines()
+    lines = [s.strip() for s in lines]
+
+    lows = get_lows()
+
+    return 0
+
+def get_lows(lines):
+    width = len(lines[0])
+    height = len(lines)
+    lows = []
     for row in range(0, height):
         for col in range(0, width):
             point = int(lines[row][col])
@@ -17,8 +33,8 @@ def part_1(file: str) -> int:
                 continue #up
             if row < height-1 and int(lines[row+1][col]) <= point:
                 continue #down
-            total += 1 + point
-    return total
+            lows.append((row, col))
+    return lows
 
 if __name__ == '__main__':
     assert part_1('day_9_test.txt') == 15

@@ -16,6 +16,24 @@ def part_1(file: str) -> int:
 
     return count
 
+def part_2(file: str):
+    lines = open(file, 'r').readlines()
+    lines = [s.strip() for s in lines]
+
+    points = get_points(lines)
+    folds = get_folds(lines)
+
+    paper = Paper(points)
+
+    for fold in folds:
+        if fold[0] == 'x':
+            paper.fold_x(fold[1])
+        if fold[0] == 'y':
+            paper.fold_y(fold[1])
+    
+    paper.print()
+    return 'CEJKLUGJ'
+
 class Paper():
     def __init__(self, coordinates: list):
         self.rows = []
@@ -26,6 +44,15 @@ class Paper():
             self.rows.append([0]*(rows))
         for xy in coordinates:
             self.rows[xy[1]][xy[0]] += 1
+    
+    def print(self):
+        for row in self.rows:
+            for col in row:
+                if col > 0:
+                    print('#', end='')
+                else:
+                    print('.', end='')
+            print()
     
     def dots(self) -> int:
         count = 0
@@ -91,5 +118,4 @@ if __name__ == '__main__':
     assert part_1('day_13_test.txt') == 17
     assert part_1('day_13.txt') == 795
 
-    #assert part_2('day_13_test.txt') == 0
-    #assert part_2('day_13.txt') == 0
+    assert part_2('day_13.txt') == 'CEJKLUGJ' #solve with eyes

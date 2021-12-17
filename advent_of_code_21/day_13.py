@@ -8,7 +8,10 @@ def part_1(file: str) -> int:
     folds = get_folds(lines)
 
     paper = Paper(points)
-    paper.fold_x(int(folds[0][1]))
+    if folds[0][0] == 'x':
+        paper.fold_x(folds[0][1])
+    if folds[0][0] == 'y':
+        paper.fold_y(folds[0][1])
     count = paper.dots()
 
     return count
@@ -32,17 +35,29 @@ class Paper():
                     count += 1
         return count
 
+    def fold_y(self, y: int):
+        new = []
+        for row in range(0, len(self.rows)):
+            if row < y:
+                new.append(self.rows[row])
+            if row > y:
+                for col in range(0, len(self.rows[0])):
+                    fold_row = y-(row-y)
+                    if fold_row < 0:
+                        self.rows.insert(0, self.rows[row])
+                    new[fold_row][col] += self.rows[row][col]
+        self.rows = new
+
     def fold_x(self, x: int):
         new = []
         for row in range(0, len(self.rows)):
-            if row < x:
-                new.append(self.rows[row])
-            if row > x:
-                for col in range(0, len(self.rows[0])):
-                    fold_row = x-(row-x)
-                    if fold_row < 0:
-                        new.append(self.rows[row])
-                    new[fold_row][col] += self.rows[row][col]
+            new.append([0]*x)
+            for col in range(len(self.rows[row])):
+                if col < x:
+                    new[row][col] += self.rows[row][col]
+                if col > x:
+                    fold_col = x-(col-x)
+                    new[row][fold_col] += self.rows[row][col]
         self.rows = new
 
 def get_max(coordinates: list):
@@ -69,12 +84,12 @@ def get_folds(lines: list) -> list:
     for line in lines:
         result = re.search('(\w)=(\d*)$', line)
         if result:
-            folds.append((result.group(1), result.group(2)))
+            folds.append((result.group(1), int(result.group(2))))
     return folds
 
 if __name__ == '__main__':
     assert part_1('day_13_test.txt') == 17
-    assert part_1('day_13.txt') != 957
+    assert part_1('day_13.txt') == 795
 
     #assert part_2('day_13_test.txt') == 0
     #assert part_2('day_13.txt') == 0

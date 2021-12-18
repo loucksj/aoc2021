@@ -106,6 +106,5 @@ if __name__ == '__main__':
     assert part_1('day_14_test.txt') == 1588
     assert part_1('day_14.txt') == 2602
 
-    #off by one errors
     assert part_2('day_14_test.txt') == 2188189693529
     assert part_2('day_14.txt') == 2942885922173

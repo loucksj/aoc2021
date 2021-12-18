@@ -22,15 +22,63 @@ def part_2(file: str) -> int:
     polymer = lines.pop(0)
     lines.pop(0)
 
-    pairs = {}
+    rules = {}
     for line in lines:
         pair = line.split(' -> ')
-        pairs[pair[0]] = pair[1]
+        rules[pair[0]] = pair[1]
 
+    pairs = get_pairs(polymer)
     for i in range(0, 40):
-        polymer = insert(pairs, polymer)
+        pairs = pair_insert(rules, pairs)
     
-    return score(polymer)
+    return pair_score(pairs, polymer[0], polymer[-1])
+
+def pair_score(pairs: dict, first: str, last: str):
+    scores = {}
+    for key in pairs.keys():
+        magnitude = pairs[key]
+        for s in key:
+            if s in scores:
+                scores[s] += magnitude / 2
+            else:
+                scores[s] = magnitude / 2
+    scores[first] += 1
+    scores[last] += 1
+    largest = max(scores.values())
+    smallest = min(scores.values())
+    score = largest - smallest
+    #rounding error here, something with first and last
+    return int(score)
+
+def pair_insert(rules: dict, pairs: dict) -> dict:
+    new_pairs = {}
+    for pair in pairs:
+        if pair in rules.keys():
+            magnitude = pairs[pair]
+            b = rules[pair]
+            ab = pair[0] + b
+            if ab in new_pairs:
+                new_pairs[ab] += magnitude
+            else:
+                new_pairs[ab] = magnitude
+            bc = b + pair[1]
+            if bc in new_pairs:
+                new_pairs[bc] += magnitude
+            else:
+                new_pairs[bc] = magnitude
+    return new_pairs
+
+def get_pairs(polymer: str) -> dict:
+    pairs = {}
+    for i in range(0, len(polymer)-1):
+        a = polymer[i]
+        b = polymer[i+1]
+        ab = a+b
+        if ab in pairs.keys():
+            pairs[ab] += 1
+        else:
+            pairs[ab] = 1
+    return pairs
 
 def score(polymer: str) -> int:
     counts = {}
@@ -59,5 +107,6 @@ if __name__ == '__main__':
     assert part_1('day_14_test.txt') == 1588
     assert part_1('day_14.txt') == 2602
 
-    #assert part_2('day_14_test.txt') == 2188189693529
-    #assert part_2('day_14.txt') == 0
+    #off by one errors
+    assert part_2('day_14_test.txt') == 2188189693529
+    assert part_2('day_14.txt') == 2942885922173 

@@ -42,12 +42,11 @@ def pair_score(pairs: dict, first: str, last: str):
                 scores[s] += magnitude / 2
             else:
                 scores[s] = magnitude / 2
-    scores[first] += 1
-    scores[last] += 1
+    scores[first] += 0.5
+    scores[last] += 0.5
     largest = max(scores.values())
     smallest = min(scores.values())
     score = largest - smallest
-    #rounding error here, something with first and last
     return int(score)
 
 def pair_insert(rules: dict, pairs: dict) -> dict:
@@ -109,4 +108,4 @@ if __name__ == '__main__':
 
     #off by one errors
     assert part_2('day_14_test.txt') == 2188189693529
-    assert part_2('day_14.txt') == 2942885922173 
+    assert part_2('day_14.txt') == 2942885922173

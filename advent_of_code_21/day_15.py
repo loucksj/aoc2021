@@ -7,6 +7,16 @@ def part_1(file: str) -> int:
 
     return risk
 
+def part_2(file: str) -> int:
+    lines = open(file, 'r').readlines()
+    lines = [s.strip() for s in lines]
+
+    map = Map(lines)
+    map.expand()
+    risk = map.find_path()
+
+    return risk
+
 class Map():
     def __init__(self, lines: list):
         self.point = [0, 0]
@@ -16,6 +26,25 @@ class Map():
             self.rows.append([])
             for char in lines[i]:
                 self.rows[i].append([int(char), -1])
+
+    def expand(self):
+        height = len(self.rows)
+        width = len(self.rows[0])
+        new_map = []
+        for row in range(0, 5*height):
+            new_map.append([])
+            for col in range(0, 5*width):
+                if row < height and col < width:
+                    new_map[row].append(self.rows[row][col].copy())
+                elif row >= height:
+                    new_map[row].append(new_map[row-height][col].copy())
+                else:
+                    new_map[row].append(new_map[row][col-width].copy())
+                if row >= height or col >= width:
+                    new_map[row][col][0] += 1
+                    if new_map[row][col][0] > 9:
+                        new_map[row][col][0] = 1
+        self.rows = new_map
 
     def find_path(self):
         height = len(self.rows)
@@ -57,5 +86,5 @@ if __name__ == '__main__':
     assert part_1('day_15_test.txt') == 40
     assert part_1('day_15.txt') == 456
 
-    #assert part_2('day_15_test.txt') == 315
-    #assert part_2('day_15.txt') == 0
+    assert part_2('day_15_test.txt') == 315
+    assert part_2('day_15.txt') == 2831

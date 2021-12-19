@@ -3,7 +3,6 @@ def part_1(file: str) -> int:
     lines = [s.strip() for s in lines]
 
     rows = get_rows(lines)
-
     risk = find_path(rows)
 
     return risk
@@ -13,24 +12,20 @@ def find_path(rows: list):
     width = len(rows[0])
     for row in rows:
         distance.append([-1]*width)
-    row = 0
-    col = 0
-    distance[row][col] = 0
-    end_row = len(rows) - 1
-    end_col = width - 1
     
-    run = True
-    while run:
-        if row == end_row and col == end_col:
-            return distance[end_row][end_col]
-        update_neighbors(rows, distance, row, col)
-        distance[row][col] = 0
-        goto = get_next(distance, row, col)
-        row = goto[0]
-        col = goto[1]
-    return 0
+    point = [0, 0]
+    end_point = [len(rows)-1, width-1]
+    distance[point[0]][point[1]] = 0
 
-def get_next(distance: list, row: int, col: int) -> list:
+    while True:
+        if point == end_point:
+            return distance[end_point[0]][end_point[1]]
+        update_neighbors(rows, distance, point)
+        distance[point[0]][point[1]] = 0
+        next_point = get_next(distance)
+        point = [next_point[0], next_point[1]]
+
+def get_next(distance: list) -> list:
     point = [0, 0]
     smallest = 0
     for row in range(0 , len(distance)):
@@ -41,13 +36,15 @@ def get_next(distance: list, row: int, col: int) -> list:
                 smallest = distance[point[0]][point[1]]
     return point
 
-def update_neighbors(rows: list, distance: list, row: int, col: int):
-    update(rows, distance, row, col, row-1, col) #up
-    update(rows, distance, row, col, row+1, col) #down
-    update(rows, distance, row, col, row, col-1) #left
-    update(rows, distance, row, col, row, col+1) #right
+def update_neighbors(rows: list, distance: list, point: list):
+    update(rows, distance, point, [point[0]-1, point[1]]) #up
+    update(rows, distance, point, [point[0]+1, point[1]]) #down
+    update(rows, distance, point, [point[0], point[1]-1]) #left
+    update(rows, distance, point, [point[0], point[1]+1]) #right
 
-def update(rows: list, distance: list, row_start: int, col_start: int, row_end: int, col_end: int):
+def update(rows: list, distance: list, point_start: list, point_end: list):
+    row_start, col_start = point_start[0], point_start[1]
+    row_end, col_end = point_end[0], point_end[1]
     if row_end < 0 or row_end >= len(rows) or col_end < 0 or col_end >= len(rows[0]):
         return #off the edge
     if distance[row_end][col_end] == 0:

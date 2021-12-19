@@ -39,18 +39,16 @@ class Map():
     def update(self):
         directions = [[-1, 0], [+1, 0], [0, -1], [0, +1]] #up, down, left, right
         for direction in directions:
-            row_end = self.point[0]+direction[0]
-            col_end = self.point[1]+direction[1]
-            if row_end < 0 or row_end >= len(self.rows) or col_end < 0 or col_end >= len(self.rows[0]):
+            row = self.point[0]+direction[0]
+            col = self.point[1]+direction[1]
+            if row < 0 or row >= len(self.rows) or col < 0 or col >= len(self.rows[0]):
                 continue #edge
-            if self.rows[row_end][col_end][1] == 0:
+            risk = self.rows[row][col][1]
+            if risk == 0:
                 continue #visited
-            d_start = self.rows[self.point[0]][self.point[1]][1]
-            d_end = self.rows[row_end][col_end][1]
-            end = self.rows[row_end][col_end][0]
-            end_try = d_start + end
-            if d_end == -1 or end_try < d_end:
-                self.rows[row_end][col_end][1] = end_try
+            distance = self.rows[row][col][0] + self.rows[self.point[0]][self.point[1]][1]
+            if risk == -1 or distance < risk:
+                self.rows[row][col][1] = distance
 
 if __name__ == '__main__':
     assert part_1('day_15_test.txt') == 40

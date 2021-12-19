@@ -9,6 +9,7 @@ def part_1(file: str) -> int:
 
 class Map():
     def __init__(self, lines: list):
+        self.point = [0, 0] #start
         self.rows = []
         self.distance = []
         for line in lines:
@@ -19,27 +20,23 @@ class Map():
             self.distance.append([-1]*len(self.rows[0]))
 
     def find_path(self):
-        point = [0, 0]
         end_point = [len(self.rows)-1, len(self.rows[0])-1]
-        self.distance[point[0]][point[1]] = 0
+        self.distance[self.point[0]][self.point[1]] = 0
         while True:
-            if point == end_point:
+            if self.point == end_point:
                 return self.distance[end_point[0]][end_point[1]]
-            update_neighbors(self.rows, self.distance, point)
-            self.distance[point[0]][point[1]] = 0
-            next_point = self.get_next()
-            point = [next_point[0], next_point[1]]
+            update_neighbors(self.rows, self.distance, self.point)
+            self.distance[self.point[0]][self.point[1]] = 0
+            self.get_next()
 
     def get_next(self) -> list:
-        point = [0, 0]
         smallest = 0
         for row in range(0 , len(self.distance)):
             for col in range(0, len(self.distance[0])):
                 d = self.distance[row][col]
                 if d > 0 and (smallest == 0 or d < smallest):
-                    point = [row, col]
-                    smallest = self.distance[point[0]][point[1]]
-        return point
+                    self.point = [row, col]
+                    smallest = self.distance[self.point[0]][self.point[1]]
 
 def update_neighbors(rows: list, distance: list, point: list):
     update(rows, distance, point, [point[0]-1, point[1]]) #up

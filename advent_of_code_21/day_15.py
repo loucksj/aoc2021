@@ -25,7 +25,7 @@ class Map():
         while True:
             if self.point == end_point:
                 return self.distance[end_point[0]][end_point[1]]
-            self.update_neighbors()
+            self.update()
             self.distance[self.point[0]][self.point[1]] = 0
             self.get_next()
 
@@ -38,27 +38,21 @@ class Map():
                     self.point = [row, col]
                     smallest = self.distance[self.point[0]][self.point[1]]
 
-    def update_neighbors(self):
-        self.update([self.point[0]-1, self.point[1]]) #up
-        self.update([self.point[0]+1, self.point[1]]) #down
-        self.update([self.point[0], self.point[1]-1]) #left
-        self.update([self.point[0], self.point[1]+1]) #right
-
-    def update(self, end: list):
-        row_start, col_start = self.point[0], self.point[1]
-        row_end, col_end = end[0], end[1]
-        
-        if row_end < 0 or row_end >= len(self.rows) or col_end < 0 or col_end >= len(self.rows[0]):
-            return #off the edge
-        if self.distance[row_end][col_end] == 0:
-            return #visited
-        
-        d_start = self.distance[row_start][col_start]
-        d_end = self.distance[row_end][col_end]
-        end = self.rows[row_end][col_end]
-        end_try = d_start + end
-        if d_end == -1 or end_try < d_end:
-            self.distance[row_end][col_end] = end_try
+    def update(self):
+        directions = [[-1, 0], [+1, 0], [0, -1], [0, +1]] #up, down, left, right
+        for direction in directions:
+            row_end = self.point[0]+direction[0]
+            col_end = self.point[1]+direction[1]
+            if row_end < 0 or row_end >= len(self.rows) or col_end < 0 or col_end >= len(self.rows[0]):
+                continue #edge
+            if self.distance[row_end][col_end] == 0:
+                continue #visited
+            d_start = self.distance[self.point[0]][self.point[1]]
+            d_end = self.distance[row_end][col_end]
+            end = self.rows[row_end][col_end]
+            end_try = d_start + end
+            if d_end == -1 or end_try < d_end:
+                self.distance[row_end][col_end] = end_try
 
 if __name__ == '__main__':
     assert part_1('day_15_test.txt') == 40

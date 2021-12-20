@@ -4,45 +4,64 @@ def part_1(file: str) -> int:
 
     binary = bin(int(line, 16))
     binary = binary[2:]
-    
-    versions = 0
-    type_id = -1
-    length_id = -1
-    length = -1
-    p = -1
-    for i, bit in enumerate(binary):
-        p += 1
-        if p == 0:
-            version = int(binary[i:i+3], 2)
-            versions += version
-        elif p == 3:
-            type_id = int(binary[i:i+3])
-        
-        if type_id == 4: #literal
-            if p == 6:
-                a = int(binary[i:i+5], 2)
-            elif p == 11:
-                a = int(binary[i:i+5], 2)
-            elif p == 16:
-                a = int(binary[i:i+5], 2)
-            elif p == 23:
-                p = 0
-        else: # operator
-            if p == 6:
-                length_id = binary[i]
-            elif p == 7:
-                if length_id == 0:
-                    length = int(binary[i:i+15], 2)
-                else:
-                    length = int(binary[i:i+11], 2)
+    while len(binary) % 4 != 0:
+        binary = '0' + binary
 
-    return 0
+    packet = Packet(binary)
+
+    return packet.sum_versions()
+
+
+class Packet():
+    def __init__(self, binary):
+        self.binary = binary
+        self.packets = []
+        self.version = 0
+        while len(self.binary) > 0:
+            self.version = int(self.pull(3), 2)
+            t = int(self.pull(3), 2)
+            if t == 4:
+                sub = ''
+                while int(self.pull(1), 2) == 1:
+                    sub += self.pull(4)
+                sub += self.pull(4)
+                self.value = int(sub, 2)
+            else:
+                i = int(self.pull(1), 2)
+                if i == 0:
+                    length = int(self.pull(15), 2)
+                    packet = Packet(self.pull(length))
+                    self.packets.append(packet)
+                else:
+                    n = int(self.pull(11), 2)
+                    for _ in range(n):
+                        packet = Packet(self.pull(11))
+                        self.packets.append(packet)
+            self.cleanup()
+
+    def pull(self, end: int) -> int:
+        binary = self.binary[:end]
+        self.binary = self.binary[end:]
+        return binary
+
+    def cleanup(self):
+        while len(self.binary) > 0 and self.binary[0] == '0':
+            self.pull(1)
+
+    def sum_versions(self):
+        total = self.version
+        for p in self.packets:
+            total += p.sum_versions()
+        return total
 
 if __name__ == '__main__':
-    assert part_1('day_16_literal.txt') == 16
-    #assert part_1('day_16_operator1.txt') == 12
-    #assert part_1('day_16_operator2.txt') == 23
-    #assert part_1('day_16.txt') == 31
+    assert part_1('day_16_literal.txt') == 6
+    assert part_1('day_16_operator.txt') == 1
+    assert part_1('day_16_test1.txt') == 16
+    assert part_1('day_16_test2.txt') == 12
+    assert part_1('day_16_test3.txt') == 23
+    assert part_1('day_16_test4.txt') == 31
+    #assert part_1('day_16.txt') == 0
 
     #assert part_2('day_16_test.txt') == 0
     #assert part_2('day_16.txt') == 0

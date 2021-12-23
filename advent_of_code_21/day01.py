@@ -16,13 +16,7 @@ def count_greaterthan_prev(values: list):
 
 
 def sum_by_width(values: list, widen_by: int) -> list:
-    summed = []
-    leftIndexMax = len(values) - widen_by
-    for leftIndex in range(leftIndexMax):
-        rightIndex = leftIndex + 1 + widen_by
-        sumBetween = sum(values[leftIndex:rightIndex])
-        summed.append(sumBetween)
-    return summed
+    return [sum(values[i:i+1+widen_by]) for i in range(len(values)-widen_by)]
 
 
 if __name__ == '__main__':

@@ -1,5 +1,8 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
+from main import Reader
+
+def part_1(filename: str) -> int:
+    reader = Reader(filename)
+    lines = reader.getLinesStripped()
     count = 0
     i = 0
     current = 0
@@ -14,6 +17,7 @@ def part_1(file: str) -> int:
                 count += 1
         i += 1
     return count
+
 
 def part_2(file: str, size: int) -> int:
     lines = open(file, 'r').readlines()
@@ -33,11 +37,12 @@ def part_2(file: str, size: int) -> int:
 
     return count
 
-if __name__ == '__main__':
-    assert part_1('day_1_test.txt') == 7
-    assert part_1('day_1.txt') == 1215
 
-    assert part_2('day_1_test.txt', 1) == 7
-    assert part_2('day_1.txt', 1) == 1215
-    assert part_2('day_1_test.txt', 3) == 5
-    assert part_2('day_1.txt', 3) == 1150
+if __name__ == '__main__':
+    assert part_1('day01example.txt') == 7
+    assert part_1('day01.txt') == 1215
+
+    assert part_2('day01example.txt', 1) == 7
+    assert part_2('day01.txt', 1) == 1215
+    assert part_2('day01example.txt', 3) == 5
+    assert part_2('day01.txt', 3) == 1150

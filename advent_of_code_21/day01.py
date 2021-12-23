@@ -2,41 +2,32 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    return Sonar.from_file(filename).count_increases()
+    L = Reader(filename).getLinesAsInts()
+    return count_greaterthan_prev(L)
 
 
 def part02(filename: str) -> int:
-    return Sonar.from_file(filename).count_increases_wide(2)
+    L = Reader(filename).getLinesAsInts()
+    return count_greaterthan_prev(sum_by_width(L, 2))
 
 
-class Sonar():
-    def __init__(self, depths: list):
-        self.depths = depths
+def count_greaterthan_prev(L: list):
+    count = 0
+    adjacentElements = zip(L[:-1], L[1:])
+    for first, second in adjacentElements:
+        if second > first:
+            count += 1
+    return count
 
-    @classmethod
-    def from_file(cls, filename: str):
-        linesAsInts = Reader(filename).getLinesAsInts()
-        return cls(linesAsInts)
 
-    def count_increases(self) -> int:
-        count = 0
-        adjacentDepths = zip(self.depths[:-1], self.depths[1:])
-        for first, second in adjacentDepths:
-            if second > first:
-                count += 1
-        return count
-
-    def count_increases_wide(self, widen_by: int) -> int:
-        return Sonar(self.wide_depths(widen_by)).count_increases()
-
-    def wide_depths(self, widen_by: int):
-        new_depths = []
-        leftIndexMax = len(self.depths) - widen_by
-        for leftIndex in range(leftIndexMax):
-            rightIndex = leftIndex + 1 + widen_by
-            sumBetween = sum(self.depths[leftIndex:rightIndex])
-            new_depths.append(sumBetween)
-        return new_depths
+def sum_by_width(L: list, widen_by: int) -> list:
+    summed = []
+    leftIndexMax = len(L) - widen_by
+    for leftIndex in range(leftIndexMax):
+        rightIndex = leftIndex + 1 + widen_by
+        sumBetween = sum(L[leftIndex:rightIndex])
+        summed.append(sumBetween)
+    return summed
 
 
 if __name__ == '__main__':

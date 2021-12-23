@@ -1,5 +1,6 @@
 from main import Reader
 
+
 def part01(filename: str) -> int:
     return Sonar.from_file(filename).count_depth_increases()
 

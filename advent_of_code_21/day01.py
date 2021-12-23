@@ -2,14 +2,14 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    sonar = Sonar.fromFilename(filename)
-    return sonar.countDepthIncreases()
+    sonar = Sonar.from_file(filename)
+    return sonar.count_depth_increases()
 
 
 def part02(filename: str) -> int:
-    sonar = Sonar.fromFilename(filename)
-    sonar.widenBy(2)
-    return sonar.countDepthIncreases()
+    sonar = Sonar.from_file(filename)
+    sonar.widen_by(2)
+    return sonar.count_depth_increases()
 
 
 class Sonar():
@@ -17,11 +17,11 @@ class Sonar():
         self.depths = depths
     
     @classmethod
-    def fromFilename(cls, filename: str):
+    def from_file(cls, filename: str):
         linesAsInts = Reader(filename).getLinesAsInts()
         return cls(linesAsInts)
 
-    def countDepthIncreases(self) -> int:
+    def count_depth_increases(self) -> int:
         count = 0
         adjacentDepths = zip(self.depths[:-1], self.depths[1:])
         for first, second in adjacentDepths:
@@ -29,7 +29,7 @@ class Sonar():
                 count += 1
         return count
 
-    def widenBy(self, widenBy: int):
+    def widen_by(self, widenBy: int):
         newDepths = []
         leftIndexMax = len(self.depths) - widenBy
         for leftIndex in range(leftIndexMax):
@@ -40,8 +40,8 @@ class Sonar():
 
 
 if __name__ == '__main__':
-    assert part01('day01input_example.txt') == 7
-    assert part01('day01input.txt') == 1215
+    assert part01('day01_example.txt') == 7
+    assert part01('day01_input.txt') == 1215
 
-    assert part02('day01input_example.txt') == 5
-    assert part02('day01input.txt') == 1150
+    assert part02('day01_example.txt') == 5
+    assert part02('day01_input.txt') == 1150

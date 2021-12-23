@@ -2,11 +2,11 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    return Sonar.from_file(filename).count_depth_increases()
+    return Sonar.from_file(filename).count_increases()
 
 
 def part02(filename: str) -> int:
-    return WideSonar.from_file(filename).count_depth_increases()
+    return Sonar.from_file(filename).count_increases_wide(2)
 
 
 class Sonar():
@@ -18,7 +18,10 @@ class Sonar():
         linesAsInts = Reader(filename).getLinesAsInts()
         return cls(linesAsInts)
 
-    def count_depth_increases(self) -> int:
+    def count_increases_wide(self, widen_by: int) -> int:
+        return Sonar(self.wide_depths(widen_by)).count_increases()
+
+    def count_increases(self) -> int:
         count = 0
         adjacentDepths = zip(self.depths[:-1], self.depths[1:])
         for first, second in adjacentDepths:
@@ -26,20 +29,14 @@ class Sonar():
                 count += 1
         return count
 
-
-class WideSonar(Sonar):
-    def __init__(self, depths: list):
-        super().__init__(depths)
-        self.widen_by(2)
-
-    def widen_by(self, width: int):
-        newDepths = []
-        leftIndexMax = len(self.depths) - width
+    def wide_depths(self, widen_by: int):
+        new_depths = []
+        leftIndexMax = len(self.depths) - widen_by
         for leftIndex in range(leftIndexMax):
-            rightIndex = leftIndex + 1 + width
+            rightIndex = leftIndex + 1 + widen_by
             sumBetween = sum(self.depths[leftIndex:rightIndex])
-            newDepths.append(sumBetween)
-        self.depths = newDepths
+            new_depths.append(sumBetween)
+        return new_depths
 
 
 if __name__ == '__main__':

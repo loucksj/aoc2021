@@ -1,23 +1,26 @@
 from main import Reader
 
 def part_1(filename: str) -> int:
-    reader = Reader(filename)
-    lines = reader.getLinesStripped()
+    sonar = Sonar(filename)
     count = 0
     i = 0
     current = 0
     last = 0
-    for line in lines:
+    for line in sonar.sweep:
         if i == 0:
-            current = int(line)
+            current = line
         else:
             last = current
-            current = int(line)
+            current = line
             if current > last:
                 count += 1
         i += 1
     return count
 
+class Sonar():
+    def __init__(self, filename: str):
+        reader = Reader(filename)
+        self.sweep = reader.getLinesAsInts()
 
 def part_2(file: str, size: int) -> int:
     lines = open(file, 'r').readlines()
@@ -39,10 +42,10 @@ def part_2(file: str, size: int) -> int:
 
 
 if __name__ == '__main__':
-    assert part_1('day01example.txt') == 7
-    assert part_1('day01.txt') == 1215
+    assert part_1('day01input_example.txt') == 7
+    assert part_1('day01input.txt') == 1215
 
-    assert part_2('day01example.txt', 1) == 7
-    assert part_2('day01.txt', 1) == 1215
-    assert part_2('day01example.txt', 3) == 5
-    assert part_2('day01.txt', 3) == 1150
+    assert part_2('day01input_example.txt', 1) == 7
+    assert part_2('day01input.txt', 1) == 1215
+    assert part_2('day01input_example.txt', 3) == 5
+    assert part_2('day01input.txt', 3) == 1150

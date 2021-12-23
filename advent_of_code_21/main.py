@@ -5,3 +5,7 @@ class Reader:
     def getLinesStripped(self) -> list:
         linesStripped = [s.strip() for s in self.lines]
         return linesStripped
+
+    def getLinesAsInts(self) -> list:
+        linesStripped = [int(s.strip()) for s in self.lines]
+        return linesStripped

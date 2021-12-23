@@ -2,21 +2,20 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    sonar = Sonar(filename)
-    increases = sonar.countDepthIncreases()
-    return increases
+    linesAsInts = Reader(filename).getLinesAsInts()
+    sonar = Sonar(linesAsInts)
+    return sonar.countDepthIncreases()
 
 
 def part02(filename: str) -> int:
-    sonar = Sonar(filename)
+    linesAsInts = Reader(filename).getLinesAsInts()
+    sonar = Sonar(linesAsInts)
     sonar.widen(3)
-    increases = sonar.countDepthIncreases()
-    return increases
+    return sonar.countDepthIncreases()
 
 class Sonar():
-    def __init__(self, filename: str):
-        reader = Reader(filename)
-        self.depths = reader.getLinesAsInts()
+    def __init__(self, depths: list):
+        self.depths = depths
     
     def countDepthIncreases(self) -> int:
         count = 0

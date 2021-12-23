@@ -29,7 +29,7 @@ class Sonar():
     def widenBy(self, widenBy: int):
         newDepths = []
         leftIndexMax = len(self.depths) - widenBy
-        for leftIndex in range(0, leftIndexMax):
+        for leftIndex in range(leftIndexMax):
             rightIndex = leftIndex + 1 + widenBy
             sumBetween = sum(self.depths[leftIndex:rightIndex])
             newDepths.append(sumBetween)

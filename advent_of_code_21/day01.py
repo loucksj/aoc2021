@@ -3,35 +3,36 @@ from main import Reader
 
 def part01(filename: str) -> int:
     sonar = Sonar(filename)
-    increases = sonar.increaseCount(width=1)
+    increases = sonar.countDepthIncreases()
     return increases
 
 
 def part02(filename: str) -> int:
     sonar = Sonar(filename)
-    increases = sonar.increaseCount(width=3)
+    sonar.widen(3)
+    increases = sonar.countDepthIncreases()
     return increases
-
 
 class Sonar():
     def __init__(self, filename: str):
         reader = Reader(filename)
-        self.sweep = reader.getLinesAsInts()
-
-    def increaseCount(self, width: int) -> int:
+        self.depths = reader.getLinesAsInts()
+    
+    def countDepthIncreases(self) -> int:
         count = 0
-        index = 0
-        current = 0
-        previous = 0
-        for line in self.sweep:
-            current += line
-            if index >= width:
-                current -= self.sweep[index-width]
-                if current > previous:
-                    count += 1
-            previous = current
-            index += 1
+        depthsAfterFirst = self.depths[1:]
+        for i, depth in enumerate(depthsAfterFirst):
+            if depth > self.depths[i]:
+                count+=1
         return count
+
+    def widen(self, width: int):
+        wideDepths = []
+        for end in range(width-1, len(self.depths)):
+            start = end-width
+            wideDepth = sum(self.depths[start:end])
+            wideDepths.append(wideDepth)
+        self.depths = wideDepths
 
 
 if __name__ == '__main__':

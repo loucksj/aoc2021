@@ -2,13 +2,13 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    L = Reader(filename).getLinesAsInts()
-    return count_greaterthan_prev(L)
+    input_ = Reader(filename).getLinesAsInts()
+    return count_greaterthan_prev(input_)
 
 
 def part02(filename: str) -> int:
-    L = Reader(filename).getLinesAsInts()
-    return count_greaterthan_prev(sum_by_width(L, 2))
+    input = Reader(filename).getLinesAsInts()
+    return count_greaterthan_prev(sum_by_width(input, 2))
 
 
 def count_greaterthan_prev(L: list):

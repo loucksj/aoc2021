@@ -29,7 +29,7 @@ class Sonar():
 
 class WideSonar(Sonar):
     def __init__(self, depths: list):
-        self.depths = depths
+        super().__init__(depths)
         self.widen_by(2)
 
     def widen_by(self, width: int):

@@ -1,21 +1,17 @@
 from main import Reader
 
-
 def part01(filename: str) -> int:
-    sonar = Sonar.from_file(filename)
-    return sonar.count_depth_increases()
+    return Sonar.from_file(filename).count_depth_increases()
 
 
 def part02(filename: str) -> int:
-    sonar = Sonar.from_file(filename)
-    sonar.widen_by(2)
-    return sonar.count_depth_increases()
+    return WideSonar.from_file(filename).count_depth_increases()
 
 
 class Sonar():
     def __init__(self, depths: list):
         self.depths = depths
-    
+
     @classmethod
     def from_file(cls, filename: str):
         linesAsInts = Reader(filename).getLinesAsInts()
@@ -29,11 +25,17 @@ class Sonar():
                 count += 1
         return count
 
-    def widen_by(self, widenBy: int):
+
+class WideSonar(Sonar):
+    def __init__(self, depths: list):
+        self.depths = depths
+        self.widen_by(2)
+
+    def widen_by(self, width: int):
         newDepths = []
-        leftIndexMax = len(self.depths) - widenBy
+        leftIndexMax = len(self.depths) - width
         for leftIndex in range(leftIndexMax):
-            rightIndex = leftIndex + 1 + widenBy
+            rightIndex = leftIndex + 1 + width
             sumBetween = sum(self.depths[leftIndex:rightIndex])
             newDepths.append(sumBetween)
         self.depths = newDepths

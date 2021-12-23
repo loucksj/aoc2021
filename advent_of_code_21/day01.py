@@ -2,14 +2,12 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    linesAsInts = Reader(filename).getLinesAsInts()
-    sonar = Sonar(linesAsInts)
+    sonar = Sonar.fromFilename(filename)
     return sonar.countDepthIncreases()
 
 
 def part02(filename: str) -> int:
-    linesAsInts = Reader(filename).getLinesAsInts()
-    sonar = Sonar(linesAsInts)
+    sonar = Sonar.fromFilename(filename)
     sonar.widenBy(2)
     return sonar.countDepthIncreases()
 
@@ -17,6 +15,11 @@ def part02(filename: str) -> int:
 class Sonar():
     def __init__(self, depths: list):
         self.depths = depths
+    
+    @classmethod
+    def fromFilename(cls, filename: str):
+        linesAsInts = Reader(filename).getLinesAsInts()
+        return cls(linesAsInts)
 
     def countDepthIncreases(self) -> int:
         count = 0

@@ -18,9 +18,6 @@ class Sonar():
         linesAsInts = Reader(filename).getLinesAsInts()
         return cls(linesAsInts)
 
-    def count_increases_wide(self, widen_by: int) -> int:
-        return Sonar(self.wide_depths(widen_by)).count_increases()
-
     def count_increases(self) -> int:
         count = 0
         adjacentDepths = zip(self.depths[:-1], self.depths[1:])
@@ -28,6 +25,9 @@ class Sonar():
             if second > first:
                 count += 1
         return count
+
+    def count_increases_wide(self, widen_by: int) -> int:
+        return Sonar(self.wide_depths(widen_by)).count_increases()
 
     def wide_depths(self, widen_by: int):
         new_depths = []

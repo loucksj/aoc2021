@@ -12,12 +12,7 @@ def part02(filename: str) -> int:
 
 
 def count_greaterthan_prev(values: list):
-    count = 0
-    adjacentElements = zip(values[:-1], values[1:])
-    for first, second in adjacentElements:
-        if second > first:
-            count += 1
-    return count
+    return sum(1 for first, second in zip(values[:-1], values[1:]) if second > first)
 
 
 def sum_by_width(values: list, widen_by: int) -> list:

@@ -10,28 +10,30 @@ def part01(filename: str) -> int:
 def part02(filename: str) -> int:
     linesAsInts = Reader(filename).getLinesAsInts()
     sonar = Sonar(linesAsInts)
-    sonar.widen(3)
+    sonar.widenBy(2)
     return sonar.countDepthIncreases()
+
 
 class Sonar():
     def __init__(self, depths: list):
         self.depths = depths
-    
+
     def countDepthIncreases(self) -> int:
         count = 0
-        depthsAfterFirst = self.depths[1:]
-        for i, depth in enumerate(depthsAfterFirst):
-            if depth > self.depths[i]:
-                count+=1
+        adjacentDepths = zip(self.depths[:-1], self.depths[1:])
+        for first, second in adjacentDepths:
+            if second > first:
+                count += 1
         return count
 
-    def widen(self, width: int):
-        wideDepths = []
-        for end in range(width-1, len(self.depths)):
-            start = end-width
-            wideDepth = sum(self.depths[start:end])
-            wideDepths.append(wideDepth)
-        self.depths = wideDepths
+    def widenBy(self, widenBy: int):
+        newDepths = []
+        leftIndexMax = len(self.depths) - widenBy
+        for leftIndex in range(0, leftIndexMax):
+            rightIndex = leftIndex + 1 + widenBy
+            sumBetween = sum(self.depths[leftIndex:rightIndex])
+            newDepths.append(sumBetween)
+        self.depths = newDepths
 
 
 if __name__ == '__main__':

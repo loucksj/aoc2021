@@ -11,21 +11,21 @@ def part02(filename: str) -> int:
     return count_greaterthan_prev(sum_by_width(depths, 2))
 
 
-def count_greaterthan_prev(L: list):
+def count_greaterthan_prev(values: list):
     count = 0
-    adjacentElements = zip(L[:-1], L[1:])
+    adjacentElements = zip(values[:-1], values[1:])
     for first, second in adjacentElements:
         if second > first:
             count += 1
     return count
 
 
-def sum_by_width(L: list, widen_by: int) -> list:
+def sum_by_width(values: list, widen_by: int) -> list:
     summed = []
-    leftIndexMax = len(L) - widen_by
+    leftIndexMax = len(values) - widen_by
     for leftIndex in range(leftIndexMax):
         rightIndex = leftIndex + 1 + widen_by
-        sumBetween = sum(L[leftIndex:rightIndex])
+        sumBetween = sum(values[leftIndex:rightIndex])
         summed.append(sumBetween)
     return summed
 

@@ -2,14 +2,12 @@ from main import Reader
 
 
 def part_1(filename: str) -> int:
-    submarine = HorizontalSubmarine()
-    submarine.navigate_from_file(filename)
+    submarine = HorizontalSubmarine().navigate_from_file(filename)
     return submarine.horizontal * submarine.depth
 
 
 def part_2(filename: str) -> int:
-    submarine = AimSubmarine()
-    submarine.navigate_from_file(filename)
+    submarine = AimSubmarine().navigate_from_file(filename)
     return submarine.horizontal * submarine.depth
 
 
@@ -24,7 +22,7 @@ class Submarine():
                       for line in Reader(filename).getLinesStripped()]
         directions = [[direction, int(magnitude)]
                       for direction, magnitude in directions]
-        self.navigate(directions)
+        return self.navigate(directions)
 
     def navigate(self, directions: list):
         for direction, magnitude in directions:
@@ -35,6 +33,7 @@ class Submarine():
                     self.down(magnitude)
                 case "up":
                     self.up(magnitude)
+        return self
 
     def forward(self, magnitude):
         self.horizontal += magnitude

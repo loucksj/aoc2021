@@ -11,5 +11,5 @@ class Reader:
     def get_lines_split_str_int(self, split_at: str):
         return [[_, int(n)] for _, n in self.get_lines_split(split_at)]
 
-    def get_lines_ints(self) -> list:
+    def get_lines_int(self) -> list:
         return [int(s) for s in self.get_lines_stripped()]

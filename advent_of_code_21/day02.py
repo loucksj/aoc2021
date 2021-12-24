@@ -15,52 +15,44 @@ def part_2(filename: str) -> int:
     submarine.navigate(directions)
     return submarine.horizontal * submarine.depth
 
-class HorizontalSubmarine():
+class Submarine():
     def __init__(self):
         self.depth = 0
         self.horizontal = 0
     
     def navigate(self, directions: list):
         for direction, magnitude in directions:
-            if direction == "forward":
-                self.move_forward(magnitude)
-            if direction == "down":
-                self.move_down(magnitude)
-            if direction == "up":
-                self.move_up(magnitude)
-            
-    def move_forward(self, magnitude):
+            match direction:
+                case "forward":
+                    self.forward(magnitude)
+                case "down":
+                    self.down(magnitude)
+                case "up":
+                    self.up(magnitude)
+
+class HorizontalSubmarine(Submarine):   
+    def forward(self, magnitude):
         self.horizontal += magnitude
 
-    def move_up(self, magnitude):
+    def up(self, magnitude):
         self.depth -= magnitude
 
-    def move_down(self, magnitude):
+    def down(self, magnitude):
         self.depth += magnitude
 
-class AimSubmarine():
+class AimSubmarine(Submarine):
     def __init__(self):
-        self.depth = 0
-        self.horizontal = 0
+        super().__init__()
         self.aim = 0
-    
-    def navigate(self, directions: list):
-        for direction, magnitude in directions:
-            if direction == "forward":
-                self.move_forward(magnitude)
-            if direction == "down":
-                self.aim_down(magnitude)
-            if direction == "up":
-                self.aim_up(magnitude)
             
-    def move_forward(self, magnitude):
+    def forward(self, magnitude):
         self.horizontal += magnitude
         self.depth += magnitude * self.aim
 
-    def aim_up(self, magnitude):
+    def up(self, magnitude):
         self.aim -= magnitude
 
-    def aim_down(self, magnitude):
+    def down(self, magnitude):
         self.aim += magnitude
 
 if __name__ == '__main__':

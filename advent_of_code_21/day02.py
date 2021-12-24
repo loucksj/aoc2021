@@ -2,7 +2,7 @@ from main import Reader
 
 
 def part_1(filename: str) -> int:
-    return HorizontalSubmarine().navigate_from_file(filename).vector()
+    return Submarine().navigate_from_file(filename).vector()
 
 
 def part_2(filename: str) -> int:
@@ -36,8 +36,6 @@ class Submarine():
         self.horizontal += magnitude
         self.depth += magnitude * self.aim
 
-
-class HorizontalSubmarine(Submarine):
     def up(self, magnitude):
         self.depth -= magnitude
 

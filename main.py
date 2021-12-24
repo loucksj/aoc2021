@@ -1,6 +1,8 @@
+PATH = './inputs/'
+
 class Reader:
     def __init__(self, filename: list):
-        self.lines = open(filename, 'r').readlines()
+        self.lines = open(PATH + filename, 'r').readlines()
     
     def strip_lines(self) -> list:
         return [s.strip() for s in self.lines]

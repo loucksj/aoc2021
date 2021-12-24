@@ -1,4 +1,4 @@
-from main import Reader
+from reader import Reader
 
 
 def part_1(filename: str) -> int:

@@ -2,21 +2,19 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    depths = Reader(filename).get_lines_int()
-    return count_greaterthan_prev(depths)
+    return count_greaterthan_prev(Reader(filename).int_lines())
 
 
 def part02(filename: str) -> int:
-    depths = Reader(filename).get_lines_int()
-    return count_greaterthan_prev(sum_by_width(depths, 2))
+    return count_greaterthan_prev(add_neighbors(Reader(filename).int_lines(), 2))
 
 
 def count_greaterthan_prev(values: list):
     return sum(1 for first, second in zip(values[:-1], values[1:]) if second > first)
 
 
-def sum_by_width(values: list, widen_by: int) -> list:
-    return [sum(values[i:i+1+widen_by]) for i in range(len(values)-widen_by)]
+def add_neighbors(values: list, neighbors: int) -> list:
+    return [sum(values[i:i+1+neighbors]) for i in range(len(values)-neighbors)]
 
 
 if __name__ == '__main__':

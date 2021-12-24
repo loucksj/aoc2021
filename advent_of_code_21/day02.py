@@ -19,22 +19,22 @@ class Submarine():
         return self.navigate(Reader(filename).str_int_pairs(' '))
 
     def navigate(self, directions: list):
-        for direction, magnitude in directions:
-            self.controls()[direction](magnitude)
+        for direction, amt in directions:
+            self.controls()[direction](amt)
         return self
 
     def vector(self):
         return self.horizontal * self.depth
 
-    def forward(self, magnitude):
-        self.horizontal += magnitude
-        self.depth += magnitude * self.aim
+    def forward(self, amt):
+        self.horizontal += amt
+        self.depth += amt * self.aim
 
-    def up(self, magnitude):
-        self.depth -= magnitude
+    def up(self, amt):
+        self.depth -= amt
 
-    def down(self, magnitude):
-        self.depth += magnitude
+    def down(self, amt):
+        self.depth += amt
 
     def controls(self) -> dict:
         return {'forward': self.forward,
@@ -43,11 +43,11 @@ class Submarine():
 
 
 class AimSubmarine(Submarine):
-    def up(self, magnitude):
-        self.aim -= magnitude
+    def up(self, amt):
+        self.aim -= amt
 
-    def down(self, magnitude):
-        self.aim += magnitude
+    def down(self, amt):
+        self.aim += amt
 
 
 if __name__ == '__main__':

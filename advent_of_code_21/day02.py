@@ -20,13 +20,7 @@ class Submarine():
 
     def navigate(self, directions: list):
         for direction, magnitude in directions:
-            match direction:
-                case "forward":
-                    self.forward(magnitude)
-                case "down":
-                    self.down(magnitude)
-                case "up":
-                    self.up(magnitude)
+            self.controls()[direction](magnitude)
         return self
 
     def vector(self):
@@ -41,6 +35,11 @@ class Submarine():
 
     def down(self, magnitude):
         self.depth += magnitude
+
+    def controls(self) -> dict:
+        return {'forward': self.forward,
+                'up': self.up,
+                'down': self.down}
 
 
 class AimSubmarine(Submarine):

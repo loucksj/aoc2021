@@ -8,7 +8,7 @@ class Reader:
     def split_lines(self, split_at: str):
         return [line.split(split_at) for line in self.strip_lines()]
     
-    def str_int_pairs(self, split_at: str):
+    def split_str_int_pairs(self, split_at: str):
         return [[_, int(n)] for _, n in self.split_lines(split_at)]
 
     def int_lines(self) -> list:

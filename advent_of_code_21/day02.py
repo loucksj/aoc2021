@@ -16,10 +16,7 @@ class Submarine():
         self.horizontal = 0
 
     def navigate_from_file(self, filename: str):
-        directions = Reader(filename).getLinesSplit(' ')
-        directions = [[direction, int(magnitude)]
-                      for direction, magnitude in directions]
-        return self.navigate(directions)
+        return self.navigate(Reader(filename).get_lines_split_str_int(' '))
 
     def navigate(self, directions: list):
         for direction, magnitude in directions:

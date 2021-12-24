@@ -2,12 +2,12 @@ from main import Reader
 
 
 def part01(filename: str) -> int:
-    depths = Reader(filename).getLinesAsInts()
+    depths = Reader(filename).get_lines_ints()
     return count_greaterthan_prev(depths)
 
 
 def part02(filename: str) -> int:
-    depths = Reader(filename).getLinesAsInts()
+    depths = Reader(filename).get_lines_ints()
     return count_greaterthan_prev(sum_by_width(depths, 2))
 
 

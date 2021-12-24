@@ -15,6 +15,9 @@ class Submarine():
         self.depth = 0
         self.horizontal = 0
 
+    def vector(self):
+        return self.horizontal * self.depth
+
     def navigate_from_file(self, filename: str):
         return self.navigate(Reader(filename).split_str_int_pairs(' '))
 
@@ -22,9 +25,6 @@ class Submarine():
         for direction, amt in directions:
             self.move_controls()[direction](amt)
         return self
-
-    def vector(self):
-        return self.horizontal * self.depth
 
     def forward(self, amt):
         self.horizontal += amt

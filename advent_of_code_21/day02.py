@@ -20,7 +20,7 @@ class Submarine():
 
     def navigate(self, directions: list):
         for direction, amt in directions:
-            self.controls()[direction](amt)
+            self.move_controls()[direction](amt)
         return self
 
     def vector(self):
@@ -36,7 +36,7 @@ class Submarine():
     def down(self, amt):
         self.depth += amt
 
-    def controls(self) -> dict:
+    def move_controls(self) -> dict:
         return {'forward': self.forward,
                 'up': self.up,
                 'down': self.down}

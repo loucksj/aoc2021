@@ -38,18 +38,19 @@ class Bitmatrix():
         return [list(x) for x in zip(*self.matrix)]
 
     def most_path(self) -> list:
-        i = 0
-        sift = Bitmatrix(self.matrix)
-        while len(sift.matrix) > 1:
-            sift.matrix = sift.majority_at_index(i)
-            i += 1
-        return sift.matrix[0]
-
+        return self.path(True)
+    
     def least_path(self) -> list:
+        return self.path(False)
+
+    def path(self, most):
         i = 0
         sift = Bitmatrix(self.matrix)
         while len(sift.matrix) > 1:
-            sift.matrix = sift.minority_at_index(i)
+            if most:
+                sift.matrix = sift.majority_at_index(i)
+            else:
+                sift.matrix = sift.minority_at_index(i)
             i += 1
         return sift.matrix[0]
 

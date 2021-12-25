@@ -1,4 +1,4 @@
-from scripts.get_input import Reader
+from scripts.get_input import split_str_int_pairs
 
 
 def part_1(filename: str) -> int:
@@ -19,7 +19,7 @@ class Submarine():
         return self.horizontal * self.depth
 
     def navigate_from_file(self, filename: str):
-        return self.navigate(Reader(filename).split_str_int_pairs(' '))
+        return self.navigate(split_str_int_pairs(filename))
 
     def navigate(self, directions: list):
         for direction, amt in directions:

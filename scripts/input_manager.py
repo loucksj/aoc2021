@@ -14,3 +14,6 @@ def split_str_int_pairs(filename: str):
 
 def int_lines(filename: str) -> list:
     return [int(s) for s in strip_lines(filename)]
+
+def char_lines(filename: str) -> list:
+    return [list(line) for line in strip_lines(filename)]

@@ -1,9 +1,9 @@
-from scripts.input_manager import strip_lines
+from scripts.input_manager import char_lines, strip_lines
 
 
 def part_one(filename: str) -> int:
-    majority_bits = Binaries().from_file(filename).majority_bits()
-    return int(majority_bits, 2) * int(flip(majority_bits), 2)
+    binary = majority_binary(filename)
+    return int(binary, 2) * int(flip(binary), 2)
 
 
 def part_two(filename: str) -> int:
@@ -11,15 +11,18 @@ def part_two(filename: str) -> int:
     minor_binaries = Binaries().from_file(filename)
     return int(major_binaries.major_path(), 2) * int(minor_binaries.minor_path(), 2)
 
+def majority_binary(filename: str):
+    transposed = list(map(list, zip(*char_lines(filename))))
+    for line in transposed:
+        line.sort()
+    midpoint = int((len(transposed[0])+1)/2)
+    return ''.join([line[midpoint] for line in transposed])
 
 class Binaries:
     def from_file(self, filename: str):
         self.binaries = strip_lines(filename)
         self.digits = len(self.binaries[0])
         return self
-
-    def majority_bits(self) -> str:
-        return ''.join(self.majority_bit(i) for i in range(self.digits))
 
     def majority_bit(self, i: int) -> str:
         return '1' if self.sum_index(i) >= len(self.binaries)/2 else '0'

@@ -2,8 +2,8 @@ from scripts.main import Reader, Tools
 
 
 def part_one(filename: str) -> int:
-    digits = majority_binary(Reader(filename).matrix())
-    return to_int(digits) * to_int(flip_digits(digits))
+    bitmatrix = Reader(filename).matrix()
+    return common_value(bitmatrix) * rare_value(bitmatrix)
 
 
 def part_two(filename: str) -> int:
@@ -11,42 +11,54 @@ def part_two(filename: str) -> int:
     return to_int(major_path(digits)) * to_int(minor_path(digits))
 
 
-def to_int(digits: list):
-    return int(''.join(digits), 2)
+def to_int(bits: list):
+    return int(''.join(bits), 2)
 
 
-def flip_digits(binary: list) -> str:
-    return ['1' if digit == '0' else '0' for digit in binary]
+def flip_digits(bits: list) -> str:
+    return ['1' if digit == '0' else '0' for digit in bits]
 
 
-def majority_binary(binaries: list):
-    return [commonest_element(column) for column in Tools.transpose(binaries)]
+def common_value(bitmatrix: list) -> int:
+    return to_int(common_bits(bitmatrix))
 
 
-def commonest_element(binary: list) -> str:
+def rare_value(bitmatrix: list) -> int:
+    return to_int(rare_bits(bitmatrix))
+
+
+def common_bits(bitmatrix: list) -> list:
+    return [common_element(column) for column in Tools.transpose(bitmatrix)]
+
+
+def rare_bits(bitmatrix: list) -> list:
+    return flip_digits(common_bits(bitmatrix))
+
+
+def common_element(bits: list) -> str:
     # spec: ties in favor of '1'
-    return '1' if binary.count('1') >= binary.count('0') else '0'
+    return '1' if bits.count('1') >= bits.count('0') else '0'
 
 
-def major_path(binaries: list) -> str:
+def major_path(bitmatrix: list) -> str:
     i = 0
-    while len(binaries) > 1:
-        binaries = majority_elements(binaries, i)
+    while len(bitmatrix) > 1:
+        bitmatrix = majority_elements(bitmatrix, i)
         i += 1
-    return binaries[0]
+    return bitmatrix[0]
 
 
-def minor_path(binaries) -> str:
+def minor_path(bitmatrix) -> str:
     i = 0
-    while len(binaries) > 1:
-        binaries = minority_elements(binaries, i)
+    while len(bitmatrix) > 1:
+        bitmatrix = minority_elements(bitmatrix, i)
         i += 1
-    return binaries[0]
+    return bitmatrix[0]
 
 
-def majority_elements(binaries: list, i: int) -> list:
-    return [binary for binary in binaries if binary[i] == majority_binary(binaries)[i]]
+def majority_elements(bitmatrix: list, i: int) -> list:
+    return [bits for bits in bitmatrix if bits[i] == common_bits(bitmatrix)[i]]
 
 
-def minority_elements(binaries, i: int) -> list:
-    return [binary for binary in binaries if binary[i] != majority_binary(binaries)[i]]
+def minority_elements(bitmatrix, i: int) -> list:
+    return [bits for bits in bitmatrix if bits[i] != common_bits(bitmatrix)[i]]

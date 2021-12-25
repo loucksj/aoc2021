@@ -3,15 +3,15 @@ from scripts.input_manager import char_lines
 
 def part_one(filename: str) -> int:
     digits = majority_binary(char_lines(filename))
-    return binary_digits_int(digits) * binary_digits_int(flip_digits(digits))
+    return to_int(digits) * to_int(flip_digits(digits))
 
 
 def part_two(filename: str) -> int:
     digits = char_lines(filename)
-    return binary_digits_int(major_path(digits)) * binary_digits_int(minor_path(digits))
+    return to_int(major_path(digits)) * to_int(minor_path(digits))
 
 
-def binary_digits_int(digits: list):
+def to_int(digits: list):
     return int(''.join(digits), 2)
 
 

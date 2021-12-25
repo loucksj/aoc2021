@@ -2,24 +2,25 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    bitmatrix = Bitmatrix().from_file(filename)
-    return Bits.as_int(bitmatrix.majority_bits()) * Bits.as_int(Bits.flip(bitmatrix.majority_bits()))
+    majority = Bitmatrix().from_file(filename).majority_per_index()
+    return as_int(majority) * as_int(flip(majority))
 
 
 def part_two(filename: str) -> int:
     bitmatrix = Bitmatrix().from_file(filename)
-    return Bits.as_int(bitmatrix.most_path()) * Bits.as_int(bitmatrix.least_path())
+    return as_int(bitmatrix.most_path()) * as_int(bitmatrix.least_path())
 
 
-class Bits():
-    def as_int(bits: list):
-        return int(''.join(bits), 2)
+def as_int(bits: list):
+    return int(''.join(bits), 2)
 
-    def most(bits: list) -> str:
-        return '1' if bits.count('1') >= bits.count('0') else '0'
 
-    def flip(bits: list) -> str:
-        return ['1' if digit == '0' else '0' for digit in bits]
+def most(bits: list) -> str:
+    return '1' if bits.count('1') >= bits.count('0') else '0'
+
+
+def flip(bits: list) -> str:
+    return ['1' if digit == '0' else '0' for digit in bits]
 
 
 class Bitmatrix():
@@ -30,14 +31,17 @@ class Bitmatrix():
         self.matrix = Reader(filename).matrix()
         return self
 
-    def majority_bits(self) -> list:
-        return [Bits.most(column) for column in self.transposed()]
+    def majority_per_index(self) -> list:
+        return [most(column) for column in self.transposed()]
+
+    def transposed(self):
+        return [list(x) for x in zip(*self.matrix)]
 
     def most_path(self) -> list:
         i = 0
         sift = Bitmatrix(self.matrix)
         while len(sift.matrix) > 1:
-            sift.matrix = sift.common_index_elements(i)
+            sift.matrix = sift.majority_at_index(i)
             i += 1
         return sift.matrix[0]
 
@@ -45,15 +49,12 @@ class Bitmatrix():
         i = 0
         sift = Bitmatrix(self.matrix)
         while len(sift.matrix) > 1:
-            sift.matrix = sift.rare_index_elements(i)
+            sift.matrix = sift.minority_at_index(i)
             i += 1
         return sift.matrix[0]
 
-    def common_index_elements(self, i: int) -> list:
-        return [bits for bits in self.matrix if bits[i] == self.majority_bits()[i]]
+    def majority_at_index(self, i: int) -> list:
+        return [bits for bits in self.matrix if bits[i] == self.majority_per_index()[i]]
 
-    def rare_index_elements(self, i: int) -> list:
-        return [bits for bits in self.matrix if bits[i] != self.majority_bits()[i]]
-
-    def transposed(self):
-        return [list(x) for x in zip(*self.matrix)]
+    def minority_at_index(self, i: int) -> list:
+        return [bits for bits in self.matrix if bits[i] != self.majority_per_index()[i]]

@@ -19,7 +19,7 @@ class Submarine():
         return self.horizontal * self.depth
 
     def navigate_from_file(self, filename: str):
-        return self.navigate(Reader(filename).split_str_int_pairs())
+        return self.navigate(Reader(filename).str_int_pairs())
 
     def navigate(self, directions: list):
         for direction, amt in directions:

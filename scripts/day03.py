@@ -2,12 +2,12 @@ from scripts.main import Reader, Tools
 
 
 def part_one(filename: str) -> int:
-    digits = majority_binary(Reader(filename).char_lines())
+    digits = majority_binary(Reader(filename).matrix())
     return to_int(digits) * to_int(flip_digits(digits))
 
 
 def part_two(filename: str) -> int:
-    digits = Reader(filename).char_lines()
+    digits = Reader(filename).matrix()
     return to_int(major_path(digits)) * to_int(minor_path(digits))
 
 

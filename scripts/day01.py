@@ -2,11 +2,11 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return count_greaterthan_prev(Reader(filename).int_lines())
+    return count_greaterthan_prev(Reader(filename).integers())
 
 
 def part_two(filename: str) -> int:
-    return count_greaterthan_prev(add_neighbors(Reader(filename).int_lines(), 2))
+    return count_greaterthan_prev(add_neighbors(Reader(filename).integers(), 2))
 
 
 def count_greaterthan_prev(values: list):

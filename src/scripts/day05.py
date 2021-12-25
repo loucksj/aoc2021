@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_1(filename: str) -> int:
+    lines = strip_lines(filename)
 
     coordinates = make_coordinates(lines)
     vents = Vents(get_size(coordinates))
@@ -10,9 +11,8 @@ def part_1(file: str) -> int:
 
     return vents.score()
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_2(filename: str) -> int:
+    lines = strip_lines(filename)
 
     coordinates = make_coordinates(lines)
     vents = Vents(get_size(coordinates))
@@ -102,10 +102,3 @@ def make_coordinates(lines: list) -> list:
             xy[0] = int(xy[0])
             xy[1] = int(xy[1])
     return pairs
-
-if __name__ == '__main__':
-    assert part_1('day_5_test.txt') == 5
-    assert part_1('day_5.txt') == 5608
-
-    assert part_2('day_5_test.txt') == 12
-    assert part_2('day_5.txt') == 20299

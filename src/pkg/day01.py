@@ -1,4 +1,4 @@
-from reader import Reader
+from pkg.reader import Reader
 
 
 def part01(filename: str) -> int:
@@ -15,11 +15,3 @@ def count_greaterthan_prev(values: list):
 
 def add_neighbors(values: list, neighbors: int) -> list:
     return [sum(values[i:i+1+neighbors]) for i in range(len(values)-neighbors)]
-
-def test_part01():
-    assert part01('day01_example.txt') == 7
-    assert part01('day01_input.txt'), 1215
-
-def test_part02():
-    assert part02('day01_example.txt') == 5
-    assert part02('day01_input.txt') == 1150

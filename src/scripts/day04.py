@@ -1,5 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
+from scripts.get_input import read_lines
+
+def part_1(filename: str) -> int:
+    lines = read_lines(filename)
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]
 
@@ -12,8 +14,8 @@ def part_1(file: str) -> int:
                 return int(num) * board.score()
     return -1
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
+def part_2(filename: str) -> int:
+    lines = read_lines(filename)
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]
 
@@ -73,10 +75,3 @@ class Board:
             if column.count('X') == 5:
                 return True
         return False
-
-if __name__ == '__main__':
-    assert part_1('day_4_test.txt') == 4512
-    assert part_1('day_4.txt') == 87456
-
-    assert part_2('day_4_test.txt') == 1924
-    assert part_2('day_4.txt') == 15561

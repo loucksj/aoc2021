@@ -48,11 +48,3 @@ class AimSubmarine(Submarine):
 
     def down(self, amt):
         self.aim += amt
-
-
-if __name__ == '__main__':
-    assert part_1('day02_example.txt') == 150
-    assert part_1('day02_input.txt') == 1480518
-
-    assert part_2('day02_example.txt') == 900
-    assert part_2('day02_input.txt') == 1282809906

@@ -1,4 +1,4 @@
-from scripts.get_input import read_lines
+from scripts.input_manager import read_lines
 
 
 def part_one(filename: str) -> int:

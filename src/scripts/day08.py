@@ -1,4 +1,4 @@
-from scripts.get_input import strip_lines
+from scripts.input_manager import strip_lines
 
 def part_one(file: str) -> int:
     lines = strip_lines(file)

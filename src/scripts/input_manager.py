@@ -1,4 +1,4 @@
-PATH = './inputs/'
+PATH = './input/'
 
 def read_lines(filename: str):
     return open(PATH + filename, 'r').readlines()

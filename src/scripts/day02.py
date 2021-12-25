@@ -1,4 +1,4 @@
-from scripts.get_input import split_str_int_pairs
+from scripts.input_manager import split_str_int_pairs
 
 
 def part_one(filename: str) -> int:

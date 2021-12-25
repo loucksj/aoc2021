@@ -21,3 +21,6 @@ class Reader:
 class Tools:
     def transpose(matrix: list):
         return [list(x) for x in zip(*matrix)]
+
+    def flip(bits: list) -> str:
+        return ['1' if digit == '0' else '0' for digit in bits]

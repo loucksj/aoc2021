@@ -1,16 +1,13 @@
 from scripts.input_manager import strip_lines
 
-
 def part_one(filename: str) -> int:
     majority = majority_bits(strip_lines(filename))
     return int(majority, 2) * int(flip(majority), 2)
 
 
 def part_two(filename: str) -> int:
-    binary = strip_lines(filename)
-    major = binary_major(binary)
-    minor = binary_minor(binary)
-    return int(major, 2) * int(minor, 2)
+    binaries = strip_lines(filename)
+    return int(major_path(binaries), 2) * int(minor_path(binaries), 2)
 
 
 def flip(binary: str):
@@ -33,7 +30,7 @@ def index_sums(values: list) -> list:
     return sum_by_index
 
 
-def binary_major(binaries: list) -> str:
+def major_path(binaries: list) -> str:
     blist = binaries.copy()
     i = 0
     while len(blist) > 1:
@@ -43,7 +40,7 @@ def binary_major(binaries: list) -> str:
     return blist[0]
 
 
-def binary_minor(binaries: list) -> str:
+def minor_path(binaries: list) -> str:
     blist = binaries.copy()
     for i in range(len(binaries[0])):
         if len(blist) == 1:

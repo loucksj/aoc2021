@@ -12,11 +12,13 @@ def part_two(filename: str) -> int:
     return int(major_binaries.major_path(), 2) * int(minor_binaries.minor_path(), 2)
 
 def majority_binary(filename: str):
-    transposed = list(map(list, zip(*char_lines(filename))))
-    for line in transposed:
-        line.sort()
-    midpoint = int((len(transposed[0])+1)/2)
-    return ''.join([line[midpoint] for line in transposed])
+    return ''.join([commonest_element(line) for line in transpose(char_lines(filename))])
+
+def transpose(values: list):
+    return [list(x) for x in zip(*values)]
+
+def commonest_element(values: list):
+    return max(set(values), key=values.count)
 
 class Binaries:
     def from_file(self, filename: str):

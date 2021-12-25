@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(file: str) -> int:
+    lines = strip_lines(file)
     
     pairs = get_pairs(lines)
 
@@ -15,9 +16,8 @@ def part_1(file: str) -> int:
 
     return count
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(file: str) -> int:
+    lines = strip_lines(file)
     
     pairs = get_pairs(lines)
 
@@ -125,11 +125,3 @@ def get_pairs(lines: list) -> list:
         pair[0] = pair[0].strip()
         pair[1] = pair[1].strip()
     return pairs
-
-if __name__ == '__main__':
-    assert part_1('day_8_test.txt') == 26
-    assert part_1('day_8.txt') == 383
-
-    assert part_2('day_8_short.txt') == 5353
-    assert part_2('day_8_test.txt') == 61229
-    assert part_2('day_8.txt') == 998900

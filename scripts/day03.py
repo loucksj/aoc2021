@@ -31,19 +31,23 @@ def index_sums(values: list) -> list:
 
 
 def major_path(binaries: list) -> str:
-    blist = binaries.copy()
     i = 0
-    while len(blist) > 1:
-        majority = majority_bit(blist, i)
-        blist = [binary for binary in blist if binary[i] == majority]
+    while len(binaries) > 1:
+        binaries = index_majorities(binaries, i)
         i += 1
-    return blist[0]
-
+    return binaries[0]
 
 def minor_path(binaries: list) -> str:
-    blist = binaries.copy()
-    for i in range(len(binaries[0])):
-        if len(blist) == 1:
-            return blist[0]
-        majority = majority_bit(blist, i)
-        blist = [binary for binary in blist if binary[i] != majority]
+    i = 0
+    while len(binaries) > 1:
+        binaries = index_minorities(binaries, i)
+        i += 1
+    return binaries[0]
+
+def index_majorities(binaries: list, i: int) -> list:
+    majority = majority_bit(binaries, i)
+    return [binary for binary in binaries if binary[i] == majority]
+
+def index_minorities(binaries: list, i: int) -> list:
+    majority = majority_bit(binaries, i)
+    return [binary for binary in binaries if binary[i] != majority]

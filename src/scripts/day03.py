@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
     gamma = ""
     epsilon = ""
     places = len(lines[0])
@@ -19,9 +20,8 @@ def part_1(file: str) -> int:
     
     return int(gamma, 2) * int(epsilon, 2)
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
     lines_copy = lines
 
     generator = find_line(lines, False)
@@ -57,11 +57,3 @@ def most_common(lines: list, index: int) -> str:
         # ties go to '1'
         return '1'
     return '0'
-
-
-if __name__ == '__main__':
-    assert part_1('day_3_test.txt') == 198
-    assert part_1('day_3.txt') == 3242606
-
-    assert part_2('day_3_test.txt') == 230
-    assert part_2('day_3.txt') == 4856080

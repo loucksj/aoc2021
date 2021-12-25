@@ -1,11 +1,11 @@
 from scripts.get_input import int_lines
 
 
-def part01(filename: str) -> int:
+def part_one(filename: str) -> int:
     return count_greaterthan_prev(int_lines(filename))
 
 
-def part02(filename: str) -> int:
+def part_two(filename: str) -> int:
     return count_greaterthan_prev(add_neighbors(int_lines(filename), 2))
 
 

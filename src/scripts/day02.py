@@ -1,11 +1,11 @@
 from scripts.get_input import split_str_int_pairs
 
 
-def part_1(filename: str) -> int:
+def part_one(filename: str) -> int:
     return Submarine().navigate_from_file(filename).vector()
 
 
-def part_2(filename: str) -> int:
+def part_two(filename: str) -> int:
     return AimSubmarine().navigate_from_file(filename).vector()
 
 

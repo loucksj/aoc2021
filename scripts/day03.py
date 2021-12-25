@@ -14,7 +14,7 @@ def flip(binary: str):
     return ''.join(['1' if i == '0' else '0' for i in binary])
 
 
-def majority_bits(binaries: list) -> list:
+def majority_bits(binaries: list) -> str:
     return ''.join([majority_bit(binaries, i) for i in range(len(binaries[0]))])
 
 
@@ -24,11 +24,12 @@ def majority_bit(binaries: list, index: int) -> str:
 
 def index_sums(values: list) -> list:
     sum_by_index = [0]*len(values[0])
-    for value in values:
-        for i in range(len(sum_by_index)):
-            sum_by_index[i] += int(value[i])
+    for i in range(len(values[0])):
+        sum_by_index[i] += sum_index(values, i)
     return sum_by_index
 
+def sum_index(values: list, i: int) -> int:
+    return sum(int(value[i]) for value in values)
 
 def major_path(binaries: list) -> str:
     i = 0

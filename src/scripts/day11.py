@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     board = Board(lines)
 
@@ -13,9 +14,8 @@ def part_1(file: str) -> int:
     
     return flashes
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
 
     board = Board(lines)
 
@@ -55,10 +55,3 @@ class Board:
                     self.rows[row][col] = 0
                     flashes += 1
         return flashes
-
-if __name__ == '__main__':
-    assert part_1('day_11_test.txt') == 1656
-    assert part_1('day_11.txt') == 1617
-
-    assert part_2('day_11_test.txt') == 195
-    assert part_2('day_11.txt') == 258

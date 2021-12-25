@@ -1,15 +1,15 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     map = Map(lines)
     risk = map.find_path()
 
     return risk
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
 
     map = Map(lines)
     map.expand()
@@ -81,10 +81,3 @@ class Map():
                 if risk == -1:
                     self.open.append([row, col])
                 self.rows[row][col][1] = distance
-
-if __name__ == '__main__':
-    assert part_1('day_15_test.txt') == 40
-    assert part_1('day_15.txt') == 456
-
-    assert part_2('day_15_test.txt') == 315
-    assert part_2('day_15.txt') == 2831

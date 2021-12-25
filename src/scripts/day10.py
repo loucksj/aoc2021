@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     pairs = {'(' : ')', '[' : ']', '{' : '}', '<' : '>',}
 
@@ -19,9 +20,8 @@ def part_1(file: str) -> int:
 
     return score_corrupted(corrupted)
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
 
     pairs = {'(' : ')', '[' : ']', '{' : '}', '<' : '>',}
 
@@ -63,10 +63,3 @@ def score_corrupted(errors: list) -> int:
     for char in errors:
         score += points[char]
     return score
-
-if __name__ == '__main__':
-    assert part_1('day_10_test.txt') == 26397
-    assert part_1('day_10.txt') == 415953
-
-    assert part_2('day_10_test.txt') == 288957
-    assert part_2('day_10.txt') == 2292863731

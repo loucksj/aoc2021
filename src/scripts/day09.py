@@ -1,15 +1,15 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     total = 0
     for low in get_lows(lines):
         total += 1 + int(lines[low[0]][low[1]])
     return total
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
 
     lows = get_lows(lines)
 
@@ -65,10 +65,3 @@ def get_lows(lines):
                 continue #down
             lows.append((row, col))
     return lows
-
-if __name__ == '__main__':
-    assert part_1('day_9_test.txt') == 15
-    assert part_1('day_9.txt') == 522
-
-    assert part_2('day_9_test.txt') == 1134
-    assert part_2('day_9.txt') == 916688

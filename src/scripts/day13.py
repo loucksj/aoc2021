@@ -1,8 +1,8 @@
+from scripts.get_input import strip_lines
 import re
 
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     points = get_points(lines)
     folds = get_folds(lines)
@@ -16,9 +16,8 @@ def part_1(file: str) -> int:
 
     return count
 
-def part_2(file: str):
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str):
+    lines = strip_lines(filename)
 
     points = get_points(lines)
     folds = get_folds(lines)
@@ -113,9 +112,3 @@ def get_folds(lines: list) -> list:
         if result:
             folds.append((result.group(1), int(result.group(2))))
     return folds
-
-if __name__ == '__main__':
-    assert part_1('day_13_test.txt') == 17
-    assert part_1('day_13.txt') == 795
-
-    assert part_2('day_13.txt') == 'CEJKLUGJ' #solve with eyes

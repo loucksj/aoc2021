@@ -1,8 +1,9 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    line = lines[0].strip()
+from scripts.get_input import strip_lines
 
-    binary = bin(int(line, 16))
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
+
+    binary = bin(int(lines[0], 16))
     binary = binary[2:]
     while len(binary) % 4 != 0:
         binary = '0' + binary
@@ -53,15 +54,3 @@ class Packet():
         for p in self.packets:
             total += p.sum_versions()
         return total
-
-if __name__ == '__main__':
-    assert part_1('day_16_literal.txt') == 6
-    assert part_1('day_16_operator.txt') == 1
-    assert part_1('day_16_test1.txt') == 16
-    assert part_1('day_16_test2.txt') == 12
-    assert part_1('day_16_test3.txt') == 23
-    assert part_1('day_16_test4.txt') == 31
-    #assert part_1('day_16.txt') == 0
-
-    #assert part_2('day_16_test.txt') == 0
-    #assert part_2('day_16.txt') == 0

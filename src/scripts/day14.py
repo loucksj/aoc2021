@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     polymer = lines.pop(0)
     lines.pop(0)
@@ -15,9 +16,8 @@ def part_1(file: str) -> int:
     
     return score(polymer)
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
 
     polymer = lines.pop(0)
     lines.pop(0)
@@ -101,10 +101,3 @@ def insert(pairs: dict, polymer: str) -> str:
             new_polymer += pairs[ab]
     new_polymer += polymer[-1]
     return new_polymer
-
-if __name__ == '__main__':
-    assert part_1('day_14_test.txt') == 1588
-    assert part_1('day_14.txt') == 2602
-
-    assert part_2('day_14_test.txt') == 2188189693529
-    assert part_2('day_14.txt') == 2942885922173

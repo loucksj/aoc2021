@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
     lines = [s.split('-') for s in lines]
 
     caves = Caves()
@@ -11,9 +12,8 @@ def part_1(file: str) -> int:
 
     return paths
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
     lines = [s.split('-') for s in lines]
 
     caves = Caves()
@@ -91,14 +91,3 @@ class Caves:
             self.caves.append(start_cave)
         if new_end:
             self.caves.append(end_cave)         
-
-if __name__ == '__main__':
-    assert part_1('day_12_short.txt') == 10
-    assert part_1('day_12_test.txt') == 19
-    assert part_1('day_12_long.txt') == 226
-    assert part_1('day_12.txt') == 4691
-
-    assert part_2('day_12_short.txt') == 36
-    assert part_2('day_12_test.txt') == 103
-    assert part_2('day_12_long.txt') == 3509
-    assert part_2('day_12.txt') == 140718

@@ -1,7 +1,7 @@
 from scripts.get_input import read_lines
 
 
-def part_1(filename: str) -> int:
+def part_one(filename: str) -> int:
     lines = read_lines(filename)
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]
@@ -16,7 +16,7 @@ def part_1(filename: str) -> int:
     return -1
 
 
-def part_2(filename: str) -> int:
+def part_two(filename: str) -> int:
     lines = read_lines(filename)
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]

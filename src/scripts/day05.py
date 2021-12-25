@@ -1,7 +1,7 @@
 from scripts.get_input import strip_lines
 
 
-def part_1(filename: str) -> int:
+def part_one(filename: str) -> int:
     lines = strip_lines(filename)
 
     coordinates = make_coordinates(lines)
@@ -13,7 +13,7 @@ def part_1(filename: str) -> int:
     return vents.score()
 
 
-def part_2(filename: str) -> int:
+def part_two(filename: str) -> int:
     lines = strip_lines(filename)
 
     coordinates = make_coordinates(lines)

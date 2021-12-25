@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     fish = list(map(int, lines[0].split(',')))
 
@@ -15,9 +16,8 @@ def part_1(file: str) -> int:
 
     return len(fish)
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
     
     fish = list(map(int, lines[0].split(',')))
 
@@ -38,10 +38,3 @@ def part_2(file: str) -> int:
         today = tomor
 
     return sum(today)
-
-if __name__ == '__main__':
-    assert part_1('day_6_test.txt') == 5934
-    assert part_1('day_6.txt') == 374994
-
-    assert part_2('day_6_test.txt') == 26984457539
-    assert part_2('day_6.txt') == 1686252324092

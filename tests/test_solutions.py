@@ -19,8 +19,8 @@ def test_day02():
 def test_day03():
     assert day03.part_one('day03_ex.txt') == 198
     assert day03.part_one('day03.txt') == 3242606
-    #assert day03.part_two('day03_ex.txt') == 230
-    #assert day03.part_two('day03.txt') == 4856080
+    assert day03.part_two('day03_ex.txt') == 230
+    assert day03.part_two('day03.txt') == 4856080
 
 
 def test_day04():

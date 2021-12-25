@@ -20,6 +20,7 @@ def majority_binary(binaries: list):
 
 
 def commonest_element(binary: list) -> str:
+    # spec: ties in favor of '1'
     return '1' if binary.count('1') >= binary.count('0') else '0'
 
 

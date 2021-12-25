@@ -1,4 +1,4 @@
-from pkg.reader import Reader
+from scripts.reader import Reader
 
 
 def part01(filename: str) -> int:

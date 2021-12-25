@@ -1,4 +1,4 @@
-from src.pkg.day01 import part01, part02
+from src.scripts.day01 import part01, part02
 
 def test_part01():
     assert part01('day01_example.txt') == 7

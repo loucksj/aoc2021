@@ -1,5 +1,6 @@
 from scripts.get_input import strip_lines
 
+
 def part_1(filename: str) -> int:
     lines = strip_lines(filename)
 
@@ -10,6 +11,7 @@ def part_1(filename: str) -> int:
     vents.mark_horizontal(coordinates)
 
     return vents.score()
+
 
 def part_2(filename: str) -> int:
     lines = strip_lines(filename)
@@ -24,12 +26,13 @@ def part_2(filename: str) -> int:
 
     return vents.score()
 
+
 class Vents:
     def __init__(self, size: int):
         self.rows = []
         for _ in range(0, size):
             self.rows.append([0]*size)
-    
+
     def mark_vertical(self, coordinates: list):
         for pair in coordinates:
             start = pair[0]
@@ -40,7 +43,7 @@ class Vents:
                 diff = abs(start[1]-end[1])
                 for i in range(0, diff+1):
                     self.rows[row+i][col] += 1
-    
+
     def mark_horizontal(self, coordinates: list):
         for pair in coordinates:
             start = pair[0]
@@ -51,7 +54,7 @@ class Vents:
                 diff = abs(start[0]-end[0])
                 for i in range(0, diff+1):
                     self.rows[row][col+i] += 1
-    
+
     def mark_down_diagonal(self, coordinates: list):
         for pair in coordinates:
             start = pair[0]
@@ -62,7 +65,7 @@ class Vents:
                 diff = abs(start[0]-end[0])
                 for i in range(0, diff+1):
                     self.rows[row+i][col+i] += 1
-    
+
     def mark_up_diagonal(self, coordinates: list):
         for pair in coordinates:
             start = pair[0]
@@ -82,6 +85,7 @@ class Vents:
                     total += 1
         return total
 
+
 def get_size(coordinates: list) -> list:
     size = [0, 0]
     for pair in coordinates:
@@ -89,6 +93,7 @@ def get_size(coordinates: list) -> list:
             size[0] = max(size[0], xy[0])
             size[1] = max(size[1], xy[1])
     return max(size) + 1
+
 
 def make_coordinates(lines: list) -> list:
     pairs = []

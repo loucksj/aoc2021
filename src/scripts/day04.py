@@ -1,5 +1,6 @@
 from scripts.get_input import read_lines
 
+
 def part_1(filename: str) -> int:
     lines = read_lines(filename)
     nums = lines.pop(0).strip().split(',')
@@ -13,6 +14,7 @@ def part_1(filename: str) -> int:
             if board.winner():
                 return int(num) * board.score()
     return -1
+
 
 def part_2(filename: str) -> int:
     lines = read_lines(filename)
@@ -33,6 +35,7 @@ def part_2(filename: str) -> int:
                 boards.remove(board)
     return int(last_num) * last_winner.score()
 
+
 def make_boards(lines: list) -> list:
     boards = []
     line_index = 0
@@ -41,6 +44,7 @@ def make_boards(lines: list) -> list:
             boards.append(Board(lines[line_index+1:line_index+6]))
         line_index += 1
     return boards
+
 
 class Board:
     def __init__(self, data: str):
@@ -51,13 +55,13 @@ class Board:
             for num in line.split():
                 self.rows[row].append(num)
             row += 1
-    
+
     def mark(self, target: str):
         for row in self.rows:
             for index in range(0, len(row)):
                 if row[index] == target:
                     row[index] = 'X'
-    
+
     def score(self) -> int:
         score = 0
         for row in self.rows:
@@ -65,7 +69,7 @@ class Board:
                 if num != 'X':
                     score += int(num)
         return score
-    
+
     def winner(self) -> bool:
         for row in self.rows:
             if row.count('X') == 5:

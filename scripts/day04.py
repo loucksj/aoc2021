@@ -1,8 +1,8 @@
-from scripts.input_manager import read_lines
+from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    lines = read_lines(filename)
+    lines = Reader(filename).lines
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]
 
@@ -17,7 +17,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = read_lines(filename)
+    lines = Reader(filename).lines
     nums = lines.pop(0).strip().split(',')
     lines = [s.strip() for s in lines]
 

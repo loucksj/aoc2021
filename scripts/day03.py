@@ -1,13 +1,13 @@
-from scripts.input_manager import char_lines
+from scripts.main import Reader, Tools
 
 
 def part_one(filename: str) -> int:
-    digits = majority_binary(char_lines(filename))
+    digits = majority_binary(Reader(filename).char_lines())
     return to_int(digits) * to_int(flip_digits(digits))
 
 
 def part_two(filename: str) -> int:
-    digits = char_lines(filename)
+    digits = Reader(filename).char_lines()
     return to_int(major_path(digits)) * to_int(minor_path(digits))
 
 
@@ -20,16 +20,12 @@ def flip_digits(binary: list) -> str:
 
 
 def majority_binary(binaries: list):
-    return [commonest_element(column) for column in transpose(binaries)]
+    return [commonest_element(column) for column in Tools.transpose(binaries)]
 
 
 def commonest_element(binary: list) -> str:
     # spec: ties in favor of '1'
     return '1' if binary.count('1') >= binary.count('0') else '0'
-
-
-def transpose(binaries: list):
-    return [list(x) for x in zip(*binaries)]
 
 
 def major_path(binaries: list) -> str:

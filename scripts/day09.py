@@ -1,7 +1,7 @@
-from scripts.input_manager import strip_lines
+from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     total = 0
     for low in get_lows(lines):
@@ -9,7 +9,7 @@ def part_one(filename: str) -> int:
     return total
 
 def part_two(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     lows = get_lows(lines)
 

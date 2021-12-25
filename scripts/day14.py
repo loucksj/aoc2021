@@ -1,7 +1,7 @@
-from scripts.input_manager import strip_lines
+from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     polymer = lines.pop(0)
     lines.pop(0)
@@ -17,7 +17,7 @@ def part_one(filename: str) -> int:
     return score(polymer)
 
 def part_two(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     polymer = lines.pop(0)
     lines.pop(0)

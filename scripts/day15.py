@@ -1,7 +1,7 @@
-from scripts.input_manager import strip_lines
+from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     map = Map(lines)
     risk = map.find_path()
@@ -9,7 +9,7 @@ def part_one(filename: str) -> int:
     return risk
 
 def part_two(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     map = Map(lines)
     map.expand()

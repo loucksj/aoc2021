@@ -1,8 +1,8 @@
-from scripts.input_manager import strip_lines
+from scripts.main import Reader
 import re
 
 def part_one(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     points = get_points(lines)
     folds = get_folds(lines)
@@ -17,7 +17,7 @@ def part_one(filename: str) -> int:
     return count
 
 def part_two(filename: str):
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     points = get_points(lines)
     folds = get_folds(lines)

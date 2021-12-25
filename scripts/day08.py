@@ -1,7 +1,7 @@
-from scripts.input_manager import strip_lines
+from scripts.main import Reader
 
-def part_one(file: str) -> int:
-    lines = strip_lines(file)
+def part_one(filename: str) -> int:
+    lines = Reader(filename).lines
     
     pairs = get_pairs(lines)
 
@@ -16,8 +16,8 @@ def part_one(file: str) -> int:
 
     return count
 
-def part_two(file: str) -> int:
-    lines = strip_lines(file)
+def part_two(filename: str) -> int:
+    lines = Reader(filename).lines
     
     pairs = get_pairs(lines)
 

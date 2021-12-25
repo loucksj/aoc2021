@@ -1,12 +1,12 @@
-from scripts.input_manager import int_lines
+from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return count_greaterthan_prev(int_lines(filename))
+    return count_greaterthan_prev(Reader(filename).int_lines())
 
 
 def part_two(filename: str) -> int:
-    return count_greaterthan_prev(add_neighbors(int_lines(filename), 2))
+    return count_greaterthan_prev(add_neighbors(Reader(filename).int_lines(), 2))
 
 
 def count_greaterthan_prev(values: list):

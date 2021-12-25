@@ -1,8 +1,8 @@
-from scripts.input_manager import strip_lines
+from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     coordinates = make_coordinates(lines)
     vents = Vents(get_size(coordinates))
@@ -14,7 +14,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = strip_lines(filename)
+    lines = Reader(filename).lines
 
     coordinates = make_coordinates(lines)
     vents = Vents(get_size(coordinates))

@@ -1,4 +1,4 @@
-from src.scripts import day01, day02, day03, day04, day05, day06
+from src.scripts import day01, day02, day03, day04, day05, day06, day07
 
 
 def test_day01():
@@ -40,3 +40,9 @@ def test_day06():
     assert day06.part_one('day06.txt') == 374994
     assert day06.part_two('day06_ex.txt') == 26984457539
     assert day06.part_two('day06.txt') == 1686252324092
+
+def test_day07():
+    assert day07.part_one('day07_ex.txt') == 37
+    assert day07.part_one('day07.txt') == 355989
+    assert day07.part_two('day07_ex.txt') == 168
+    assert day07.part_two('day07.txt') == 102245489

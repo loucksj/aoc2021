@@ -1,6 +1,7 @@
-def part_1(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+from scripts.get_input import strip_lines
+
+def part_one(filename: str) -> int:
+    lines = strip_lines(filename)
 
     positions = list(map(int, lines[0].split(',')))
 
@@ -29,9 +30,8 @@ def part_1(file: str) -> int:
 
     return fuel
 
-def part_2(file: str) -> int:
-    lines = open(file, 'r').readlines()
-    lines = [s.strip() for s in lines]
+def part_two(filename: str) -> int:
+    lines = strip_lines(filename)
 
     positions = list(map(int, lines[0].split(',')))
     size = max(positions)+1
@@ -73,10 +73,3 @@ def part_2(file: str) -> int:
                 crabs[i][end] = 0
 
     return fuel
-
-if __name__ == '__main__':
-    assert part_1('day_7_test.txt') == 37
-    assert part_1('day_7.txt') == 355989
-
-    assert part_2('day_7_test.txt') == 168
-    assert part_2('day_7.txt') == 102245489

@@ -2,7 +2,7 @@ from scripts.input_manager import char_lines, strip_lines
 
 
 def part_one(filename: str) -> int:
-    binary = majority_binary(filename)
+    binary = majority_binary(char_lines(filename))
     return int(binary, 2) * int(flip(binary), 2)
 
 
@@ -11,14 +11,14 @@ def part_two(filename: str) -> int:
     minor_binaries = Binaries().from_file(filename)
     return int(major_binaries.major_path(), 2) * int(minor_binaries.minor_path(), 2)
 
-def majority_binary(filename: str):
-    return ''.join([commonest_element(line) for line in transpose(char_lines(filename))])
-
-def transpose(values: list):
-    return [list(x) for x in zip(*values)]
+def majority_binary(values: list):
+    return ''.join([commonest_element(line) for line in transpose(values)])
 
 def commonest_element(values: list):
     return max(set(values), key=values.count)
+
+def transpose(values: list):
+    return [list(x) for x in zip(*values)]
 
 class Binaries:
     def from_file(self, filename: str):

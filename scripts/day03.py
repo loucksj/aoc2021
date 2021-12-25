@@ -15,6 +15,10 @@ def binary_digits_int(digits: list):
     return int(''.join(digits), 2)
 
 
+def flip_digits(binary: list) -> str:
+    return ['1' if digit == '0' else '0' for digit in binary]
+
+
 def majority_binary(binaries: list):
     return [commonest_element(column) for column in transpose(binaries)]
 
@@ -50,7 +54,3 @@ def majority_elements(binaries: list, i: int) -> list:
 
 def minority_elements(binaries, i: int) -> list:
     return [binary for binary in binaries if binary[i] != majority_binary(binaries)[i]]
-
-
-def flip_digits(binary: list) -> str:
-    return ['1' if digit == '0' else '0' for digit in binary]

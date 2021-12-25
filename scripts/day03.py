@@ -11,12 +11,12 @@ def part_two(filename: str) -> int:
     return int(major_path(binaries), 2) * int(minor_path(binaries), 2)
 
 
-def flip(binary: str):
+def flip(binary: str) -> str:
     return ''.join(['1' if i == '0' else '0' for i in binary])
 
 
 def majority_bits(binaries: list) -> str:
-    return ''.join([majority_bit(binaries, i) for i in range(len(binaries[0]))])
+    return ''.join(majority_bit(binaries, i) for i in range(len(binaries[0])))
 
 
 def majority_bit(binaries: list, i: int) -> str:

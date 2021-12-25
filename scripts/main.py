@@ -1,7 +1,7 @@
 PATH = './input/'
 
 
-class Reader:
+class Reader():
     def __init__(self, filename: str):
         self.lines = [s.strip() for s in open(PATH + filename, 'r').readlines()]
 

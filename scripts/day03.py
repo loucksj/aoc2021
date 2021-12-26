@@ -20,7 +20,7 @@ def flip(bits: list) -> list:
 
 
 def average_seive(bitmatrix: list, invert=False) -> list:
-    matrix = bitmatrix[:]
+    matrix = bitmatrix.copy()
     i = 0
     while len(matrix) > 1:
         average_bits = average_columns(matrix) if not invert else flip(

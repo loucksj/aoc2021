@@ -36,7 +36,7 @@ def average_columns(bitmatrix: list) -> list:
 
 def average_bit(bits: list) -> str:
     # spec: tie favors '1'
-    return '1' if bits.count('1') >= bits.count('0') else '0'
+    return '1' if bits.count('1') >= len(bits)/2 else '0'
 
 
 def transposed(bitmatrix: list) -> list:

@@ -2,46 +2,41 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    majority = Bitmatrix().from_file(filename).majority_bits()
-    return as_int(majority) * as_int(flip(majority))
+    bits = majority(Reader(filename).matrix())
+    return as_int(bits) * as_int(flip(bits))
 
 
 def part_two(filename: str) -> int:
-    bitmatrix = Bitmatrix().from_file(filename)
-    return as_int(bitmatrix.path(True)) * as_int(bitmatrix.path(False))
+    bitmatrix = Reader(filename).matrix()
+    return as_int(average_bits(bitmatrix)) * as_int(average_bits(bitmatrix, opposite=True))
 
 
-def as_int(bits: list):
+def as_int(bits: list) -> int:
     return int(''.join(bits), 2)
+
+
+def flip(bits: list) -> list:
+    return ['1' if digit == '0' else '0' for digit in bits]
 
 
 def most(bits: list) -> str:
     return '1' if bits.count('1') >= bits.count('0') else '0'
 
 
-def flip(bits: list) -> str:
-    return ['1' if digit == '0' else '0' for digit in bits]
+def majority(bitmatrix: list) -> list:
+    return [most(column) for column in transposed(bitmatrix)]
 
 
-class Bitmatrix():
-    def __init__(self, bitmatrix=[[]]) -> None:
-        self.matrix = bitmatrix
+def transposed(bitmatrix: list) -> list:
+    return [list(x) for x in zip(*bitmatrix)]
 
-    def from_file(self, filename: str):
-        self.matrix = Reader(filename).matrix()
-        return self
 
-    def majority_bits(self) -> list:
-        return [most(column) for column in self.transposed()]
-
-    def transposed(self):
-        return [list(x) for x in zip(*self.matrix)]
-
-    def path(self, up):
-        i = 0
-        sift = Bitmatrix(self.matrix)
-        while len(sift.matrix) > 1:
-            sift.matrix = [bits for bits in sift.matrix if up ==
-                           (bits[i] == sift.majority_bits()[i])]
-            i += 1
-        return sift.matrix[0]
+def average_bits(bitmatrix: list, opposite=False) -> list:
+    filtered = bitmatrix.copy()
+    i = 0
+    while len(filtered) > 1:
+        targets = majority(filtered) if not opposite else flip(
+            majority(filtered))
+        filtered = [bits for bits in filtered if bits[i] == targets[i]]
+        i += 1
+    return filtered[0]

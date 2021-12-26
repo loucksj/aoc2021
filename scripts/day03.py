@@ -23,9 +23,9 @@ def average_seive(bitmatrix: list, invert=False) -> list:
     matrix = bitmatrix[:]
     i = 0
     while len(matrix) > 1:
-        check = average_columns(matrix) if not invert else flip(
+        average_bits = average_columns(matrix) if not invert else flip(
             average_columns(matrix))
-        matrix = [bits for bits in matrix if bits[i] == check[i]]
+        matrix = [bits for bits in matrix if bits[i] == average_bits[i]]
         i += 1
     return matrix[0]
 

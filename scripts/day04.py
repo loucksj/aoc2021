@@ -13,7 +13,6 @@ class BingoGame():
     def __init__(self, filename: str) -> None:
         self.draws = self.get_draws_from_file(filename)
         self.boards = self.get_boards_from_file(filename)
-        self.drawn = []
         self.winners = []
         self.run()
 
@@ -27,13 +26,12 @@ class BingoGame():
         return Board([list(map(int, line.split())) for line in string.split('\n')])
 
     def run(self):
-        while len(self.boards) > 0 and len(self.draws) > 0:
-            self.drawn.append(self.draws.pop(0))
-            self.mark_last_drawn()
+        while len(self.active_boards()) > 0 and len(self.draws) > 0:
+            self.mark(self.draws.pop(0))
 
-    def mark_last_drawn(self):
+    def mark(self, draw: int):
         for board in self.active_boards():
-            board.mark(self.drawn[-1])
+            board.mark(draw)
             if board.is_winner():
                 self.winners.append(board)
 

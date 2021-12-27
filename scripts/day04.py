@@ -56,20 +56,17 @@ class Board:
     def from_file(filename: str):
         return Reader(filename).lines
 
-    def mark(self, target: str):
+    def mark(self, draw: str):
         for row in self.rows:
             for index in range(0, len(row)):
-                if row[index] == target:
+                if row[index] == draw:
                     row[index] = -1
 
     def score(self) -> int:
         return sum([sum([n for n in row if n != -1]) for row in self.rows])
 
     def is_winner(self) -> bool:
-        for row in self.rows:
-            if row.count(-1) == 5:
-                return True
-        for column in transpose(self.rows):
-            if column.count(-1) == 5:
+        for line in self.rows + transpose(self.rows):
+            if line.count(-1) == len(line):
                 return True
         return False

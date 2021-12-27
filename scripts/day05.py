@@ -16,9 +16,8 @@ class Vents:
 
     def zero_rows(self):
         rows = []
-        max_x, max_y = self.get_max_xy()
-        for _ in range(max_x+1):
-            rows.append([0]*(max_y+1))
+        for _ in range(self.max_x() + 1):
+            rows.append([0]*(self.max_y() + 1))
         return rows
 
     def mark_vents(self, only_orthogonal=False):
@@ -52,13 +51,11 @@ class Vents:
             y_range = [y_range[0]]*len(x_range)
         return list(zip(x_range, y_range))
 
-    def get_max_xy(self) -> tuple:
-        max_x, max_y = 0, 0
-        for pair in self.paths:
-            for x, y in pair:
-                max_x = max(max_x, x)
-                max_y = max(max_y, y)
-        return (max_x, max_y)
+    def max_x(self) -> int:
+        return max([max([x for x, _ in pair]) for pair in self.paths])
+    
+    def max_y(self) -> int:
+        return max([max([y for _, y in pair]) for pair in self.paths])
 
     def paths_from_file(self, filename: str) -> list:
         return [[list(map(int, pair.split(','))) for pair in path] for path in Reader(filename).split_lines(' -> ')]

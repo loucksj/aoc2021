@@ -45,24 +45,24 @@ class BingoGame():
 
 
 class Board:
-    def __init__(self, rows: str):
-        self.rows = rows
+    def __init__(self, matrix: str):
+        self.numbers = matrix
         self.won_on = -1
 
     def mark(self, draw: str):
-        self.rows = [[-1 if draw == value else value for value in row]
-                     for row in self.rows]
+        self.numbers = [[-1 if draw == num else num for num in row]
+                        for row in self.numbers]
         if self.is_winner():
             self.won_on = draw
 
     def is_winner(self) -> bool:
         if self.won_on > 0:
             return True
-        for line in self.rows + transpose(self.rows):
+        for line in self.numbers + transpose(self.numbers):
             if line.count(-1) == len(line):
                 return True
         return False
 
     def score(self) -> int:
-        board = sum([sum([n for n in row if n != -1]) for row in self.rows])
+        board = sum([sum([n for n in row if n != -1]) for row in self.numbers])
         return board * self.won_on

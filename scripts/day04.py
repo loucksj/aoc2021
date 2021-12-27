@@ -2,26 +2,25 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    draws = Reader(filename).lines[0].split(',')
-    boards = make_boards(Reader(filename).lines[2:])
+    draws = [int(s) for s in Reader(filename).lines[0].split(',')]
+    boards = make_boards(Reader(filename).lines[1:])
     winner, draw = winning_board_draw(boards, draws)
-    return int(draw) * winner.score()
+    return draw * winner.score()
 
 
 def part_two(filename: str) -> int:
-    draws = Reader(filename).lines[0].split(',')
-    boards = make_boards(Reader(filename).lines[2:])
+    draws = [int(s) for s in Reader(filename).lines[0].split(',')]
+    boards = make_boards(Reader(filename).lines[1:])
     loser, draw = losing_board_draw(boards, draws)
-    return int(draw) * loser.score()
+    return draw * loser.score()
 
 
 def make_boards(lines: list) -> list:
     boards = []
-    line_index = 0
-    for line in lines:
-        if line == '':
-            boards.append(Board(lines[line_index+1:line_index+6]))
-        line_index += 1
+    for i, numbers in enumerate(lines):
+        if numbers == '': #blank line marks new board
+            values = [[int(s) for s in line.split()] for line in lines[i+1:i+6]]
+            boards.append(Board(values))
     return boards
 
 
@@ -34,28 +33,23 @@ def winning_board_draw(boards: list, draws: list) -> tuple:
 
 
 def losing_board_draw(boards: list, draws: list) -> tuple:
-    active_boards = boards.copy()
     last_draw = 0
     last_winner = []
     for num in draws:
-        for board in active_boards:
+        if len(boards) == 0:
+            break
+        for board in boards:
             board.mark(num)
-        for board in active_boards:
+        for board in boards:
             if board.is_winner():
                 last_draw = num
                 last_winner = board
-                active_boards.remove(board)
+                boards.remove(board)
     return last_winner, last_draw
 
 class Board:
-    def __init__(self, data: str):
-        self.rows = []
-        row = 0
-        for line in data:
-            self.rows.append([])
-            for num in line.split():
-                self.rows[row].append(num)
-            row += 1
+    def __init__(self, rows: str):
+        self.rows = rows
 
     def from_file(filename: str):
         return Reader(filename).lines
@@ -64,22 +58,17 @@ class Board:
         for row in self.rows:
             for index in range(0, len(row)):
                 if row[index] == target:
-                    row[index] = 'X'
+                    row[index] = -1
 
     def score(self) -> int:
-        score = 0
-        for row in self.rows:
-            for num in row:
-                if num != 'X':
-                    score += int(num)
-        return score
+        return sum([sum([n for n in row if n != -1]) for row in self.rows])
 
     def is_winner(self) -> bool:
         for row in self.rows:
-            if row.count('X') == 5:
+            if row.count(-1) == 5:
                 return True
         columns = [list(i) for i in zip(*self.rows)]
         for column in columns:
-            if column.count('X') == 5:
+            if column.count(-1) == 5:
                 return True
         return False

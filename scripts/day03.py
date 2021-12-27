@@ -1,4 +1,4 @@
-from scripts.main import Reader
+from scripts.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
@@ -31,13 +31,9 @@ def average_seive(bitmatrix: list, invert=False) -> list:
 
 
 def average_columns(bitmatrix: list) -> list:
-    return [average_bit(column) for column in transposed(bitmatrix)]
+    return [average_bit(column) for column in transpose(bitmatrix)]
 
 
 def average_bit(bits: list) -> str:
     # spec: tie favors '1'
     return '1' if bits.count('1') >= bits.count('0') else '0'
-
-
-def transposed(bitmatrix: list) -> list:
-    return list(map(list, zip(*bitmatrix)))

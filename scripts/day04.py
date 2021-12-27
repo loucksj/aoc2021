@@ -1,4 +1,4 @@
-from scripts.main import Reader
+from scripts.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
@@ -18,8 +18,9 @@ def part_two(filename: str) -> int:
 def make_boards(lines: list) -> list:
     boards = []
     for i, numbers in enumerate(lines):
-        if numbers == '': #blank line marks new board
-            values = [[int(s) for s in line.split()] for line in lines[i+1:i+6]]
+        if numbers == '':  # blank line marks new board
+            values = [[int(s) for s in line.split()]
+                      for line in lines[i+1:i+6]]
             boards.append(Board(values))
     return boards
 
@@ -47,6 +48,7 @@ def losing_board_draw(boards: list, draws: list) -> tuple:
                 boards.remove(board)
     return last_winner, last_draw
 
+
 class Board:
     def __init__(self, rows: str):
         self.rows = rows
@@ -67,8 +69,7 @@ class Board:
         for row in self.rows:
             if row.count(-1) == 5:
                 return True
-        columns = [list(i) for i in zip(*self.rows)]
-        for column in columns:
+        for column in transpose(self.rows):
             if column.count(-1) == 5:
                 return True
         return False

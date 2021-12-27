@@ -3,7 +3,8 @@ PATH = './input/'
 
 class Reader():
     def __init__(self, filename: str):
-        self.lines = [s.strip() for s in open(PATH + filename, 'r').readlines()]
+        self.lines = [s.strip()
+                      for s in open(PATH + filename, 'r').readlines()]
 
     def split_lines(self, at=' '):
         return [line.split(at) for line in self.lines]
@@ -16,3 +17,7 @@ class Reader():
 
     def matrix(self) -> list:
         return [list(line) for line in self.lines]
+
+
+def transpose(matrix: list) -> list:
+    return list(map(list, zip(*matrix)))

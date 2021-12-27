@@ -38,15 +38,21 @@ def loser_at(boards: list, draws: list) -> tuple:
     last_draw = 0
     last_winner = []
     for draw in draws:
-        if len(boards) == 0:
-            break
         mark_all(boards, draw)
         for board in boards:
             if board.is_winner():
                 last_draw = draw
                 last_winner = board
-                boards.remove(board)
+        remove_winners(boards)
+        if len(boards) == 0:
+            break
     return last_winner, last_draw
+
+
+def remove_winners(boards: list):
+    for board in boards:
+        if board.is_winner():
+            boards.remove(board)
 
 
 def mark_all(boards: list, draw: int):

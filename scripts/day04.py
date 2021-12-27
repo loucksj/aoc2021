@@ -2,30 +2,22 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
-    nums = lines.pop(0).strip().split(',')
-    lines = [s.strip() for s in lines]
-
-    boards = make_boards(lines)
-
-    for num in nums:
+    draws = Reader(filename).lines[0].split(',')
+    boards = make_boards(Reader(filename).lines[2:])
+    for draw in draws:
         for board in boards:
-            board.mark(num)
+            board.mark(draw)
             if board.winner():
-                return int(num) * board.score()
+                return int(draw) * board.score()
     return -1
 
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines
-    nums = lines.pop(0).strip().split(',')
-    lines = [s.strip() for s in lines]
-
-    boards = make_boards(lines)
-
+    draws = Reader(filename).lines[0].split(',')
+    boards = make_boards(Reader(filename).lines[2:])
     last_num = 0
     last_winner = []
-    for num in nums:
+    for num in draws:
         for board in boards:
             board.mark(num)
         for board in boards:
@@ -55,6 +47,9 @@ class Board:
             for num in line.split():
                 self.rows[row].append(num)
             row += 1
+
+    def from_file(filename: str):
+        return Reader(filename).lines
 
     def mark(self, target: str):
         for row in self.rows:

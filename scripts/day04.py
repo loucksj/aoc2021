@@ -29,22 +29,23 @@ def winning_board_draw(boards: list, draws: list) -> tuple:
     for draw in draws:
         for board in boards:
             board.mark(draw)
-            if board.winner():
+            if board.is_winner():
                 return board, draw
 
 
 def losing_board_draw(boards: list, draws: list) -> tuple:
-    last_num = 0
+    active_boards = boards.copy()
+    last_draw = 0
     last_winner = []
     for num in draws:
-        for board in boards:
+        for board in active_boards:
             board.mark(num)
-        for board in boards:
-            if board.winner():
-                last_num = num
+        for board in active_boards:
+            if board.is_winner():
+                last_draw = num
                 last_winner = board
-                boards.remove(board)
-    return last_winner, last_num
+                active_boards.remove(board)
+    return last_winner, last_draw
 
 class Board:
     def __init__(self, data: str):
@@ -73,7 +74,7 @@ class Board:
                     score += int(num)
         return score
 
-    def winner(self) -> bool:
+    def is_winner(self) -> bool:
         for row in self.rows:
             if row.count('X') == 5:
                 return True

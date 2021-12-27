@@ -28,8 +28,8 @@ def boards_from_file(filename: str) -> list:
 
 def winner_at(boards: list, draws: list) -> tuple:
     for draw in draws:
+        mark_all(boards, draw)
         for board in boards:
-            board.mark(draw)
             if board.is_winner():
                 return board, draw
 
@@ -37,17 +37,21 @@ def winner_at(boards: list, draws: list) -> tuple:
 def loser_at(boards: list, draws: list) -> tuple:
     last_draw = 0
     last_winner = []
-    for num in draws:
+    for draw in draws:
         if len(boards) == 0:
             break
-        for board in boards:
-            board.mark(num)
+        mark_all(boards, draw)
         for board in boards:
             if board.is_winner():
-                last_draw = num
+                last_draw = draw
                 last_winner = board
                 boards.remove(board)
     return last_winner, last_draw
+
+
+def mark_all(boards: list, draw: int):
+    for board in boards:
+        board.mark(draw)
 
 
 class Board:

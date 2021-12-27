@@ -25,11 +25,10 @@ class BingoGame():
 
     def add_boards_from_file(self, filename: str) -> list:
         for board_str in Reader(filename).read().split('\n\n')[1:]:
-            matrix = []
-            for line in board_str.split('\n'):
-                integers = list(map(int, line.split()))
-                matrix.append(integers)
-            self.boards.append(Board(matrix))
+            self.boards.append(self.board_from_string(board_str))
+
+    def board_from_string(self, string: str):
+        return Board([list(map(int, line.split())) for line in string.split('\n')])
 
     def add_draws_from_file(self, filename: str) -> list:
         for val in Reader(filename).lines()[0].split(','):

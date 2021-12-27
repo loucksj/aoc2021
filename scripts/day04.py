@@ -2,66 +2,56 @@ from scripts.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
-    game = BingoGame().from_file(filename)
-    winners, draw = game.winners_at()
-    return draw * winners[0].score()
+    first_winner, on_draw = BingoGame().from_file(filename).run().winners[0]
+    return first_winner.score() * on_draw
 
 
 def part_two(filename: str) -> int:
-    game = BingoGame().from_file(filename)
-    loser, draw = game.loser_at()
-    return draw * loser.score()
+    last_winner, on_draw = BingoGame().from_file(filename).run().winners[-1]
+    return last_winner.score() * on_draw
 
 
 class BingoGame():
+    def __init__(self) -> None:
+        self.draws = []
+        self.drawn = []
+        self.boards = []
+        self.winners = []
+
     def from_file(self, filename: str):
-        self.draws = self.draws_from_file(filename)
-        self.boards = self.boards_from_file(filename)
+        self.add_draws_from_file(filename)
+        self.add_boards_from_file(filename)
         return self
 
-    def draws_from_file(self, filename: str) -> list:
-        return [int(s) for s in Reader(filename).lines()[0].split(',')]
-
-    def boards_from_file(self, filename: str) -> list:
-        board_strings = Reader(filename).read().split('\n\n')[1:]
-        boards = []
-        for board in board_strings:
+    def add_boards_from_file(self, filename: str) -> list:
+        for board_str in Reader(filename).read().split('\n\n')[1:]:
             matrix = []
-            for line in board.split('\n'):
-                matrix.append(list(map(int, line.split())))
-            boards.append(Board(matrix))
-        return boards
+            for line in board_str.split('\n'):
+                integers = list(map(int, line.split()))
+                matrix.append(integers)
+            self.boards.append(Board(matrix))
 
-    def winners_at(self) -> tuple:
-        for draw in self.draws:
-            self.mark_all(draw)
-            if len(self.winners()) > 0:
-                return self.winners(), draw
+    def add_draws_from_file(self, filename: str) -> list:
+        for val in Reader(filename).lines()[0].split(','):
+            self.draws.append(int(val))
 
-    def winners(self):
-        return [board for board in self.boards if board.is_winner()]
-
-    def loser_at(self) -> tuple:
-        last_draw = 0
-        last_board = []
-        for draw in self.draws:
-            self.mark_all(draw)
-            if len(self.winners()) > 0:
-                last_board = self.winners()[-1]
-                last_draw = draw
+    def run(self):
+        while len(self.boards) > 0 and len(self.draws) > 0:
+            self.drawn.append(self.draws.pop(0))
+            self.mark_last_drawn()
             self.remove_winners()
-            if len(self.boards) == 0:
-                break
-        return last_board, last_draw
+        return self
+
+    def mark_last_drawn(self):
+        for board in self.boards:
+            board.mark(self.drawn[-1])
+            if board.is_winner():
+                self.winners.append((board, self.drawn[-1]))
 
     def remove_winners(self):
         for board in self.boards:
             if board.is_winner():
                 self.boards.remove(board)
-
-    def mark_all(self, draw: int):
-        for board in self.boards:
-            board.mark(draw)
 
 
 class Board:

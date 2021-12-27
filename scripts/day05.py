@@ -17,8 +17,9 @@ class Vents:
     def __init__(self, filename: str):
         self.coordinates = self.coordinates_from_file(filename)
         self.rows = []
-        for _ in range(0, self.get_size()):
-            self.rows.append([0]*self.get_size())
+        maximums = self.get_max_xy()
+        for _ in range(maximums[0]+1):
+            self.rows.append([0]*(maximums[1]+1))
     
     def mark_vents(self):
         self.mark_vertical()
@@ -74,13 +75,13 @@ class Vents:
         return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
 
 
-    def get_size(self) -> list:
-        size = [0, 0]
+    def get_max_xy(self) -> tuple:
+        max_xy = [0, 0]
         for pair in self.coordinates:
-            for xy in pair:
-                size[0] = max(size[0], xy[0])
-                size[1] = max(size[1], xy[1])
-        return max(size) + 1
+            for x, y in pair:
+                max_xy[0] = max(max_xy[0], x)
+                max_xy[1] = max(max_xy[1], y)
+        return (max_xy[0], max_xy[1])
 
     def coordinates_from_file(self, filename: str) -> list:
         return [[list(map(int, pair.split(','))) for pair in coordinate] for coordinate in Reader(filename).split_lines(' -> ')]

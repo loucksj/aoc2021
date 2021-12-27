@@ -91,10 +91,8 @@ def get_size(coordinates: list) -> list:
 
 
 def coordinates_from_file(filename: str) -> list:
-    pairs = Reader(filename).split_lines(' -> ')
-    for pair in pairs:
-        pair[0] = pair[0].split(',')
-        pair[1] = pair[1].split(',')
+    coordinate_strings = Reader(filename).split_lines(' -> ')
+    pairs = [[pair.split(',') for pair in coordinate] for coordinate in coordinate_strings]
     for pair in pairs:
         for xy in pair:
             xy[0] = int(xy[0])

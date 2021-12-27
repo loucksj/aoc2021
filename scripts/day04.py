@@ -4,8 +4,8 @@ from scripts.main import Reader, transpose
 def part_one(filename: str) -> int:
     draws = draws_from_file(filename)
     boards = boards_from_file(filename)
-    winner, draw = winner_at(boards, draws)
-    return draw * winner.score()
+    winners, draw = winners_at(boards, draws)
+    return draw * winners[0].score()
 
 
 def part_two(filename: str) -> int:
@@ -26,27 +26,29 @@ def boards_from_file(filename: str) -> list:
     return [Board(board) for board in int_boards]
 
 
-def winner_at(boards: list, draws: list) -> tuple:
+def winners_at(boards: list, draws: list) -> tuple:
     for draw in draws:
         mark_all(boards, draw)
-        for board in boards:
-            if board.is_winner():
-                return board, draw
+        if len(winners(boards)) > 0:
+            return winners(boards), draw
+
+
+def winners(boards: list):
+    return [board for board in boards if board.is_winner()]
 
 
 def loser_at(boards: list, draws: list) -> tuple:
     last_draw = 0
-    last_winner = []
+    last_board = []
     for draw in draws:
         mark_all(boards, draw)
-        for board in boards:
-            if board.is_winner():
-                last_draw = draw
-                last_winner = board
+        if len(winners(boards)) > 0:
+            last_board = winners(boards)[-1]
+            last_draw = draw
         remove_winners(boards)
         if len(boards) == 0:
             break
-    return last_winner, last_draw
+    return last_board, last_draw
 
 
 def remove_winners(boards: list):

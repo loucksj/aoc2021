@@ -2,16 +2,11 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    vents = Vents(filename)
-    vents.mark_vertical()
-    vents.mark_horizontal()
-    return vents.score()
+    return Vents(filename).score_orthogonal()
 
 
 def part_two(filename: str) -> int:
-    vents = Vents(filename)
-    vents.mark_vents()
-    return vents.score()
+    return Vents(filename).score_all()
 
 
 class Vents:
@@ -26,58 +21,36 @@ class Vents:
             rows.append([0]*(max_y+1))
         return rows
 
-    def mark_vents(self):
-        self.mark_vertical()
-        self.mark_horizontal()
-        self.mark_down_diagonal()
-        self.mark_up_diagonal()
+    def mark_vents(self, only_orthogonal=False):
+        for start, end in self.paths:
+            if only_orthogonal and start[0] != end[0] and start[1] != end[1]:
+                continue
+            self.mark_line(start, end)
 
-    def mark_vertical(self):
-        for pair in self.paths:
-            start = pair[0]
-            end = pair[1]
-            if start[0] == end[0]:
-                col = start[0]
-                row = min(start[1], end[1])
-                diff = abs(start[1]-end[1])
-                for i in range(0, diff+1):
-                    self.rows[row+i][col] += 1
-
-    def mark_horizontal(self):
-        for pair in self.paths:
-            start = pair[0]
-            end = pair[1]
-            if start[1] == end[1]:
-                col = min(start[0], end[0])
-                row = start[1]
-                diff = abs(start[0]-end[0])
-                for i in range(0, diff+1):
-                    self.rows[row][col+i] += 1
-
-    def mark_down_diagonal(self):
-        for pair in self.paths:
-            start = pair[0]
-            end = pair[1]
-            if start[0] - end[0] == start[1] - end[1]:
-                col = min(start[0], end[0])
-                row = min(start[1], end[1])
-                diff = abs(start[0]-end[0])
-                for i in range(0, diff+1):
-                    self.rows[row+i][col+i] += 1
-
-    def mark_up_diagonal(self):
-        for pair in self.paths:
-            start = pair[0]
-            end = pair[1]
-            if start[0] - end[0] == -(start[1] - end[1]):
-                col = min(start[0], end[0])
-                row = max(start[1], end[1])
-                diff = abs(start[0]-end[0])
-                for i in range(0, diff+1):
-                    self.rows[row-i][col+i] += 1
-
-    def score(self) -> int:
+    def score_orthogonal(self) -> int:
+        self.mark_vents(True)
         return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
+
+    def score_all(self) -> int:
+        self.mark_vents()
+        return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
+
+    def mark_line(self, start: list, end: list):
+        for col, row in self.line_points(start, end):
+            self.rows[row][col] += 1
+
+    def line_points(self, start: list, end: list) -> list:
+        x_range = range(min(start[0], end[0]), max(start[0], end[0]) + 1)
+        y_range = range(min(start[1], end[1]), max(start[1], end[1]) + 1)
+        if start[0] > end[0]:
+            x_range = list(reversed(x_range))
+        if start[1] > end[1]:
+            y_range = list(reversed(y_range))
+        if len(x_range) == 1:
+            x_range = [x_range[0]]*len(y_range)
+        if len(y_range) == 1:
+            y_range = [y_range[0]]*len(x_range)
+        return list(zip(x_range, y_range))
 
     def get_max_xy(self) -> tuple:
         max_x, max_y = 0, 0

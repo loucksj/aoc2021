@@ -48,7 +48,7 @@ class Board:
         self.numbers = [[-1 if draw == num else num for num in row]
                         for row in self.numbers]
         if not self.is_winner() and self.win_check():
-            self.won_on == draw
+            self.won_on = draw
 
     def win_check(self):
         for line in self.numbers + transpose(self.numbers):

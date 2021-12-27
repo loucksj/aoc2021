@@ -11,17 +11,8 @@ def part_one(filename: str) -> int:
 def part_two(filename: str) -> int:
     draws = Reader(filename).lines[0].split(',')
     boards = make_boards(Reader(filename).lines[2:])
-    last_num = 0
-    last_winner = []
-    for num in draws:
-        for board in boards:
-            board.mark(num)
-        for board in boards:
-            if board.winner():
-                last_num = num
-                last_winner = board
-                boards.remove(board)
-    return int(last_num) * last_winner.score()
+    loser, draw = losing_board_draw(boards, draws)
+    return int(draw) * loser.score()
 
 
 def make_boards(lines: list) -> list:
@@ -39,8 +30,21 @@ def winning_board_draw(boards: list, draws: list) -> tuple:
         for board in boards:
             board.mark(draw)
             if board.winner():
-                return (board, draw)
+                return board, draw
 
+
+def losing_board_draw(boards: list, draws: list) -> tuple:
+    last_num = 0
+    last_winner = []
+    for num in draws:
+        for board in boards:
+            board.mark(num)
+        for board in boards:
+            if board.winner():
+                last_num = num
+                last_winner = board
+                boards.remove(board)
+    return last_winner, last_num
 
 class Board:
     def __init__(self, data: str):

@@ -2,18 +2,20 @@ from scripts.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
-    draws = [int(s) for s in Reader(filename).lines[0].split(',')]
+    draws = draws_from_file(filename)
     boards = boards_from_file(filename)
     winner, draw = winning_board_draw(boards, draws)
     return draw * winner.score()
 
 
 def part_two(filename: str) -> int:
-    draws = [int(s) for s in Reader(filename).lines[0].split(',')]
+    draws = draws_from_file(filename)
     boards = boards_from_file(filename)
     loser, draw = losing_board_draw(boards, draws)
     return draw * loser.score()
 
+def draws_from_file(filename: str) -> list:
+    return [int(s) for s in Reader(filename).lines[0].split(',')]
 
 def boards_from_file(filename: str) -> list:
     lines = Reader(filename).lines[1:]

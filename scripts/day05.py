@@ -2,11 +2,11 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return Vents(filename).score_orthogonal()
+    return Vents(filename).mark_orthogonal().score()
 
 
 def part_two(filename: str) -> int:
-    return Vents(filename).score_all()
+    return Vents(filename).mark_all().score()
 
 
 class Vents:
@@ -14,18 +14,18 @@ class Vents:
         self.paths = self.paths_from_file(filename)
         self.rows = [[0]*(self.max_y() + 1) for _ in range(self.max_x() + 1)]
 
-    def mark_vents(self, only_orthogonal=False):
+    def mark_all(self):
         for start, end in self.paths:
-            if only_orthogonal and start[0] != end[0] and start[1] != end[1]:
-                continue
             self.mark_line(start, end)
+        return self
 
-    def score_orthogonal(self) -> int:
-        self.mark_vents(True)
-        return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
+    def mark_orthogonal(self):
+        for start, end in self.paths:
+            if start[0] == end[0] or start[1] == end[1]:
+                self.mark_line(start, end)
+        return self
 
-    def score_all(self) -> int:
-        self.mark_vents()
+    def score(self) -> int:
         return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
 
     def mark_line(self, start: list, end: list):
@@ -47,7 +47,7 @@ class Vents:
 
     def max_x(self) -> int:
         return max([max([x for x, _ in pair]) for pair in self.paths])
-    
+
     def max_y(self) -> int:
         return max([max([y for _, y in pair]) for pair in self.paths])
 

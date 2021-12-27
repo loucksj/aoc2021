@@ -20,14 +20,10 @@ def draws_from_file(filename: str) -> list:
 
 
 def boards_from_file(filename: str) -> list:
-    lines = Reader(filename).lines()[1:]
-    boards = []
-    for i, line in enumerate(lines):
-        if line == '':
-            values = [[int(val) for val in line.split()]
-                      for line in lines[i+1:i+6]]
-            boards.append(Board(values))
-    return boards
+    str_boards = Reader(filename).read().split('\n\n')[1:]
+    int_boards = [[map(int, line.split())
+                   for line in board.split('\n')] for board in str_boards]
+    return [Board(board) for board in int_boards]
 
 
 def winner_at(boards: list, draws: list) -> tuple:

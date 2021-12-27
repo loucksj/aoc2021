@@ -71,12 +71,7 @@ class Vents:
                     self.rows[row-i][col+i] += 1
 
     def score(self) -> int:
-        total = 0
-        for row in self.rows:
-            for num in row:
-                if num > 1:
-                    total += 1
-        return total
+        return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
 
 
     def get_size(self) -> list:

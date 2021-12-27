@@ -12,13 +12,7 @@ def part_two(filename: str) -> int:
 class Vents:
     def __init__(self, filename: str):
         self.paths = self.paths_from_file(filename)
-        self.rows = self.zero_rows()
-
-    def zero_rows(self):
-        rows = []
-        for _ in range(self.max_x() + 1):
-            rows.append([0]*(self.max_y() + 1))
-        return rows
+        self.rows = [[0]*(self.max_y() + 1) for _ in range(self.max_x() + 1)]
 
     def mark_vents(self, only_orthogonal=False):
         for start, end in self.paths:

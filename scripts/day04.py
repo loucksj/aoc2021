@@ -4,12 +4,8 @@ from scripts.main import Reader
 def part_one(filename: str) -> int:
     draws = Reader(filename).lines[0].split(',')
     boards = make_boards(Reader(filename).lines[2:])
-    for draw in draws:
-        for board in boards:
-            board.mark(draw)
-            if board.winner():
-                return int(draw) * board.score()
-    return -1
+    winner, draw = winning_board_draw(boards, draws)
+    return int(draw) * winner.score()
 
 
 def part_two(filename: str) -> int:
@@ -36,6 +32,14 @@ def make_boards(lines: list) -> list:
             boards.append(Board(lines[line_index+1:line_index+6]))
         line_index += 1
     return boards
+
+
+def winning_board_draw(boards: list, draws: list) -> tuple:
+    for draw in draws:
+        for board in boards:
+            board.mark(draw)
+            if board.winner():
+                return (board, draw)
 
 
 class Board:

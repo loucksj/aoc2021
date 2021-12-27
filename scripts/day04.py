@@ -49,7 +49,7 @@ class Board:
     def mark(self, draw: str):
         self.numbers = [[-1 if draw == num else num for num in row]
                         for row in self.numbers]
-        if self.is_winner():
+        if self.won_on == -1 and self.is_winner():
             self.won_on = draw
 
     def is_winner(self) -> bool:

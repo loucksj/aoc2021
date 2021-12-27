@@ -32,21 +32,22 @@ class Vents:
         return self
 
     def mark_line(self, start: list, end: list):
-        for col, row in self.line_points(start, end):
+        for col, row in self.linepoints(start, end):
             self.rows[row][col] += 1
 
-    def line_points(self, start: list, end: list) -> list:
-        x_range = range(min(start[0], end[0]), max(start[0], end[0]) + 1)
-        y_range = range(min(start[1], end[1]), max(start[1], end[1]) + 1)
-        if start[0] > end[0]:
-            x_range = list(reversed(x_range))
-        if start[1] > end[1]:
-            y_range = list(reversed(y_range))
-        if len(x_range) == 1:
-            x_range = [x_range[0]]*len(y_range)
-        if len(y_range) == 1:
-            y_range = [y_range[0]]*len(x_range)
-        return list(zip(x_range, y_range))
+    def linepoints(self, startpoint: list, endpoints: list) -> list:
+        x_start, y_start = startpoint
+        x_end, y_end = endpoints
+        length = max(abs(x_start - x_end), abs(y_start - y_end)) + 1
+        return list(zip(self.make_range(x_start, x_end, length), self.make_range(y_start, y_end, length)))
+
+    def make_range(self, start: int, end: int, length: int):
+        values = list(range(min(start, end), max(start, end) + 1))
+        if start > end:
+            values = list(reversed(values))
+        if len(values) == 1:
+            values = [start]*length
+        return values
 
     def max_x(self) -> int:
         return max([max([x for x, _ in pair]) for pair in self.paths])

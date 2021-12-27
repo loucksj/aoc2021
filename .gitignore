@@ -1,4 +1,5 @@
-.vscode/*
+.vscode/
 .venv/
 *.pyc
-*.egg-info/*
+*.egg-info/
+tests/

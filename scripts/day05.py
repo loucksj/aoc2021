@@ -2,7 +2,7 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     coordinates = make_coordinates(lines)
     vents = Vents(get_size(coordinates))
@@ -14,7 +14,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     coordinates = make_coordinates(lines)
     vents = Vents(get_size(coordinates))

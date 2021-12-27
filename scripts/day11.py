@@ -1,7 +1,7 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     board = Board(lines)
 
@@ -15,7 +15,7 @@ def part_one(filename: str) -> int:
     return flashes
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     board = Board(lines)
 

@@ -1,7 +1,7 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
     lines = [s.split('-') for s in lines]
 
     caves = Caves()
@@ -13,7 +13,7 @@ def part_one(filename: str) -> int:
     return paths
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
     lines = [s.split('-') for s in lines]
 
     caves = Caves()

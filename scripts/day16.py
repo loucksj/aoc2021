@@ -1,7 +1,7 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     binary = bin(int(lines[0], 16))
     binary = binary[2:]

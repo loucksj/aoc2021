@@ -1,7 +1,7 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
     
     pairs = get_pairs(lines)
 
@@ -17,7 +17,7 @@ def part_one(filename: str) -> int:
     return count
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
     
     pairs = get_pairs(lines)
 

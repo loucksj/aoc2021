@@ -1,7 +1,7 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     positions = list(map(int, lines[0].split(',')))
 
@@ -31,7 +31,7 @@ def part_one(filename: str) -> int:
     return fuel
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines
+    lines = Reader(filename).lines()
 
     positions = list(map(int, lines[0].split(',')))
     size = max(positions)+1

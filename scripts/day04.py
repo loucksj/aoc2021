@@ -15,14 +15,14 @@ def part_two(filename: str) -> int:
     return draw * loser.score()
 
 def draws_from_file(filename: str) -> list:
-    return [int(s) for s in Reader(filename).lines[0].split(',')]
+    return [int(s) for s in Reader(filename).lines()[0].split(',')]
 
 def boards_from_file(filename: str) -> list:
-    lines = Reader(filename).lines[1:]
+    lines = Reader(filename).lines()[1:]
     boards = []
-    for i, numbers in enumerate(lines):
-        if numbers == '':  # blank line marks new board
-            values = [[int(s) for s in line.split()]
+    for i, line in enumerate(lines):
+        if line == '':
+            values = [[int(val) for val in line.split()]
                       for line in lines[i+1:i+6]]
             boards.append(Board(values))
     return boards

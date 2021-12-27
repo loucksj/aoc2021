@@ -23,10 +23,14 @@ class BingoGame():
         return [int(s) for s in Reader(filename).lines()[0].split(',')]
 
     def boards_from_file(self, filename: str) -> list:
-        str_boards = Reader(filename).read().split('\n\n')[1:]
-        int_boards = [[map(int, line.split())
-                       for line in board.split('\n')] for board in str_boards]
-        return [Board(board) for board in int_boards]
+        board_strings = Reader(filename).read().split('\n\n')[1:]
+        boards = []
+        for board in board_strings:
+            matrix = []
+            for line in board.split('\n'):
+                matrix.append(list(map(int, line.split())))
+            boards.append(Board(matrix))
+        return boards
 
     def winners_at(self) -> tuple:
         for draw in self.draws:

@@ -4,18 +4,20 @@ from scripts.main import Reader, transpose
 def part_one(filename: str) -> int:
     draws = draws_from_file(filename)
     boards = boards_from_file(filename)
-    winner, draw = winning_board_draw(boards, draws)
+    winner, draw = winner_at(boards, draws)
     return draw * winner.score()
 
 
 def part_two(filename: str) -> int:
     draws = draws_from_file(filename)
     boards = boards_from_file(filename)
-    loser, draw = losing_board_draw(boards, draws)
+    loser, draw = loser_at(boards, draws)
     return draw * loser.score()
+
 
 def draws_from_file(filename: str) -> list:
     return [int(s) for s in Reader(filename).lines()[0].split(',')]
+
 
 def boards_from_file(filename: str) -> list:
     lines = Reader(filename).lines()[1:]
@@ -28,7 +30,7 @@ def boards_from_file(filename: str) -> list:
     return boards
 
 
-def winning_board_draw(boards: list, draws: list) -> tuple:
+def winner_at(boards: list, draws: list) -> tuple:
     for draw in draws:
         for board in boards:
             board.mark(draw)
@@ -36,7 +38,7 @@ def winning_board_draw(boards: list, draws: list) -> tuple:
                 return board, draw
 
 
-def losing_board_draw(boards: list, draws: list) -> tuple:
+def loser_at(boards: list, draws: list) -> tuple:
     last_draw = 0
     last_winner = []
     for num in draws:
@@ -57,7 +59,8 @@ class Board:
         self.rows = rows
 
     def mark(self, draw: str):
-        self.rows = [[-1 if draw == value else value for value in row] for row in self.rows]
+        self.rows = [[-1 if draw == value else value for value in row]
+                     for row in self.rows]
 
     def is_winner(self) -> bool:
         for line in self.rows + transpose(self.rows):

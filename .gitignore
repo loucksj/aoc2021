@@ -2,4 +2,4 @@
 .venv/
 *.pyc
 *.egg-info/
-tests/
+tests/_key.py

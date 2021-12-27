@@ -14,6 +14,12 @@ class Vents:
         self.paths = self.paths_from_file(filename)
         self.rows = [[0]*(self.max_y() + 1) for _ in range(self.max_x() + 1)]
 
+    def paths_from_file(self, filename: str) -> list:
+        return [[list(map(int, pair.split(','))) for pair in path] for path in Reader(filename).split_lines(' -> ')]
+
+    def score(self) -> int:
+        return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
+
     def mark_all(self):
         for start, end in self.paths:
             self.mark_line(start, end)
@@ -24,9 +30,6 @@ class Vents:
             if start[0] == end[0] or start[1] == end[1]:
                 self.mark_line(start, end)
         return self
-
-    def score(self) -> int:
-        return sum([sum([1 if num > 1 else 0 for num in row]) for row in self.rows])
 
     def mark_line(self, start: list, end: list):
         for col, row in self.line_points(start, end):
@@ -50,6 +53,3 @@ class Vents:
 
     def max_y(self) -> int:
         return max([max([y for _, y in pair]) for pair in self.paths])
-
-    def paths_from_file(self, filename: str) -> list:
-        return [[list(map(int, pair.split(','))) for pair in path] for path in Reader(filename).split_lines(' -> ')]

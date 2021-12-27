@@ -27,9 +27,9 @@ class BingoGame():
 
     def run(self):
         while len(self.active) > 0 and len(self.draws) > 0:
-            self.mark(self.draws.pop(0))
+            self.mark_boards(self.draws.pop(0))
 
-    def mark(self, draw: int):
+    def mark_boards(self, draw: int):
         for board in self.active.copy():
             board.mark(draw)
             if board.is_winner():

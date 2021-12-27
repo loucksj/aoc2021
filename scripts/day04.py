@@ -12,7 +12,7 @@ def part_two(filename: str) -> int:
 class BingoGame():
     def __init__(self, filename: str) -> None:
         self.draws = self.get_draws_from_file(filename)
-        self.boards = self.get_boards_from_file(filename)
+        self.active = self.get_boards_from_file(filename)
         self.winners = []
         self.run()
 
@@ -26,17 +26,15 @@ class BingoGame():
         return Board([list(map(int, line.split())) for line in string.split('\n')])
 
     def run(self):
-        while len(self.active_boards()) > 0 and len(self.draws) > 0:
+        while len(self.active) > 0 and len(self.draws) > 0:
             self.mark(self.draws.pop(0))
 
     def mark(self, draw: int):
-        for board in self.active_boards():
+        for board in self.active.copy():
             board.mark(draw)
             if board.is_winner():
+                self.active.remove(board)
                 self.winners.append(board)
-
-    def active_boards(self):
-        return [board for board in self.boards if not board.is_winner()]
 
 
 class Board:

@@ -30,18 +30,15 @@ class BingoGame():
         while len(self.boards) > 0 and len(self.draws) > 0:
             self.drawn.append(self.draws.pop(0))
             self.mark_last_drawn()
-            self.remove_winners()
 
     def mark_last_drawn(self):
-        for board in self.boards:
+        for board in self.active_boards():
             board.mark(self.drawn[-1])
             if board.is_winner():
                 self.winners.append(board)
 
-    def remove_winners(self):
-        for board in self.boards:
-            if board.is_winner():
-                self.boards.remove(board)
+    def active_boards(self):
+        return [board for board in self.boards if not board.is_winner()]
 
 
 class Board:

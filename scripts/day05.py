@@ -2,9 +2,7 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-
-    coordinates = make_coordinates(lines)
+    coordinates = coordinates_from_file(filename)
     vents = Vents(get_size(coordinates))
 
     vents.mark_vertical(coordinates)
@@ -14,9 +12,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
-
-    coordinates = make_coordinates(lines)
+    coordinates = coordinates_from_file(filename)
     vents = Vents(get_size(coordinates))
 
     vents.mark_vertical(coordinates)
@@ -25,7 +21,6 @@ def part_two(filename: str) -> int:
     vents.mark_up_diagonal(coordinates)
 
     return vents.score()
-
 
 class Vents:
     def __init__(self, size: int):
@@ -95,7 +90,8 @@ def get_size(coordinates: list) -> list:
     return max(size) + 1
 
 
-def make_coordinates(lines: list) -> list:
+def coordinates_from_file(filename: str) -> list:
+    lines = Reader(filename).lines()
     pairs = []
     for line in lines:
         pairs.append(line.split(' -> '))

@@ -47,16 +47,16 @@ class Board:
     def mark(self, draw: str):
         self.numbers = [[-1 if draw == num else num for num in row]
                         for row in self.numbers]
-        if self.won_on == -1 and self.is_winner():
-            self.won_on = draw
+        if not self.is_winner() and self.win_check():
+            self.won_on == draw
 
-    def is_winner(self) -> bool:
-        if self.won_on > 0:
-            return True
+    def win_check(self):
         for line in self.numbers + transpose(self.numbers):
             if line.count(-1) == len(line):
                 return True
-        return False
+
+    def is_winner(self) -> bool:
+        return self.won_on > 0
 
     def score(self) -> int:
         board = sum([sum([n for n in row if n != -1]) for row in self.numbers])

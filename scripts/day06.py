@@ -23,9 +23,5 @@ def final_total(fish: list, days: int) -> int:
 
 
 def get_fish_from_file(filename: str) -> list:
-    today = [0]*9
-    for i in range(0, 9):
-        for f in list(map(int, Reader(filename).lines()[0].split(','))):
-            if f == i:
-                today[i] += 1
-    return today
+    fishes = Reader(filename).split_firstline_ints(',')
+    return [fishes.count(i) for i in range(10)]

@@ -16,6 +16,9 @@ class Reader():
 
     def split_lines(self, at=' '):
         return [line.split(at) for line in self.lines()]
+    
+    def split_firstline_ints(self, at=' '):
+        return [int(val) for val in self.lines()[0].split(at)]
 
     def str_int_pairs(self):
         return [[string, int(val)] for string, val in self.split_lines()]

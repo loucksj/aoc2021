@@ -11,7 +11,7 @@ def part_two(filename: str) -> int:
 class Fishes():
     def __init__(self, filename: str) -> None:
         fishes = Reader(filename).split_firstline_ints(',')
-        self.fish = [fishes.count(i) for i in range(10)]
+        self.fish = [fishes.count(i) for i in range(9)]
 
     def after(self, days: int) -> int:
         for _ in range(days):
@@ -19,9 +19,6 @@ class Fishes():
         return sum(self.fish)
     
     def next_day(self):
-        fish = [0]*9
-        fish[8] = self.fish[0]
-        fish[6] = self.fish[0]
-        for i in range(1, 9):
-            fish[i-1] += self.fish[i]
-        self.fish = fish
+        birth = self.fish.pop(0)
+        self.fish.append(birth)
+        self.fish[6] += birth

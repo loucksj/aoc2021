@@ -2,23 +2,21 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return final_total(get_fish_from_file(filename), 80)
+    return fish_after_days(get_fish_from_file(filename), 80)
 
 
 def part_two(filename: str) -> int:
-    return final_total(get_fish_from_file(filename), 256)
+    return fish_after_days(get_fish_from_file(filename), 256)
 
 
-def final_total(fish: list, days: int) -> int:
-    for _ in range(0, days):
-        fish_next = [0]*9
-        for i in range(0, 9):
-            if i == 0:
-                fish_next[8] = fish[i]
-                fish_next[6] = fish[i]
-            else:
-                fish_next[i-1] += fish[i]
-        fish = fish_next
+def fish_after_days(fish: list, days: int) -> int:
+    for _ in range(days):
+        next_fish = [0]*9
+        next_fish[8] = fish[0]
+        next_fish[6] = fish[0]
+        for i in range(1, 9):
+            next_fish[i-1] += fish[i]
+        fish = next_fish
     return sum(fish)
 
 

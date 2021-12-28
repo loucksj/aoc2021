@@ -2,33 +2,11 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    positions = Reader(filename).split_firstline_ints(',')
-    crabs = [0]*(max(positions)+1)
-    for p in positions:
-        crabs[p] += 1
-    fuel = 0
-    start = 0
-    end = len(crabs)-1
-    while start != end:
-        if crabs[start] == 0:
-            start += 1
-            continue
-        if crabs[end] == 0:
-            end -= 1
-            continue
-        if crabs[start] <= crabs[end]:
-            fuel += crabs[start]
-            crabs[start+1] += crabs[start]
-            crabs[start] = 0
-        else:
-            fuel += crabs[end]
-            crabs[end-1] += crabs[end]
-            crabs[end] = 0
-    return fuel
+    return Crabs(filename).cost()
 
 
 def part_two(filename: str) -> int:
-    positions = positions = Reader(filename).split_firstline_ints(',')
+    positions = Reader(filename).split_firstline_ints(',')
     size = max(positions)+1
     crabs = [[0]*size]
     for _ in range(1, size):
@@ -63,3 +41,32 @@ def part_two(filename: str) -> int:
                 crabs[i+1][end-1] += crabs[i][end]
                 crabs[i][end] = 0
     return fuel
+
+
+class Crabs():
+    def __init__(self, filename: str) -> None:
+        positions = Reader(filename).split_firstline_ints(',')
+        self.crabs = [0]*(max(positions) + 1)
+        for p in positions:
+            self.crabs[p] += 1
+
+    def cost(self):
+        fuel = 0
+        start = 0
+        end = len(self.crabs)-1
+        while start != end:
+            if self.crabs[start] == 0:
+                start += 1
+                continue
+            if self.crabs[end] == 0:
+                end -= 1
+                continue
+            if self.crabs[start] <= self.crabs[end]:
+                fuel += self.crabs[start]
+                self.crabs[start+1] += self.crabs[start]
+                self.crabs[start] = 0
+            else:
+                fuel += self.crabs[end]
+                self.crabs[end-1] += self.crabs[end]
+                self.crabs[end] = 0
+        return fuel

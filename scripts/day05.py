@@ -35,9 +35,9 @@ class Vents:
         for col, row in self.linepoints(start, end):
             self.rows[row][col] += 1
 
-    def linepoints(self, startpoint: list, endpoints: list) -> list:
+    def linepoints(self, startpoint: list, endpoint: list) -> list:
         x_start, y_start = startpoint
-        x_end, y_end = endpoints
+        x_end, y_end = endpoint
         length = max(abs(x_start - x_end), abs(y_start - y_end)) + 1
         return list(zip(self.make_range(x_start, x_end, length), self.make_range(y_start, y_end, length)))
 

@@ -1,40 +1,31 @@
 from scripts.main import Reader
 
+
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
+    return final_total(get_fish_from_file(filename), 80)
 
-    fish = list(map(int, lines[0].split(',')))
-
-    for _ in range(0, 80): #80 days
-        count = len(fish)
-        for i in range(0, count):
-            if fish[i] == 0:
-                fish[i] = 6
-                fish.append(8)
-            else:
-                fish[i] -= 1
-
-    return len(fish)
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
-    
-    fish = list(map(int, lines[0].split(',')))
+    return final_total(get_fish_from_file(filename), 256)
 
-    today = [0]*9
-    for i in range(0, 9):
-        for f in fish:
-            if f == i:
-                today[i] += 1
 
-    for _ in range(0, 256):
-        tomor = [0]*9
+def final_total(fish: list, days: int) -> int:
+    for _ in range(0, days):
+        fish_next = [0]*9
         for i in range(0, 9):
             if i == 0:
-                tomor[8] = today[i]
-                tomor[6] = today[i]
+                fish_next[8] = fish[i]
+                fish_next[6] = fish[i]
             else:
-                tomor[i-1] += today[i]
-        today = tomor
+                fish_next[i-1] += fish[i]
+        fish = fish_next
+    return sum(fish)
 
-    return sum(today)
+
+def get_fish_from_file(filename: str) -> list:
+    today = [0]*9
+    for i in range(0, 9):
+        for f in list(map(int, Reader(filename).lines()[0].split(','))):
+            if f == i:
+                today[i] += 1
+    return today

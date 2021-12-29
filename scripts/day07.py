@@ -2,11 +2,11 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return Crabs(filename).merge()
+    return Crabs(filename).merge().spent_fuel
 
 
 def part_two(filename: str) -> int:
-    return Crabs(filename).merge(True)
+    return Crabs(filename).merge(True).spent_fuel
 
 
 class Crabs():
@@ -23,7 +23,7 @@ class Crabs():
             at, to = (0, 1) if self.cost_at(0) < self.cost_at(-1) else (-1, -2)
             self.spent_fuel += self.cost_at(at)
             self.move_crabs(at, to, bump)
-        return self.spent_fuel
+        return self
 
     def move_crabs(self, at: int, to: int, bump: int):
         for i, crab in enumerate(self.crabs[at]):

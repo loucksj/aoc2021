@@ -2,17 +2,8 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    pairs = Reader(filename).split_lines(' | ')
-    count = 0
-    for pair in pairs:
-        output = pair[1]
-        for digit in output.split():
-            s = len(digit)
-            # 1, 4, 7, 8
-            if s == 2 or s == 3 or s == 4 or s == 7:
-                count += 1
-    return count
-
+    lines = Reader(filename).split_lines(' | ')
+    return sum([sum([1 for digit in out.split() if len(digit) in [2, 3, 4, 7]]) for _, out in lines])
 
 def part_two(filename: str) -> int:
     pairs = Reader(filename).split_lines(' | ')

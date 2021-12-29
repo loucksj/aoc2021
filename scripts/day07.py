@@ -32,30 +32,21 @@ class Crabs():
 
     def cumulative_cost(self) -> int:
         fuel = 0
-        start = 0
-        end = len(self.crabs[0])-1
-        while start != end:
-            startsum = 0
-            endsum = 0
-            i = 1
-            for line in self.crabs:
-                startsum += line[start]*i
-                endsum += line[end]*i
-                i += 1
-            if startsum == 0:
-                start += 1
-                continue
-            if endsum == 0:
-                end -= 1
-                continue
-            if startsum <= endsum:
-                fuel += startsum
-                for i in range(0, len(self.crabs)-1):
-                    self.crabs[i+1][start+1] += self.crabs[i][start]
-                    self.crabs[i][start] = 0
+        while len(self.crabs) > 1:
+            if self.cost_at_cumulative(0) < self.cost_at_cumulative(-1):
+                fuel += self.cost_at_cumulative(0)
+                for i, crab in enumerate(self.crabs[0][:-1]):
+                    self.crabs[1][i+1] += crab
+                del self.crabs[0]
             else:
-                fuel += endsum
-                for i in range(0, len(self.crabs)-1):
-                    self.crabs[i+1][end-1] += self.crabs[i][end]
-                    self.crabs[i][end] = 0
+                fuel += self.cost_at_cumulative(-1)
+                for i, crab in enumerate(self.crabs[-1][:-1]):
+                    self.crabs[-2][i+1] += crab
+                del self.crabs[-1]
+        return fuel
+
+    def cost_at_cumulative(self, index: int) -> int:
+        fuel = 0
+        for i, crab in enumerate(self.crabs[index]):
+            fuel += (i+1) * crab
         return fuel

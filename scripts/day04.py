@@ -11,7 +11,7 @@ def part_two(filename: str) -> int:
 
 class BingoGame():
     def __init__(self, filename: str) -> None:
-        self.draws = Reader(filename).split_firstline_ints(',')
+        self.draws = Reader(filename).split_first_ints(',')
         self.active = self.get_boards_from_file(filename)
         self.winners = []
         self.run()

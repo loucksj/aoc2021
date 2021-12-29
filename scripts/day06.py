@@ -11,7 +11,7 @@ def part_two(filename: str) -> int:
 
 class Fishes():
     def __init__(self, filename: str) -> None:
-        fishes = Reader(filename).split_firstline_ints(',')
+        fishes = Reader(filename).split_first_ints(',')
         self.fish = [fishes.count(i) for i in range(9)]
 
     def after(self, days: int) -> int:

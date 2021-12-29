@@ -2,8 +2,7 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-    pairs = get_pairs(lines)
+    pairs = get_pairs_from_file(filename)
     count = 0
     for pair in pairs:
         output = pair[1]
@@ -16,8 +15,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
-    pairs = get_pairs(lines)
+    pairs = get_pairs_from_file(filename)
     total = 0
     for pair in pairs:
         outputs = pair[1].split()
@@ -110,10 +108,8 @@ def decode(signals: list) -> dict:
     return decoded
 
 
-def get_pairs(lines: list) -> list:
-    pairs = []
-    for line in lines:
-        pairs.append(line.split('|'))
+def get_pairs_from_file(filename: str) -> list:
+    pairs = Reader(filename).split_lines('|')
     for pair in pairs:
         pair[0] = pair[0].strip()
         pair[1] = pair[1].strip()

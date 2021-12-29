@@ -12,12 +12,9 @@ def part_two(filename: str) -> int:
 class Crabs():
     def __init__(self, filename: str) -> None:
         positions = Reader(filename).split_firstline_ints(',')
-        size = max(positions)+1
-        self.crabs = [[0]*size]
-        for _ in range(1, size):
-            self.crabs.append([0]*size)
-        for p in positions:
-            self.crabs[0][p] += 1
+        size = max(positions) + 1
+        self.crabs = [[0]*size for _ in range(size)]
+        self.crabs[0] = [positions.count(i) for i in range(len(self.crabs[0]))]
 
     def cost(self) -> int:
         fuel = 0

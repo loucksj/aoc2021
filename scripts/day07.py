@@ -14,27 +14,28 @@ class Crabs():
         positions = Reader(filename).split_firstline_ints(',')
         size = max(positions) + 1
         self.crabs = [[0]*size for _ in range(size)]
-        self.crabs[0] = [positions.count(i) for i in range(len(self.crabs[0]))]
+        for i in range(len(self.crabs)):
+            self.crabs[i][0] = positions.count(i)
+        self.trim_empty_ends()
+
+    def trim_empty_ends(self):
+        while sum(self.crabs[0]) == 0:
+            del self.crabs[0]
+        while sum(self.crabs[1]) == 0:
+            del self.crabs[1]
+
 
     def cost(self) -> int:
         fuel = 0
-        start = 0
-        end = len(self.crabs[0])-1
-        while start != end:
-            if self.crabs[0][start] == 0:
-                start += 1
-                continue
-            if self.crabs[0][end] == 0:
-                end -= 1
-                continue
-            if self.crabs[0][start] <= self.crabs[0][end]:
-                fuel += self.crabs[0][start]
-                self.crabs[0][start+1] += self.crabs[0][start]
-                self.crabs[0][start] = 0
+        while len(self.crabs) > 1:
+            if self.crabs[0][0] < self.crabs[-1][0]:
+                fuel += self.crabs[0][0]
+                self.crabs[1][0] += self.crabs[0][0]
+                del self.crabs[0]
             else:
-                fuel += self.crabs[0][end]
-                self.crabs[0][end-1] += self.crabs[0][end]
-                self.crabs[0][end] = 0
+                fuel += self.crabs[-1][0]
+                self.crabs[-2][0] += self.crabs[-1][0]
+                del self.crabs[-1]
         return fuel
 
     def cumulative_cost(self) -> int:

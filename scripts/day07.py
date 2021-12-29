@@ -16,14 +16,6 @@ class Crabs():
         self.crabs = [[0]*size for _ in range(size)]
         for i in range(len(self.crabs)):
             self.crabs[i][0] = positions.count(i)
-        self.trim_empty_ends()
-
-    def trim_empty_ends(self):
-        while sum(self.crabs[0]) == 0:
-            del self.crabs[0]
-        while sum(self.crabs[1]) == 0:
-            del self.crabs[1]
-
 
     def cost(self) -> int:
         fuel = 0

@@ -6,7 +6,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    return Crabs(filename).cumulative_merge()
+    return Crabs(filename).merge_cumulative()
 
 
 class Crabs():
@@ -20,31 +20,23 @@ class Crabs():
 
     def merge(self) -> int:
         while len(self.crabs) > 1:
-            if self.crabs[0][0] < self.crabs[-1][0]:
-                self.cost += self.crabs[0][0]
-                self.crabs[1][0] += self.crabs[0][0]
-                del self.crabs[0]
-            else:
-                self.cost += self.crabs[-1][0]
-                self.crabs[-2][0] += self.crabs[-1][0]
-                del self.crabs[-1]
+            self.move_next_crab(False)
         return self.cost
 
-    def cumulative_merge(self) -> int:
+    def merge_cumulative(self) -> int:
         while len(self.crabs) > 1:
-            if self.cost_at_cumulative(0) < self.cost_at_cumulative(-1):
-                self.cost += self.cost_at_cumulative(0)
-                for i, crab in enumerate(self.crabs[0][:-1]):
-                    self.crabs[1][i+1] += crab
-                del self.crabs[0]
-            else:
-                self.cost += self.cost_at_cumulative(-1)
-                for i, crab in enumerate(self.crabs[-1][:-1]):
-                    self.crabs[-2][i+1] += crab
-                del self.crabs[-1]
+            self.move_next_crab(True)
         return self.cost
 
-    def cost_at_cumulative(self, index: int) -> int:
+    def move_next_crab(self, cumulative=False) -> int:
+        at, to = (0, 1) if self.cost_at(0) < self.cost_at(-1) else (-1, -2)
+        bump = 1 if cumulative else 0
+        self.cost += self.cost_at(at)
+        for i, crab in enumerate(self.crabs[at][:-1]):
+            self.crabs[to][i + bump] += crab
+        del self.crabs[at]
+
+    def cost_at(self, index: int) -> int:
         fuel = 0
         for i, crab in enumerate(self.crabs[index]):
             fuel += (i+1) * crab

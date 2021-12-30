@@ -1,5 +1,8 @@
 from scripts.main import Reader
 
+# Each number 0-9 has a unique sum of frequencies of its letters a signal.
+# Ex: Number 1 is made of two letters, which appear 17 (8 + 9) times in a signal.
+SUM_KEY = {42:0, 17:1, 34:2, 39:3, 30:4, 37:5, 41:6, 25:7, 49:8, 45:9}
 
 def part_one(filename: str) -> int:
     lines = Reader(filename).split_lines(' | ')
@@ -26,87 +29,12 @@ class Decoder():
                          for i, digit in enumerate(output))
         return total
 
-    def decode1478(self, signals) -> dict:
-        code = {}
-        for digit in signals:
-            if len(digit) == 2:
-                code[1] = digit
-                signals.remove(digit)
-                break
-        for digit in signals:
-            if len(digit) == 3:
-                code[7] = digit
-                signals.remove(digit)
-                break
-        for digit in signals:
-            if len(digit) == 4:
-                code[4] = digit
-                signals.remove(digit)
-                break
-        for digit in signals:
-            if len(digit) == 7:
-                code[8] = digit
-                signals.remove(digit)
-                break
-        return code
-
-    def decode0(self, signals) -> dict:  
-        code = {}  
-        for letter in ['a', 'b', 'c', 'd', 'e', 'f', 'g']:
-            count = 0
-            for digit in signals:
-                if letter in digit:
-                    count += 1
-            if count == 5:
-                for digit in signals:
-                    if letter not in digit and len(digit) == 6:
-                        code[0] = digit
-                        signals.remove(digit)
-                        break
-            if 0 in code.keys():
-                break
-        return code
-
-    def decode5(self, signals) -> dict:
-        code = {}
-        for digit in signals:
-            if len(digit) == 5:
-                found = True
-                for other in signals:
-                    if len(other) == 6:
-                        for char in digit:
-                            if char not in other:
-                                found = False
-                                break
-                if found:
-                    code[5] = digit
-                    signals.remove(digit)
-                    break
-        return code
-
     def decoded(self, signals: list) -> dict:
-        code = self.decode1478(signals) | self.decode0(signals) | self.decode5(signals)
-        # 2, 3
-        for digit in signals:
-            if len(digit) == 5:
-                diff = 0
-                for char in digit:
-                    if char not in code[5]:
-                        diff += 1
-                if diff == 1:
-                    code[3] = digit
-                else:
-                    code[2] = digit
-        signals.remove(code[2])
-        signals.remove(code[3])
-        # 6
-        for digit in signals:
-            for char in code[3]:
-                if char not in digit:
-                    code[6] = digit
-                    signals.remove(digit)
-                    break
-        # 9
-        code[9] = signals.pop()
-        code = {v: k for k, v in code.items()}
+        sums = {}
+        combined = "".join(signals)
+        for signal in signals:
+            sums[signal] = sum(combined.count(letter) for letter in signal)
+        code = {}
+        for signal in signals:
+            code[signal] = SUM_KEY[sums[signal]]
         return code

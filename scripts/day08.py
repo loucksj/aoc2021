@@ -9,11 +9,15 @@ SUM_KEY = {42: 0, 17: 1, 34: 2, 39: 3,
 
 def part_one(filename: str) -> int:
     lines = Reader(filename).split_lines(' | ')
-    return sum([sum([1 for digit in out.split() if len(digit) in [2, 3, 4, 7]]) for _, out in lines])
+    return sum(sumif_2347(output) for _, output in lines)
 
 
 def part_two(filename: str) -> int:
     return Decoder(filename).sum_outputs()
+
+
+def sumif_2347(strings: list):
+    return sum(1 for digit in strings.split() if len(digit) in [2, 3, 4, 7])
 
 
 class Decoder():

@@ -10,15 +10,16 @@ def part_two(filename: str) -> int:
 
 class Decoder():
     def __init__(self, filename: str):
-        self.lines = Reader(filename).split_lines(' | ')
+        lines = Reader(filename).split_lines(' | ')
+        self.configs = [line[0].split() for line in lines]
+        self.outputs = [line[1].split() for line in lines]
     
     def decode(self) -> int:
         total = 0
-        for pair in self.lines:
-            outputs = pair[1].split()
-            decoded = self.decode_old(pair[0].split())
+        for config, output in zip(self.configs, self.outputs):
+            decoded = self.decode_old(config)
             value = 0
-            for digit in outputs:
+            for digit in output:
                 digit = "".join(sorted(digit))
                 value *= 10
                 value += decoded[digit]

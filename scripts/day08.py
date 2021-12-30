@@ -50,9 +50,8 @@ class Decoder():
                 break
         return code
 
-    def decoded(self, signals: list) -> dict:
-        code = self.decode1478(signals)
-        # 0
+    def decode0(self, signals) -> dict:  
+        code = {}  
         for letter in ['a', 'b', 'c', 'd', 'e', 'f', 'g']:
             count = 0
             for digit in signals:
@@ -66,7 +65,10 @@ class Decoder():
                         break
             if 0 in code.keys():
                 break
-        # 5
+        return code
+
+    def decode5(self, signals) -> dict:
+        code = {}
         for digit in signals:
             if len(digit) == 5:
                 found = True
@@ -80,6 +82,10 @@ class Decoder():
                     code[5] = digit
                     signals.remove(digit)
                     break
+        return code
+
+    def decoded(self, signals: list) -> dict:
+        code = self.decode1478(signals) | self.decode0(signals) | self.decode5(signals)
         # 2, 3
         for digit in signals:
             if len(digit) == 5:

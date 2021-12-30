@@ -1,7 +1,8 @@
 from scripts.main import Reader
 
-# Each number 0-9 has a unique sum of frequencies of its letters a signal.
-# Ex: Number 1 is made of two letters, which appear 17 (8 + 9) times in a signal.
+# Each number 0-9 has a (luckily) unique sum of the frequencies of each letter in it.
+# Ex: 1 is made of two letters, which in total appear 17 (8+9) times each signal.
+# Ex: 8 is made of all seven letters, which in total appear 49 (6+8+8+7+4+7+9) times each signal.
 SUM_KEY = {42: 0, 17: 1, 34: 2, 39: 3,
            30: 4, 37: 5, 41: 6, 25: 7, 49: 8, 45: 9}
 
@@ -13,10 +14,6 @@ def part_one(filename: str) -> int:
 
 def part_two(filename: str) -> int:
     return Decoder(filename).sum_outputs()
-
-
-def sorted_elements(string: str) -> list:
-    return ["".join(sorted(s)) for s in string.split()]
 
 
 class Decoder():
@@ -33,9 +30,14 @@ class Decoder():
         return total
 
     def decode(self, signals: list) -> dict:
-        letter_sums = self.letter_sums(signals)
-        return {signal: SUM_KEY[letter_sums[signal]] for signal in signals}
+        sums = letter_sums(signals)
+        return {signal: SUM_KEY[sums[signal]] for signal in signals}
 
-    def letter_sums(self, signals) -> dict:
-        combined = "".join(signals)
-        return {signal: sum(combined.count(letter) for letter in signal) for signal in signals}
+
+def letter_sums(strings: list) -> dict:
+    combined = "".join(strings)
+    return {string: sum(combined.count(letter) for letter in string) for string in strings}
+
+
+def sorted_elements(string: str) -> list:
+    return ["".join(sorted(s)) for s in string.split()]

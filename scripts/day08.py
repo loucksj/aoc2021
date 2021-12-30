@@ -15,13 +15,15 @@ def part_two(filename: str) -> int:
     return Decoder(filename).sum_outputs()
 
 
+def sorted_elements(string: str) -> list:
+    return ["".join(sorted(s)) for s in string.split()]
+
+
 class Decoder():
     def __init__(self, filename: str):
         lines = Reader(filename).split_lines(' | ')
-        configs = [["".join(sorted(config))
-                    for config in line[0].split()] for line in lines]
-        self.outputs = [["".join(sorted(config))
-                         for config in line[1].split()] for line in lines]
+        self.outputs = [sorted_elements(output) for _, output in lines]
+        configs = [sorted_elements(config) for config, _ in lines]
         self.decoders = [self.decode(config) for config in configs]
 
     def sum_outputs(self) -> int:

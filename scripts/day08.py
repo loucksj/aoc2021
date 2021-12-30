@@ -5,27 +5,28 @@ def part_one(filename: str) -> int:
     lines = Reader(filename).split_lines(' | ')
     return sum([sum([1 for digit in out.split() if len(digit) in [2, 3, 4, 7]]) for _, out in lines])
 
+
 def part_two(filename: str) -> int:
-    return Decoder(filename).decode()
+    return Decoder(filename).sum_outputs()
+
 
 class Decoder():
     def __init__(self, filename: str):
         lines = Reader(filename).split_lines(' | ')
-        self.configs = [["".join(sorted(string)) for string in line[0].split()] for line in lines]
-        self.outputs = [["".join(sorted(string)) for string in line[1].split()] for line in lines]
-    
-    def decode(self) -> int:
+        self.configs = [["".join(sorted(con))
+                         for con in line[0].split()] for line in lines]
+        self.outputs = [["".join(sorted(con))
+                         for con in line[1].split()] for line in lines]
+
+    def sum_outputs(self) -> int:
         total = 0
         for config, output in zip(self.configs, self.outputs):
-            decoded = self.decode_old(config)
-            value = 0
-            for digit in output:
-                value *= 10
-                value += decoded[digit]
-            total += value
-        return total     
+            decoded = self.decoded(config)
+            total += sum(decoded[digit] * 10**(len(output)-1-i)
+                         for i, digit in enumerate(output))
+        return total
 
-    def decode_old(self, signals: list) -> dict:
+    def decoded(self, signals: list) -> dict:
         decoded = {}
         # 1, 4, 7, 8
         for digit in signals:

@@ -20,18 +20,17 @@ class Decoder():
         lines = Reader(filename).split_lines(' | ')
         configs = [["".join(sorted(config))
                     for config in line[0].split()] for line in lines]
-        self.outputs = [["".join(sorted(con))
-                         for con in line[1].split()] for line in lines]
-        self.decoders = [self.decoded(config) for config in configs]
+        self.outputs = [["".join(sorted(config))
+                         for config in line[1].split()] for line in lines]
+        self.decoders = [self.decode(config) for config in configs]
 
     def sum_outputs(self) -> int:
         total = 0
         for decoder, output in zip(self.decoders, self.outputs):
-            total += sum(decoder[digit] * 10**(len(output)-1-i)
-                         for i, digit in enumerate(output))
+            total += int("".join(str(decoder[digit]) for digit in output))
         return total
 
-    def decoded(self, signals: list) -> dict:
+    def decode(self, signals: list) -> dict:
         letter_sums = self.letter_sums(signals)
         return {signal: SUM_KEY[letter_sums[signal]] for signal in signals}
 

@@ -13,16 +13,16 @@ def part_two(filename: str) -> int:
 class Decoder():
     def __init__(self, filename: str):
         lines = Reader(filename).split_lines(' | ')
-        self.configs = [["".join(sorted(con))
-                         for con in line[0].split()] for line in lines]
+        configs = [["".join(sorted(config))
+                    for config in line[0].split()] for line in lines]
         self.outputs = [["".join(sorted(con))
                          for con in line[1].split()] for line in lines]
+        self.decoders = [self.decoded(config) for config in configs]
 
     def sum_outputs(self) -> int:
         total = 0
-        for config, output in zip(self.configs, self.outputs):
-            decoded = self.decoded(config)
-            total += sum(decoded[digit] * 10**(len(output)-1-i)
+        for decoder, output in zip(self.decoders, self.outputs):
+            total += sum(decoder[digit] * 10**(len(output)-1-i)
                          for i, digit in enumerate(output))
         return total
 

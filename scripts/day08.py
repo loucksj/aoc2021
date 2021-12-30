@@ -26,29 +26,32 @@ class Decoder():
                          for i, digit in enumerate(output))
         return total
 
-    def decoded(self, signals: list) -> dict:
-        decoded = {}
-        # 1, 4, 7, 8
+    def decode1478(self, signals) -> dict:
+        code = {}
         for digit in signals:
             if len(digit) == 2:
-                decoded[1] = digit
+                code[1] = digit
                 signals.remove(digit)
                 break
         for digit in signals:
             if len(digit) == 3:
-                decoded[7] = digit
+                code[7] = digit
                 signals.remove(digit)
                 break
         for digit in signals:
             if len(digit) == 4:
-                decoded[4] = digit
+                code[4] = digit
                 signals.remove(digit)
                 break
         for digit in signals:
             if len(digit) == 7:
-                decoded[8] = digit
+                code[8] = digit
                 signals.remove(digit)
                 break
+        return code
+
+    def decoded(self, signals: list) -> dict:
+        code = self.decode1478(signals)
         # 0
         for letter in ['a', 'b', 'c', 'd', 'e', 'f', 'g']:
             count = 0
@@ -58,10 +61,10 @@ class Decoder():
             if count == 5:
                 for digit in signals:
                     if letter not in digit and len(digit) == 6:
-                        decoded[0] = digit
+                        code[0] = digit
                         signals.remove(digit)
                         break
-            if 0 in decoded.keys():
+            if 0 in code.keys():
                 break
         # 5
         for digit in signals:
@@ -74,7 +77,7 @@ class Decoder():
                                 found = False
                                 break
                 if found:
-                    decoded[5] = digit
+                    code[5] = digit
                     signals.remove(digit)
                     break
         # 2, 3
@@ -82,22 +85,22 @@ class Decoder():
             if len(digit) == 5:
                 diff = 0
                 for char in digit:
-                    if char not in decoded[5]:
+                    if char not in code[5]:
                         diff += 1
                 if diff == 1:
-                    decoded[3] = digit
+                    code[3] = digit
                 else:
-                    decoded[2] = digit
-        signals.remove(decoded[2])
-        signals.remove(decoded[3])
+                    code[2] = digit
+        signals.remove(code[2])
+        signals.remove(code[3])
         # 6
         for digit in signals:
-            for char in decoded[3]:
+            for char in code[3]:
                 if char not in digit:
-                    decoded[6] = digit
+                    code[6] = digit
                     signals.remove(digit)
                     break
         # 9
-        decoded[9] = signals.pop()
-        decoded = {v: k for k, v in decoded.items()}
-        return decoded
+        code[9] = signals.pop()
+        code = {v: k for k, v in code.items()}
+        return code

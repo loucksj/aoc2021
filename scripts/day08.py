@@ -11,8 +11,8 @@ def part_two(filename: str) -> int:
 class Decoder():
     def __init__(self, filename: str):
         lines = Reader(filename).split_lines(' | ')
-        self.configs = [line[0].split() for line in lines]
-        self.outputs = [line[1].split() for line in lines]
+        self.configs = [["".join(sorted(string)) for string in line[0].split()] for line in lines]
+        self.outputs = [["".join(sorted(string)) for string in line[1].split()] for line in lines]
     
     def decode(self) -> int:
         total = 0
@@ -20,7 +20,6 @@ class Decoder():
             decoded = self.decode_old(config)
             value = 0
             for digit in output:
-                digit = "".join(sorted(digit))
                 value *= 10
                 value += decoded[digit]
             total += value
@@ -28,8 +27,6 @@ class Decoder():
 
     def decode_old(self, signals: list) -> dict:
         decoded = {}
-        for i in range(0, len(signals)):
-            signals[i] = "".join(sorted(signals[i]))
         # 1, 4, 7, 8
         for digit in signals:
             if len(digit) == 2:

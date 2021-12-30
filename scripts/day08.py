@@ -32,15 +32,9 @@ class Decoder():
         return total
 
     def decoded(self, signals: list) -> dict:
-        sums = self.letter_sums(signals)
-        code = {}
-        for signal in signals:
-            code[signal] = SUM_KEY[sums[signal]]
-        return code
-    
+        letter_sums = self.letter_sums(signals)
+        return {signal: SUM_KEY[letter_sums[signal]] for signal in signals}
+
     def letter_sums(self, signals) -> dict:
-        sums = {}
         combined = "".join(signals)
-        for signal in signals:
-            sums[signal] = sum(combined.count(letter) for letter in signal)
-        return sums
+        return {signal: sum(combined.count(letter) for letter in signal) for signal in signals}

@@ -35,6 +35,17 @@ class IntMatrix():
                     lows.append((row, col))
         return lows
 
+    def basin_size(self, row: int, col: int, matrix=[]) -> int:
+        if matrix == []:
+            matrix = self.matrix.copy()
+        count = 1
+        matrix[row][col] = 0
+        for i, delta in enumerate(DIRECTIONS):
+            if 0 < self.neighbor_values(row, col)[i] < 9:
+                count += self.basin_size(row +
+                                         delta[0], col + delta[1], matrix)
+        return count
+
     def neighbor_values(self, row: int, col: int) -> list:
         neighbors = []
         for delta in DIRECTIONS:
@@ -48,13 +59,3 @@ class IntMatrix():
         if 0 <= row + delta[0] < len(self.matrix) and 0 <= col + delta[1] < len(self.matrix[0]):
             return True
         return False
-
-    def basin_size(self, row: int, col: int, matrix=[]) -> int:
-        if matrix == []:
-            matrix = self.matrix.copy()
-        count = 1
-        matrix[row][col] = 0
-        for i, delta in enumerate(DIRECTIONS):
-            if 0 < self.neighbor_values(row, col)[i] < 9:
-                count += self.basin_size(row + delta[0], col + delta[1], matrix)
-        return count

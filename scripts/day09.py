@@ -16,8 +16,15 @@ class IntMatrix():
     def risksum(self):
         return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
 
+    def basinproduct(self) -> list:
+        sizes = sorted(self.basin_sizes())
+        return sizes[-1] * sizes[-2] * sizes[-3]
+
+    def basin_sizes(self) -> list:
+        return [self.basin_size(row, col) for row, col in self.lowpoints()]
+
     def lowpoints(self) -> list:
-        # There are no adjacent lowpoints in the inputs.
+        # Inputs include no adjacent lowpoints.
         lows = []
         for row, _ in enumerate(self.matrix):
             for col, _ in enumerate(self.matrix[0]):
@@ -26,8 +33,7 @@ class IntMatrix():
         return lows
 
     def neighbors(self, row: int, col: int) -> list:
-        # left, right, up, down
-        neighbors = [9, 9, 9, 9]
+        neighbors = [9, 9, 9, 9]  # left, right, up, down
         if col > 0:
             neighbors[0] = self.matrix[row][col - 1]
         if col < len(self.matrix[0]) - 1:
@@ -37,13 +43,6 @@ class IntMatrix():
         if row < len(self.matrix) - 1:
             neighbors[3] = self.matrix[row + 1][col]
         return neighbors
-
-    def basinproduct(self) -> list:
-        sizes = sorted(self.basin_sizes())
-        return sizes[-1] * sizes[-2] * sizes[-3]
-
-    def basin_sizes(self) -> list:
-        return [self.basin_size(row, col) for row, col in self.lowpoints()]
 
     def basin_size(self, row: int, col: int) -> int:
         count = 1

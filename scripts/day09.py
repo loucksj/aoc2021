@@ -1,5 +1,7 @@
 from scripts.main import Reader
 
+# left, right, up, down
+DIRECTIONS = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 
 def part_one(filename: str) -> int:
     return IntMatrix(filename).risksum()
@@ -34,14 +36,11 @@ class IntMatrix():
 
     def neighbors(self, row: int, col: int) -> list:
         neighbors = [9, 9, 9, 9]  # left, right, up, down
-        if col > 0:
-            neighbors[0] = self.matrix[row][col - 1]
-        if col < len(self.matrix[0]) - 1:
-            neighbors[1] = self.matrix[row][col + 1]
-        if row > 0:
-            neighbors[2] = self.matrix[row - 1][col]
-        if row < len(self.matrix) - 1:
-            neighbors[3] = self.matrix[row + 1][col]
+        for i, direction in enumerate(DIRECTIONS):
+            neighbor_row = row + direction[0]
+            neighbor_col = col + direction[1]
+            if 0 <= neighbor_row < len(self.matrix) and 0 <= neighbor_col < len(self.matrix[0]):
+                neighbors[i] = self.matrix[neighbor_row][neighbor_col]
         return neighbors
 
     def basin_size(self, row: int, col: int, matrix=[]) -> int:
@@ -50,11 +49,11 @@ class IntMatrix():
         count = 1
         matrix[row][col] = 0
         if 0 < self.neighbors(row, col)[0] < 9:
-            count += self.basin_size(row, col-1, matrix)
+            count += self.basin_size(row, col - 1, matrix)
         if 0 < self.neighbors(row, col)[1] < 9:
-            count += self.basin_size(row, col+1, matrix)
+            count += self.basin_size(row, col + 1, matrix)
         if 0 < self.neighbors(row, col)[2] < 9:
-            count += self.basin_size(row-1, col, matrix)
+            count += self.basin_size(row - 1, col, matrix)
         if 0 < self.neighbors(row, col)[3] < 9:
-            count += self.basin_size(row+1, col, matrix)
+            count += self.basin_size(row + 1, col, matrix)
         return count

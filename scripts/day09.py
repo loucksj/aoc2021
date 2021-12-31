@@ -4,44 +4,44 @@ from scripts.main import Reader
 def part_one(filename: str) -> int:
     lines = Reader(filename).integer_lines()
     total = 0
-    for low in get_lows(lines):
-        total += 1 + lines[low[0]][low[1]]
+    for row, col in lowpoints(lines):
+        total += 1 + lines[row][col]
     return total
 
 
 def part_two(filename: str) -> int:
     lines = Reader(filename).integer_lines()
-    lows = get_lows(lines)
+    lows = lowpoints(lines)
     sizes = []
-    for low in lows:
-        sizes.append(get_size(lines, low[0], low[1]))
+    for row, col in lows:
+        sizes.append(size(lines, row, col))
     sizes = sorted(sizes)
     return sizes[-1] * sizes[-2] * sizes[-3]
 
 
-def get_size(cells: list, row: int, col: int) -> int:
+def size(cells: list, row: int, col: int) -> int:
     count = 1
     cells[row][col] = 0
     if col > 0:
         left = cells[row][col-1]
         if left > 0 and left < 9:
-            count += get_size(cells, row, col-1)
+            count += size(cells, row, col-1)
     if col < len(cells[0])-1:
         right = cells[row][col+1]
         if right > 0 and right < 9:
-            count += get_size(cells, row, col+1)
+            count += size(cells, row, col+1)
     if row > 0:
         up = cells[row-1][col]
         if up > 0 and up < 9:
-            count += get_size(cells, row-1, col)
+            count += size(cells, row-1, col)
     if row < len(cells)-1:
         down = cells[row+1][col]
         if down > 0 and down < 9:
-            count += get_size(cells, row+1, col)
+            count += size(cells, row+1, col)
     return count
 
 
-def get_lows(matrix: list):
+def lowpoints(matrix: list):
     width = len(matrix[0])
     height = len(matrix)
     lows = []

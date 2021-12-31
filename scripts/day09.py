@@ -26,15 +26,16 @@ class IntMatrix():
         return lows
 
     def neighbors(self, row: int, col: int) -> list:
-        neighbors = []
+        # left, right, up, down
+        neighbors = [9, 9, 9, 9]
         if col > 0:
-            neighbors.append(self.matrix[row][col - 1])
+            neighbors[0] = self.matrix[row][col - 1]
         if col < len(self.matrix[0]) - 1:
-            neighbors.append(self.matrix[row][col + 1])
+            neighbors[1] = self.matrix[row][col + 1]
         if row > 0:
-            neighbors.append(self.matrix[row - 1][col])
+            neighbors[2] = self.matrix[row - 1][col]
         if row < len(self.matrix) - 1:
-            neighbors.append(self.matrix[row + 1][col])
+            neighbors[3] = self.matrix[row + 1][col]
         return neighbors
 
     def basinproduct(self) -> list:

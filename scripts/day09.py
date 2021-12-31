@@ -3,6 +3,7 @@ from scripts.main import Reader
 # left, right, up, down
 DIRECTIONS = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 
+
 def part_one(filename: str) -> int:
     return IntMatrix(filename).risksum()
 
@@ -30,30 +31,36 @@ class IntMatrix():
         lows = []
         for row, _ in enumerate(self.matrix):
             for col, _ in enumerate(self.matrix[0]):
-                if self.matrix[row][col] < min(self.neighbors(row, col)):
+                if self.matrix[row][col] < min(self.neighbor_values(row, col)):
                     lows.append((row, col))
         return lows
 
-    def neighbors(self, row: int, col: int) -> list:
-        neighbors = [9, 9, 9, 9]  # left, right, up, down
+    def neighbor_values(self, row: int, col: int) -> list:
+        neighbors = []
         for i, direction in enumerate(DIRECTIONS):
-            neighbor_row = row + direction[0]
-            neighbor_col = col + direction[1]
-            if 0 <= neighbor_row < len(self.matrix) and 0 <= neighbor_col < len(self.matrix[0]):
-                neighbors[i] = self.matrix[neighbor_row][neighbor_col]
+            r, c = direction
+            if self.is_neighbor(row, col, direction):
+                neighbors.append(self.matrix[row + r][col + c])
+            else:
+                neighbors.append(9)
         return neighbors
+
+    def is_neighbor(self, row: int, col: int, direction: tuple) -> bool:
+        if 0 <= row + direction[0] < len(self.matrix) and 0 <= col + direction[1] < len(self.matrix[0]):
+            return True
+        return False
 
     def basin_size(self, row: int, col: int, matrix=[]) -> int:
         if matrix == []:
             matrix = self.matrix.copy()
         count = 1
         matrix[row][col] = 0
-        if 0 < self.neighbors(row, col)[0] < 9:
+        if 0 < self.neighbor_values(row, col)[0] < 9:
             count += self.basin_size(row, col - 1, matrix)
-        if 0 < self.neighbors(row, col)[1] < 9:
+        if 0 < self.neighbor_values(row, col)[1] < 9:
             count += self.basin_size(row, col + 1, matrix)
-        if 0 < self.neighbors(row, col)[2] < 9:
+        if 0 < self.neighbor_values(row, col)[2] < 9:
             count += self.basin_size(row - 1, col, matrix)
-        if 0 < self.neighbors(row, col)[3] < 9:
+        if 0 < self.neighbor_values(row, col)[3] < 9:
             count += self.basin_size(row + 1, col, matrix)
         return count

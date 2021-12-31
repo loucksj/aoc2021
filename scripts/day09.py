@@ -2,8 +2,7 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    intmatrix = IntMatrix(filename)
-    return sum(1 + intmatrix.matrix[row][col] for row, col in intmatrix.lowpoints())
+    return IntMatrix(filename).lowpoint_risksum()
 
 
 def part_two(filename: str) -> int:
@@ -19,6 +18,9 @@ def part_two(filename: str) -> int:
 class IntMatrix():
     def __init__(self, filename) -> None:
         self.matrix = Reader(filename).integer_lines()
+
+    def lowpoint_risksum(self):
+        return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
 
     def lowpoints(self):
         width = len(self.matrix[0])

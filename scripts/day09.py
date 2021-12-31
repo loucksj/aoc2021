@@ -27,26 +27,25 @@ class IntMatrix():
         return [self.basin_size(row, col) for row, col in self.lowpoints()]
 
     def lowpoints(self) -> list:
-        # Inputs include no adjacent lowpoints.
         lows = []
         for row, _ in enumerate(self.matrix):
             for col, _ in enumerate(self.matrix[0]):
                 if self.matrix[row][col] < min(self.neighbor_values(row, col)):
+                    # Inputs include no adjacent lowpoints.
                     lows.append((row, col))
         return lows
 
     def neighbor_values(self, row: int, col: int) -> list:
         neighbors = []
-        for i, direction in enumerate(DIRECTIONS):
-            r, c = direction
-            if self.is_neighbor(row, col, direction):
-                neighbors.append(self.matrix[row + r][col + c])
+        for delta in DIRECTIONS:
+            if self.is_neighbor(row, col, delta):
+                neighbors.append(self.matrix[row + delta[0]][col + delta[1]])
             else:
                 neighbors.append(9)
         return neighbors
 
-    def is_neighbor(self, row: int, col: int, direction: tuple) -> bool:
-        if 0 <= row + direction[0] < len(self.matrix) and 0 <= col + direction[1] < len(self.matrix[0]):
+    def is_neighbor(self, row: int, col: int, delta: tuple) -> bool:
+        if 0 <= row + delta[0] < len(self.matrix) and 0 <= col + delta[1] < len(self.matrix[0]):
             return True
         return False
 
@@ -55,12 +54,7 @@ class IntMatrix():
             matrix = self.matrix.copy()
         count = 1
         matrix[row][col] = 0
-        if 0 < self.neighbor_values(row, col)[0] < 9:
-            count += self.basin_size(row, col - 1, matrix)
-        if 0 < self.neighbor_values(row, col)[1] < 9:
-            count += self.basin_size(row, col + 1, matrix)
-        if 0 < self.neighbor_values(row, col)[2] < 9:
-            count += self.basin_size(row - 1, col, matrix)
-        if 0 < self.neighbor_values(row, col)[3] < 9:
-            count += self.basin_size(row + 1, col, matrix)
+        for i, delta in enumerate(DIRECTIONS):
+            if 0 < self.neighbor_values(row, col)[i] < 9:
+                count += self.basin_size(row + delta[0], col + delta[1], matrix)
         return count

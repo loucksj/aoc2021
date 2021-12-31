@@ -25,6 +25,9 @@ class Reader():
 
     def integers(self) -> list:
         return [int(s) for s in self.lines()]
+    
+    def integer_lines(self) -> list:
+        return [[int(digit) for digit in line] for line in self.lines()]
 
     def matrix(self) -> list:
         return [list(line) for line in self.lines()]

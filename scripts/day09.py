@@ -17,7 +17,7 @@ class IntMatrix():
         self.matrix = Reader(filename).integer_lines()
 
     def risksum(self):
-        return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
+        return sum(1 + val for val in self.lowpoint_values())
 
     def basinproduct(self) -> list:
         sizes = sorted(self.basin_sizes())
@@ -26,12 +26,15 @@ class IntMatrix():
     def basin_sizes(self) -> list:
         return [self.basin_size(row, col) for row, col in self.lowpoints()]
 
+    def lowpoint_values(self) -> list:
+        return [self.matrix[row][col] for row, col in self.lowpoints()]
+    
+    # Inputs include no adjacent lowpoints.
     def lowpoints(self) -> list:
         lows = []
         for row, _ in enumerate(self.matrix):
             for col, _ in enumerate(self.matrix[0]):
                 if self.matrix[row][col] < min(self.neighbor_values(row, col)):
-                    # Inputs include no adjacent lowpoints.
                     lows.append((row, col))
         return lows
 

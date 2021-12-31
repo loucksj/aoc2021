@@ -16,7 +16,7 @@ class IntMatrix():
     def risksum(self):
         return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
 
-    def lowpoints(self):
+    def lowpoints(self) -> list:
         width = len(self.matrix[0])
         height = len(self.matrix)
         lows = []
@@ -34,13 +34,13 @@ class IntMatrix():
                 lows.append((row, col))
         return lows
 
-    def basinproduct(self):
-        lows = self.lowpoints()
-        sizes = []
-        for row, col in lows:
-            sizes.append(self.basin_size(row, col))
-        sizes = sorted(sizes)
+    def basinproduct(self) -> list:
+        sizes = sorted(self.basin_sizes())
         return sizes[-1] * sizes[-2] * sizes[-3]
+
+    def basin_sizes(self) -> list:
+        return [self.basin_size(row, col) for row, col in self.lowpoints()]
+        
 
     def basin_size(self, row: int, col: int) -> int:
         count = 1

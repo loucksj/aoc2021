@@ -2,24 +2,18 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return IntMatrix(filename).lowpoint_risksum()
+    return IntMatrix(filename).risksum()
 
 
 def part_two(filename: str) -> int:
-    intmatrix = IntMatrix(filename)
-    lows = intmatrix.lowpoints()
-    sizes = []
-    for row, col in lows:
-        sizes.append(intmatrix.size(row, col))
-    sizes = sorted(sizes)
-    return sizes[-1] * sizes[-2] * sizes[-3]
+    return IntMatrix(filename).basinproduct()
 
 
 class IntMatrix():
     def __init__(self, filename) -> None:
         self.matrix = Reader(filename).integer_lines()
 
-    def lowpoint_risksum(self):
+    def risksum(self):
         return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
 
     def lowpoints(self):
@@ -40,24 +34,31 @@ class IntMatrix():
                 lows.append((row, col))
         return lows
 
+    def basinproduct(self):
+        lows = self.lowpoints()
+        sizes = []
+        for row, col in lows:
+            sizes.append(self.basin_size(row, col))
+        sizes = sorted(sizes)
+        return sizes[-1] * sizes[-2] * sizes[-3]
 
-    def size(self, row: int, col: int) -> int:
+    def basin_size(self, row: int, col: int) -> int:
         count = 1
         self.matrix[row][col] = 0
         if col > 0:
             left = self.matrix[row][col-1]
             if left > 0 and left < 9:
-                count += self.size(row, col-1)
+                count += self.basin_size(row, col-1)
         if col < len(self.matrix[0])-1:
             right = self.matrix[row][col+1]
             if right > 0 and right < 9:
-                count += self.size(row, col+1)
+                count += self.basin_size(row, col+1)
         if row > 0:
             up = self.matrix[row-1][col]
             if up > 0 and up < 9:
-                count += self.size(row-1, col)
+                count += self.basin_size(row-1, col)
         if row < len(self.matrix)-1:
             down = self.matrix[row+1][col]
             if down > 0 and down < 9:
-                count += self.size(row+1, col)
+                count += self.basin_size(row+1, col)
         return count

@@ -1,7 +1,7 @@
 from scripts.main import Reader
 
 # left, right, up, down
-DIRECTIONS = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+ORTHOGONALS = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 
 
 def part_one(filename: str) -> int:
@@ -40,22 +40,22 @@ class IntMatrix():
             matrix = self.matrix.copy()
         count = 1
         matrix[row][col] = 0
-        for i, delta in enumerate(DIRECTIONS):
+        for i, (dr, dc) in enumerate(ORTHOGONALS):
             if 0 < self.neighbor_values(row, col)[i] < 9:
-                count += self.basin_size(row +
-                                         delta[0], col + delta[1], matrix)
+                count += self.basin_size(row + dr, col + dc, matrix)
         return count
 
     def neighbor_values(self, row: int, col: int) -> list:
-        neighbors = []
-        for delta in DIRECTIONS:
+        values = []
+        for delta in ORTHOGONALS:
             if self.is_neighbor(row, col, delta):
-                neighbors.append(self.matrix[row + delta[0]][col + delta[1]])
+                values.append(self.matrix[row + delta[0]][col + delta[1]])
             else:
-                neighbors.append(9)
-        return neighbors
+                values.append(9)
+        return values
 
     def is_neighbor(self, row: int, col: int, delta: tuple) -> bool:
-        if 0 <= row + delta[0] < len(self.matrix) and 0 <= col + delta[1] < len(self.matrix[0]):
+        if 0 <= row + delta[0] < len(self.matrix) \
+                and 0 <= col + delta[1] < len(self.matrix[0]):
             return True
         return False

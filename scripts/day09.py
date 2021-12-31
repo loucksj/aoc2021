@@ -19,6 +19,25 @@ def part_two(filename: str) -> int:
     return sizes[-1] * sizes[-2] * sizes[-3]
 
 
+def lowpoints(matrix: list):
+    width = len(matrix[0])
+    height = len(matrix)
+    lows = []
+    for row in range(0, height):
+        for col in range(0, width):
+            point = matrix[row][col]
+            if col > 0 and matrix[row][col-1] <= point:
+                continue  # left
+            if col < width-1 and matrix[row][col+1] <= point:
+                continue  # right
+            if row > 0 and matrix[row-1][col] <= point:
+                continue  # up
+            if row < height-1 and matrix[row+1][col] <= point:
+                continue  # down
+            lows.append((row, col))
+    return lows
+
+
 def size(cells: list, row: int, col: int) -> int:
     count = 1
     cells[row][col] = 0
@@ -39,22 +58,3 @@ def size(cells: list, row: int, col: int) -> int:
         if down > 0 and down < 9:
             count += size(cells, row+1, col)
     return count
-
-
-def lowpoints(matrix: list):
-    width = len(matrix[0])
-    height = len(matrix)
-    lows = []
-    for row in range(0, height):
-        for col in range(0, width):
-            point = matrix[row][col]
-            if col > 0 and matrix[row][col-1] <= point:
-                continue  # left
-            if col < width-1 and matrix[row][col+1] <= point:
-                continue  # right
-            if row > 0 and matrix[row-1][col] <= point:
-                continue  # up
-            if row < height-1 and matrix[row+1][col] <= point:
-                continue  # down
-            lows.append((row, col))
-    return lows

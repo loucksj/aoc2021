@@ -47,22 +47,13 @@ class IntMatrix():
 
     def basin_size(self, row: int, col: int) -> int:
         count = 1
-        matrix = self.matrix.copy()
-        matrix[row][col] = 0
-        if col > 0:
-            left = matrix[row][col-1]
-            if left > 0 and left < 9:
-                count += self.basin_size(row, col-1)
-        if col < len(matrix[0])-1:
-            right = matrix[row][col+1]
-            if right > 0 and right < 9:
-                count += self.basin_size(row, col+1)
-        if row > 0:
-            up = matrix[row-1][col]
-            if up > 0 and up < 9:
-                count += self.basin_size(row-1, col)
-        if row < len(matrix)-1:
-            down = matrix[row+1][col]
-            if down > 0 and down < 9:
-                count += self.basin_size(row+1, col)
+        self.matrix[row][col] = 0
+        if 0 < self.neighbors(row, col)[0] < 9:
+            count += self.basin_size(row, col-1)
+        if 0 < self.neighbors(row, col)[1] < 9:
+            count += self.basin_size(row, col+1)
+        if 0 < self.neighbors(row, col)[2] < 9:
+            count += self.basin_size(row-1, col)
+        if 0 < self.neighbors(row, col)[3] < 9:
+            count += self.basin_size(row+1, col)
         return count

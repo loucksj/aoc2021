@@ -17,6 +17,7 @@ class IntMatrix():
         return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
 
     def lowpoints(self) -> list:
+        # There are no adjacent lowpoints in the inputs.
         lows = []
         for row, _ in enumerate(self.matrix):
             for col, _ in enumerate(self.matrix[0]):
@@ -45,21 +46,22 @@ class IntMatrix():
 
     def basin_size(self, row: int, col: int) -> int:
         count = 1
-        self.matrix[row][col] = 0
+        matrix = self.matrix.copy()
+        matrix[row][col] = 0
         if col > 0:
-            left = self.matrix[row][col-1]
+            left = matrix[row][col-1]
             if left > 0 and left < 9:
                 count += self.basin_size(row, col-1)
-        if col < len(self.matrix[0])-1:
-            right = self.matrix[row][col+1]
+        if col < len(matrix[0])-1:
+            right = matrix[row][col+1]
             if right > 0 and right < 9:
                 count += self.basin_size(row, col+1)
         if row > 0:
-            up = self.matrix[row-1][col]
+            up = matrix[row-1][col]
             if up > 0 and up < 9:
                 count += self.basin_size(row-1, col)
-        if row < len(self.matrix)-1:
-            down = self.matrix[row+1][col]
+        if row < len(matrix)-1:
+            down = matrix[row+1][col]
             if down > 0 and down < 9:
                 count += self.basin_size(row+1, col)
         return count

@@ -17,22 +17,24 @@ class IntMatrix():
         return sum(self.matrix[row][col] + 1 for row, col in self.lowpoints())
 
     def lowpoints(self) -> list:
-        width = len(self.matrix[0])
-        height = len(self.matrix)
         lows = []
-        for row in range(height):
-            for col in range(width):
-                point = self.matrix[row][col]
-                if col > 0 and self.matrix[row][col-1] <= point:
-                    continue  # left
-                if col < width-1 and self.matrix[row][col+1] <= point:
-                    continue  # right
-                if row > 0 and self.matrix[row-1][col] <= point:
-                    continue  # up
-                if row < height-1 and self.matrix[row+1][col] <= point:
-                    continue  # down
-                lows.append((row, col))
+        for row, _ in enumerate(self.matrix):
+            for col, _ in enumerate(self.matrix[0]):
+                if self.matrix[row][col] < min(self.neighbors(row, col)):
+                    lows.append((row, col))
         return lows
+
+    def neighbors(self, row: int, col: int) -> list:
+        neighbors = []
+        if col > 0:
+            neighbors.append(self.matrix[row][col - 1])
+        if col < len(self.matrix[0]) - 1:
+            neighbors.append(self.matrix[row][col + 1])
+        if row > 0:
+            neighbors.append(self.matrix[row - 1][col])
+        if row < len(self.matrix) - 1:
+            neighbors.append(self.matrix[row + 1][col])
+        return neighbors
 
     def basinproduct(self) -> list:
         sizes = sorted(self.basin_sizes())
@@ -40,7 +42,6 @@ class IntMatrix():
 
     def basin_sizes(self) -> list:
         return [self.basin_size(row, col) for row, col in self.lowpoints()]
-        
 
     def basin_size(self, row: int, col: int) -> int:
         count = 1

@@ -3,10 +3,7 @@ from scripts.main import Reader
 
 def part_one(filename: str) -> int:
     lines = Reader(filename).integer_lines()
-    total = 0
-    for row, col in lowpoints(lines):
-        total += 1 + lines[row][col]
-    return total
+    return sum(1 + lines[row][col] for row, col in lowpoints(lines))
 
 
 def part_two(filename: str) -> int:
@@ -23,8 +20,8 @@ def lowpoints(matrix: list):
     width = len(matrix[0])
     height = len(matrix)
     lows = []
-    for row in range(0, height):
-        for col in range(0, width):
+    for row in range(height):
+        for col in range(width):
             point = matrix[row][col]
             if col > 0 and matrix[row][col-1] <= point:
                 continue  # left

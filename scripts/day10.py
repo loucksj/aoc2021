@@ -1,17 +1,17 @@
 from scripts.main import Reader
 
+PAIRS = {'(': ')', '[': ']', '{': '}', '<': '>', }
+
+
 def part_one(filename: str) -> int:
     lines = Reader(filename).lines()
-
-    pairs = {'(' : ')', '[' : ']', '{' : '}', '<' : '>',}
-
     corrupted = []
     for line in lines:
         next = []
         line = [char for char in line]
         for char in line:
-            if char in pairs.keys():
-                next.append(pairs[char])
+            if char in PAIRS.keys():
+                next.append(PAIRS[char])
                 continue
             if char == next.pop():
                 continue
@@ -20,19 +20,17 @@ def part_one(filename: str) -> int:
 
     return score_corrupted(corrupted)
 
+
 def part_two(filename: str) -> int:
     lines = Reader(filename).lines()
-
-    pairs = {'(' : ')', '[' : ']', '{' : '}', '<' : '>',}
-
     incomplete = []
     for line in lines:
         next = []
         line = [char for char in line]
         corrupt = False
         for char in line:
-            if char in pairs.keys():
-                next.append(pairs[char])
+            if char in PAIRS.keys():
+                next.append(PAIRS[char])
                 continue
             if char == next.pop():
                 continue
@@ -41,11 +39,11 @@ def part_two(filename: str) -> int:
         if corrupt:
             continue
         incomplete.append(reversed(next))
-
     return score_incomplete(incomplete)
 
+
 def score_incomplete(errors: list) -> int:
-    points = {')':1, ']':2, '}':3, '>':4}
+    points = {')': 1, ']': 2, '}': 3, '>': 4}
     scores = []
     for line in errors:
         score = 0
@@ -57,9 +55,10 @@ def score_incomplete(errors: list) -> int:
     middle = int((len(scores) - 1)/2)
     return scores[middle]
 
+
 def score_corrupted(errors: list) -> int:
     score = 0
-    points = {')':3, ']':57, '}':1197, '>':25137}
+    points = {')': 3, ']': 57, '}': 1197, '>': 25137}
     for char in errors:
         score += points[char]
     return score

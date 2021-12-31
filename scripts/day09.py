@@ -21,7 +21,7 @@ class IntMatrix():
         return sizes[-1] * sizes[-2] * sizes[-3]
 
     def basin_sizes(self) -> list:
-        return [self.basin_size(row, col) for row, col in self.lowpoints()]
+        return [self.basin_size(self.matrix.copy(), row, col) for row, col in self.lowpoints()]
 
     def lowpoints(self) -> list:
         # Inputs include no adjacent lowpoints.
@@ -44,15 +44,15 @@ class IntMatrix():
             neighbors[3] = self.matrix[row + 1][col]
         return neighbors
 
-    def basin_size(self, row: int, col: int) -> int:
+    def basin_size(self, matrix: list, row: int, col: int) -> int:
         count = 1
-        self.matrix[row][col] = 0
+        matrix[row][col] = 0
         if 0 < self.neighbors(row, col)[0] < 9:
-            count += self.basin_size(row, col-1)
+            count += self.basin_size(matrix, row, col-1)
         if 0 < self.neighbors(row, col)[1] < 9:
-            count += self.basin_size(row, col+1)
+            count += self.basin_size(matrix, row, col+1)
         if 0 < self.neighbors(row, col)[2] < 9:
-            count += self.basin_size(row-1, col)
+            count += self.basin_size(matrix, row-1, col)
         if 0 < self.neighbors(row, col)[3] < 9:
-            count += self.basin_size(row+1, col)
+            count += self.basin_size(matrix, row+1, col)
         return count

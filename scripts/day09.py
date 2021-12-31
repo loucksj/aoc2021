@@ -10,14 +10,11 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
+    lines = Reader(filename).integer_lines()
     lows = get_lows(lines)
-    cells = []
-    for line in lines:
-        cells.append([int(x) for x in line])
     sizes = []
     for low in lows:
-        sizes.append(get_size(cells, low[0], low[1]))
+        sizes.append(get_size(lines, low[0], low[1]))
     sizes = sorted(sizes)
     return sizes[-1] * sizes[-2] * sizes[-3]
 

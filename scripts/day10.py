@@ -4,21 +4,7 @@ PAIRS = {'(': ')', '[': ']', '{': '}', '<': '>', }
 
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-    corrupted = []
-    for line in lines:
-        next = []
-        line = [char for char in line]
-        for char in line:
-            if char in PAIRS.keys():
-                next.append(PAIRS[char])
-                continue
-            if char == next.pop():
-                continue
-            corrupted.append(char)
-            break
-
-    return score_corrupted(corrupted)
+    return score_corrupted(corrupted_characters(filename))
 
 
 def part_two(filename: str) -> int:
@@ -41,6 +27,21 @@ def part_two(filename: str) -> int:
         incomplete.append(reversed(next))
     return score_incomplete(incomplete)
 
+def corrupted_characters(filename: str) -> list:
+    lines = Reader(filename).lines()
+    corrupted = []
+    for line in lines:
+        next = []
+        line = [char for char in line]
+        for char in line:
+            if char in PAIRS.keys():
+                next.append(PAIRS[char])
+                continue
+            if char == next.pop():
+                continue
+            corrupted.append(char)
+            break
+    return corrupted
 
 def score_incomplete(errors: list) -> int:
     points = {')': 1, ']': 2, '}': 3, '>': 4}

@@ -40,23 +40,13 @@ class Caves:
     def add_connection(self, from_name: str, to_name: str):
         from_cave = self.get_cave(from_name)
         to_cave = self.get_cave(to_name)
-
         from_cave.caves.append(to_cave)
         to_cave.caves.append(from_cave)
-
-        if self.is_cave(from_name):
-            self.caves.append(from_cave)
-        if self.is_cave(to_name):
-            self.caves.append(to_cave)
 
     def get_cave(self, name: str):
         for cave in self.caves:
             if cave.name == name:
                 return cave
-        return self.Cave(name)
-
-    def is_cave(self, name: str):
-        for cave in self.caves:
-            if cave.name == name:
-                return cave
-        return self.Cave(name)
+        new_cave = self.Cave(name)
+        self.caves.append(new_cave)
+        return new_cave

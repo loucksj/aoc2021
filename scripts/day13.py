@@ -3,20 +3,18 @@ import re
 
 
 def part_one(filename: str) -> int:
-    folds = get_folds(filename)
     paper = Paper(filename)
-    if folds[0][0] == 'x':
-        paper.fold_x(folds[0][1])
-    if folds[0][0] == 'y':
-        paper.fold_y(folds[0][1])
+    if paper.folds[0][0] == 'x':
+        paper.fold_x(paper.folds[0][1])
+    if paper.folds[0][0] == 'y':
+        paper.fold_y(paper.folds[0][1])
     count = paper.dots()
     return count
 
 
 def part_two(filename: str):
-    folds = get_folds(filename)
     paper = Paper(filename)
-    for fold in folds:
+    for fold in paper.folds:
         if fold[0] == 'x':
             paper.fold_x(fold[1])
         if fold[0] == 'y':
@@ -27,8 +25,9 @@ def part_two(filename: str):
 
 class Paper():
     def __init__(self, filename: str):
+        self.folds = get_folds(filename)
         self.rows = []
-        coordinates = self.get_points(filename)
+        coordinates = get_points(filename)
         max_xy = get_max(coordinates)
         columns = max_xy[1]+1
         for _ in range(0, columns):
@@ -79,17 +78,18 @@ class Paper():
                     new[row][fold_col] += self.rows[row][col]
         self.rows = new
 
-    def get_points(self, filename: list) -> list:
-        lines = Reader(filename).lines()
-        xy = []
-        for line in lines:
-            if line == '':
-                break
-            line = line.split(',')
-            x = int(line[0])
-            y = int(line[1])
-            xy.append((x, y))
-        return xy
+
+def get_points(filename: list) -> list:
+    lines = Reader(filename).lines()
+    xy = []
+    for line in lines:
+        if line == '':
+            break
+        line = line.split(',')
+        x = int(line[0])
+        y = int(line[1])
+        xy.append((x, y))
+    return xy
 
 
 def get_max(coordinates: list):

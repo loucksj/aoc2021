@@ -1,18 +1,10 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).split_lines('-')
-    caves = Caves()
-    for line in lines:
-        caves.add(line[0], line[1])
-    return caves.explore()
+    return Caves(filename).explore()
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).split_lines('-')
-    caves = Caves()
-    for line in lines:
-        caves.add(line[0], line[1])
-    return caves.delve()
+    return Caves(filename).delve()
 
 class Cave:
     def __init__(self, name: str):
@@ -23,8 +15,11 @@ class Cave:
             self.small = False
             
 class Caves:
-    def __init__(self):
+    def __init__(self, filename: str):
         self.caves = []
+        lines = Reader(filename).split_lines('-')
+        for line in lines:
+            self.add(line[0], line[1])
     
     def start(self) -> Cave:
         for cave in self.caves:
@@ -48,7 +43,7 @@ class Caves:
                 count += self.explore(c, path.copy())
         return count
     
-    def delve(self, cave: Cave=[], path=[], boost=True) -> int:
+    def delve(self, cave=[], path=[], boost=True) -> int:
         if cave == []:
             cave = self.start()
         path.append(cave.name)

@@ -1,41 +1,36 @@
 from scripts.main import Reader
 import re
 
+
 def part_one(filename: str) -> int:
     lines = Reader(filename).lines()
-
-    points = get_points(lines)
     folds = get_folds(lines)
-
-    paper = Paper(points)
+    paper = Paper(filename)
     if folds[0][0] == 'x':
         paper.fold_x(folds[0][1])
     if folds[0][0] == 'y':
         paper.fold_y(folds[0][1])
     count = paper.dots()
-
     return count
+
 
 def part_two(filename: str):
     lines = Reader(filename).lines()
-
-    points = get_points(lines)
     folds = get_folds(lines)
-
-    paper = Paper(points)
-
+    paper = Paper(filename)
     for fold in folds:
         if fold[0] == 'x':
             paper.fold_x(fold[1])
         if fold[0] == 'y':
             paper.fold_y(fold[1])
-    
     paper.print()
     return 'CEJKLUGJ'
 
+
 class Paper():
-    def __init__(self, coordinates: list):
+    def __init__(self, filename: str):
         self.rows = []
+        coordinates = self.get_points(filename)
         max_xy = get_max(coordinates)
         columns = max_xy[1]+1
         for _ in range(0, columns):
@@ -43,7 +38,7 @@ class Paper():
             self.rows.append([0]*(rows))
         for xy in coordinates:
             self.rows[xy[1]][xy[0]] += 1
-    
+
     def print(self):
         for row in self.rows:
             for col in row:
@@ -52,7 +47,7 @@ class Paper():
                 else:
                     print('.', end='')
             print()
-    
+
     def dots(self) -> int:
         count = 0
         for row in self.rows:
@@ -86,6 +81,19 @@ class Paper():
                     new[row][fold_col] += self.rows[row][col]
         self.rows = new
 
+    def get_points(self, filename: list) -> list:
+        lines = Reader(filename).lines()
+        xy = []
+        for line in lines:
+            if line == '':
+                break
+            line = line.split(',')
+            x = int(line[0])
+            y = int(line[1])
+            xy.append((x, y))
+        return xy
+
+
 def get_max(coordinates: list):
     max_x = 0
     max_y = 0
@@ -94,16 +102,6 @@ def get_max(coordinates: list):
         max_y = max(xy[1], max_y)
     return (max_x, max_y)
 
-def get_points(lines: list) -> list:
-    xy = []
-    for line in lines:
-        if line == '':
-            break
-        line = line.split(',')
-        x = int(line[0])
-        y = int(line[1])
-        xy.append((x, y))
-    return xy
 
 def get_folds(lines: list) -> list:
     folds = []

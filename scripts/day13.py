@@ -2,7 +2,7 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return Paper(filename).fold_once().dot_count()
+    return Paper(filename).fold_first().dot_count()
 
 
 def part_two(filename: str):
@@ -15,47 +15,21 @@ class Paper():
         self.points = get_points(filename)
         self.rows = self.make_rows()
 
-    def make_rows(self) -> list:
-        rows = []
-        rowmax, colmax = self.get_max_xy()
-        columns = colmax + 1
-        for _ in range(columns):
-            rows.append([0]*(rowmax + 1))
-        for x, y in self.points:
-            rows[y][x] += 1
-        return rows
+    def fold_first(self):
+        self.do_fold(self.folds[0])
+        return self
 
-    def fold_once(self):
-        way, at = self.folds[0]
+    def fold_all(self):
+        for fold in self.folds:
+            self.do_fold(fold)
+        return self
+
+    def do_fold(self, fold: tuple):
+        way, at = fold
         if way == 'x':
             self.fold_x(at)
         if way == 'y':
             self.fold_y(at)
-        return self
-
-    def fold_all(self):
-        for way, at in self.folds:
-            if way == 'x':
-                self.fold_x(at)
-            if way == 'y':
-                self.fold_y(at)
-        return self
-
-    def printstring(self):
-        string = ''
-        for row in self.rows:
-            for col in row:
-                string += '#' if col > 0 else '.'
-            string += '\n'
-        return string
-
-    def dot_count(self) -> int:
-        count = 0
-        for row in self.rows:
-            for val in row:
-                if val > 0:
-                    count += 1
-        return count
 
     def fold_y(self, y: int):
         new = []
@@ -82,6 +56,32 @@ class Paper():
                     new[row][fold_col] += self.rows[row][col]
         self.rows = new
 
+    def dot_count(self) -> int:
+        count = 0
+        for row in self.rows:
+            for val in row:
+                if val > 0:
+                    count += 1
+        return count
+
+    def printstring(self):
+        string = ''
+        for row in self.rows:
+            for col in row:
+                string += '#' if col > 0 else '.'
+            string += '\n'
+        return string
+
+    def make_rows(self) -> list:
+        rows = []
+        rowmax, colmax = self.get_max_xy()
+        columns = colmax + 1
+        for _ in range(columns):
+            rows.append([0]*(rowmax + 1))
+        for x, y in self.points:
+            rows[y][x] += 1
+        return rows
+
     def get_max_xy(self):
         max_x = 0
         max_y = 0
@@ -93,11 +93,11 @@ class Paper():
 
 def get_points(filename: list) -> list:
     lines = Reader(filename).halves_lined()[0]
-    xy = []
+    points = []
     for line in lines:
         x, y = line.split(',')
-        xy.append((int(x), int(y)))
-    return xy
+        points.append((int(x), int(y)))
+    return points
 
 
 def get_folds(filename: str) -> list:

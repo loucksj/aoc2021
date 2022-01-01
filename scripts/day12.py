@@ -9,19 +9,18 @@ def part_two(filename: str) -> int:
     return Caves(filename).delve()
 
 
-class Cave:
-    def __init__(self, name: str):
-        self.name = name
-        self.caves = []
-        self.is_big = True if self.name.isupper() else False
-
-
 class Caves:
     def __init__(self, filename: str):
         self.caves = []
         lines = Reader(filename).split_lines('-')
         for line in lines:
             self.add(line[0], line[1])
+
+    class Cave:
+        def __init__(self, name: str):
+            self.name = name
+            self.caves = []
+            self.is_big = True if self.name.isupper() else False
 
     def start(self) -> Cave:
         for cave in self.caves:
@@ -62,8 +61,8 @@ class Caves:
         return count
 
     def add(self, start: str, end: str):
-        start_cave = Cave(start)
-        end_cave = Cave(end)
+        start_cave = self.Cave(start)
+        end_cave = self.Cave(end)
         new_start = True
         new_end = True
         for node in self.caves:

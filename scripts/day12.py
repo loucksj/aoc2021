@@ -5,14 +5,14 @@ def part_one(filename: str) -> int:
     caves = Caves()
     for line in lines:
         caves.add(line[0], line[1])
-    return caves.explore(caves.start())
+    return caves.explore()
 
 def part_two(filename: str) -> int:
     lines = Reader(filename).split_lines('-')
     caves = Caves()
     for line in lines:
         caves.add(line[0], line[1])
-    return caves.delve(caves.start())
+    return caves.delve()
 
 class Cave:
     def __init__(self, name: str):
@@ -36,7 +36,9 @@ class Caves:
             if cave.name == "end":
                 return cave
     
-    def explore(self, cave: Cave, path=[]) -> int:
+    def explore(self, cave=[], path=[]) -> int:
+        if cave == []:
+            cave = self.start()
         path.append(cave.name)
         if cave == self.end():
             return 1
@@ -46,7 +48,9 @@ class Caves:
                 count += self.explore(c, path.copy())
         return count
     
-    def delve(self, cave: Cave, path=[], boost=True) -> int:
+    def delve(self, cave: Cave=[], path=[], boost=True) -> int:
+        if cave == []:
+            cave = self.start()
         path.append(cave.name)
         if cave == self.end():
             return 1

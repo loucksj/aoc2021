@@ -3,17 +3,11 @@ import re
 
 
 def part_one(filename: str) -> int:
-    return Paper(filename).fold_once().dots()
+    return Paper(filename).fold_once().dot_count()
 
 
 def part_two(filename: str):
-    paper = Paper(filename)
-    for fold in paper.folds:
-        if fold[0] == 'x':
-            paper.fold_x(fold[1])
-        if fold[0] == 'y':
-            paper.fold_y(fold[1])
-    paper.print()
+    Paper(filename).fold_all().print()
     return 'CEJKLUGJ'
 
 
@@ -36,6 +30,14 @@ class Paper():
         if self.folds[0][0] == 'y':
             self.fold_y(self.folds[0][1])
         return self
+    
+    def fold_all(self):
+        for fold in self.folds:
+            if fold[0] == 'x':
+                self.fold_x(fold[1])
+            if fold[0] == 'y':
+                self.fold_y(fold[1])
+        return self
 
     def print(self):
         for row in self.rows:
@@ -46,7 +48,7 @@ class Paper():
                     print('.', end='')
             print()
 
-    def dots(self) -> int:
+    def dot_count(self) -> int:
         count = 0
         for row in self.rows:
             for col in row:

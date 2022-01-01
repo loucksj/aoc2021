@@ -1,5 +1,4 @@
 from scripts.main import Reader
-import re
 
 
 def part_one(filename: str) -> int:
@@ -101,10 +100,9 @@ def get_points(filename: list) -> list:
 
 
 def get_folds(filename: str) -> list:
-    lines = Reader(filename).lines()
+    lines = Reader(filename).halves()[1].split('\n')
     folds = []
     for line in lines:
-        result = re.search('(\w)=(\d*)$', line)
-        if result:
-            folds.append((result.group(1), int(result.group(2))))
+        left, right = line.split('=')
+        folds.append((left[-1], int(right)))
     return folds

@@ -96,7 +96,7 @@ def test_day12():
 def test_day13():
     assert day13.part_one('day13_ex.txt') == 17
     assert day13.part_one('day13.txt') == _key.DAY13_1
-    assert day13.part_two('day13.txt') == _key.DAY13_2  # solve with eyes
+    assert day13.part_two('day13.txt') == _key.DAY13_2
 
 
 def test_day14():

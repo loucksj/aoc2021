@@ -26,18 +26,19 @@ class Paper():
         return rows
 
     def fold_once(self):
-        if self.folds[0][0] == 'x':
-            self.fold_x(self.folds[0][1])
-        if self.folds[0][0] == 'y':
-            self.fold_y(self.folds[0][1])
+        way, at = self.folds[0]
+        if way == 'x':
+            self.fold_x(at)
+        if way == 'y':
+            self.fold_y(at)
         return self
 
     def fold_all(self):
-        for fold in self.folds:
-            if fold[0] == 'x':
-                self.fold_x(fold[1])
-            if fold[0] == 'y':
-                self.fold_y(fold[1])
+        for way, at in self.folds:
+            if way == 'x':
+                self.fold_x(at)
+            if way == 'y':
+                self.fold_y(at)
         return self
 
     def printstring(self):

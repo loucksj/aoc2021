@@ -92,11 +92,9 @@ class Paper():
 
 
 def get_points(filename: list) -> list:
-    lines = Reader(filename).lines()
+    lines = Reader(filename).halves()[0].split('\n')
     xy = []
     for line in lines:
-        if line == '':
-            break
         x, y = line.split(',')
         xy.append((int(x), int(y)))
     return xy

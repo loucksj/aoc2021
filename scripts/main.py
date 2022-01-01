@@ -11,6 +11,9 @@ class Reader():
         file_.close()
         return string
 
+    def halves(self) -> list:
+        return self.read().split('\n\n')
+
     def lines(self) -> list:
         return self.read().split('\n')
 

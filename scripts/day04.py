@@ -17,7 +17,7 @@ class BingoGame():
         self.run()
 
     def get_boards_from_file(self, filename: str) -> list:
-        return [self.board_from_string(board_str) for board_str in Reader(filename).read().split('\n\n')[1:]]
+        return [self.board_from_string(board_str) for board_str in Reader(filename).halves()[1:]]
 
     def board_from_string(self, string: str):
         return Board([list(map(int, line.split())) for line in string.split('\n')])

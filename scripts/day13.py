@@ -97,10 +97,8 @@ def get_points(filename: list) -> list:
     for line in lines:
         if line == '':
             break
-        line = line.split(',')
-        x = int(line[0])
-        y = int(line[1])
-        xy.append((x, y))
+        x, y = line.split(',')
+        xy.append((int(x), int(y)))
     return xy
 
 

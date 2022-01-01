@@ -3,13 +3,7 @@ import re
 
 
 def part_one(filename: str) -> int:
-    paper = Paper(filename)
-    if paper.folds[0][0] == 'x':
-        paper.fold_x(paper.folds[0][1])
-    if paper.folds[0][0] == 'y':
-        paper.fold_y(paper.folds[0][1])
-    count = paper.dots()
-    return count
+    return Paper(filename).fold_once().dots()
 
 
 def part_two(filename: str):
@@ -35,6 +29,13 @@ class Paper():
             self.rows.append([0]*(rows))
         for xy in coordinates:
             self.rows[xy[1]][xy[0]] += 1
+
+    def fold_once(self):
+        if self.folds[0][0] == 'x':
+            self.fold_x(self.folds[0][1])
+        if self.folds[0][0] == 'y':
+            self.fold_y(self.folds[0][1])
+        return self
 
     def print(self):
         for row in self.rows:

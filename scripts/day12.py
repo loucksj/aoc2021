@@ -1,28 +1,18 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-    lines = [s.split('-') for s in lines]
-
+    lines = Reader(filename).split_lines('-')
     caves = Caves()
     for line in lines:
         caves.add(line[0], line[1])
-    
-    paths = caves.explore(caves.start())
-
-    return paths
+    return caves.explore(caves.start())
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
-    lines = [s.split('-') for s in lines]
-
+    lines = Reader(filename).split_lines('-')
     caves = Caves()
     for line in lines:
         caves.add(line[0], line[1])
-    
-    paths = caves.delve(caves.start())
-
-    return paths
+    return caves.delve(caves.start())
 
 class Cave:
     def __init__(self, name: str):

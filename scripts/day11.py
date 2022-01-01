@@ -19,9 +19,7 @@ def part_two(filename: str) -> int:
 
 class Board:
     def __init__(self, filename: str):
-        self.rows = []
-        for line in Reader(filename).lines():
-            self.rows.append([int(x) for x in line])
+        self.rows = Reader(filename).integer_lines()
     
     def step(self, times: int) -> int:
         flashes = 0

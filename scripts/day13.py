@@ -29,17 +29,6 @@ class Paper():
         self.rows = fold_x(self.rows, at) if way == 'x' \
             else fold_y(self.rows, at)
 
-    def dot_count(self) -> int:
-        return sum(sum(1 for val in row if val > 0) for row in self.rows)
-
-    def printstring(self):
-        string = ''
-        for row in self.rows:
-            for col in row:
-                string += '#' if col > 0 else '.'
-            string += '\n'
-        return string
-
     def make_rows(self) -> list:
         rows = []
         rowmax, colmax = self.get_max_xy()
@@ -57,6 +46,17 @@ class Paper():
             max_x = max(x, max_x)
             max_y = max(y, max_y)
         return (max_x, max_y)
+
+    def dot_count(self) -> int:
+        return sum(sum(1 for val in row if val > 0) for row in self.rows)
+
+    def printstring(self):
+        string = ''
+        for row in self.rows:
+            for col in row:
+                string += '#' if col > 0 else '.'
+            string += '\n'
+        return string
 
 
 def fold_x(matrix: list, at_x: int) -> list:

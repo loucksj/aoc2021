@@ -14,7 +14,7 @@ class Caves:
         self.caves = []
         lines = Reader(filename).split_lines('-')
         for line in lines:
-            self.add(line[0], line[1])
+            self.add_connection(line[0], line[1])
         self.start = self.start()
         self.end = self.end()
 
@@ -62,24 +62,24 @@ class Caves:
                 count += self.delve(c, path.copy(), boost)
         return count
 
-    def add(self, start: str, end: str):
-        start_cave = self.Cave(start)
-        end_cave = self.Cave(end)
-        new_start = True
-        new_end = True
-        for node in self.caves:
-            if node.name == start:
-                start_cave = node
-                new_start = False
-                break
-        for node in self.caves:
-            if node.name == end:
-                end_cave = node
-                new_end = False
-                continue
-        start_cave.caves.append(end_cave)
-        end_cave.caves.append(start_cave)
-        if new_start:
-            self.caves.append(start_cave)
-        if new_end:
-            self.caves.append(end_cave)
+    def add_connection(self, from_name: str, to_name: str):
+        from_cave = self.get_cave(from_name)
+        to_cave = self.get_cave(to_name)
+        from_cave.caves.append(to_cave)
+        to_cave.caves.append(from_cave)
+        if self.is_cave(from_name):
+            self.caves.append(from_cave)
+        if self.is_cave(to_name):
+            self.caves.append(to_cave)
+
+    def get_cave(self, name: str):
+        for cave in self.caves:
+            if cave.name == name:
+                return cave
+        return self.Cave(name)
+
+    def is_cave(self, name: str):
+        for cave in self.caves:
+            if cave.name == name:
+                return cave
+        return self.Cave(name)

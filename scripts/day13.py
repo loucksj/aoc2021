@@ -14,13 +14,13 @@ class Paper():
     def __init__(self, filename: str):
         self.folds = get_folds(filename)
         self.rows = []
-        coordinates = get_points(filename)
-        max_xy = get_max(coordinates)
-        columns = max_xy[1]+1
+        self.points = get_points(filename)
+        row, col = self.get_max_xy()
+        columns = col + 1
         for _ in range(0, columns):
-            rows = max_xy[0]+1
+            rows = row + 1
             self.rows.append([0]*(rows))
-        for xy in coordinates:
+        for xy in self.points:
             self.rows[xy[1]][xy[0]] += 1
 
     def fold_once(self):
@@ -82,6 +82,14 @@ class Paper():
                     new[row][fold_col] += self.rows[row][col]
         self.rows = new
 
+    def get_max_xy(self):
+        max_x = 0
+        max_y = 0
+        for x, y in self.points:
+            max_x = max(x, max_x)
+            max_y = max(y, max_y)
+        return (max_x, max_y)
+
 
 def get_points(filename: list) -> list:
     lines = Reader(filename).lines()
@@ -94,15 +102,6 @@ def get_points(filename: list) -> list:
         y = int(line[1])
         xy.append((x, y))
     return xy
-
-
-def get_max(coordinates: list):
-    max_x = 0
-    max_y = 0
-    for xy in coordinates:
-        max_x = max(xy[0], max_x)
-        max_y = max(xy[1], max_y)
-    return (max_x, max_y)
 
 
 def get_folds(filename: str) -> list:

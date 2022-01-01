@@ -1,6 +1,5 @@
 from scripts.main import Reader
 
-
 def part_one(filename: str) -> int:
     return Caves(filename).count_paths()
 
@@ -23,13 +22,13 @@ class Caves:
 
     def count_paths(self, boost=False, cave=[], path=[]) -> int:
         if cave == []:
-            cave = self.get_cave("start")
-        if cave == self.get_cave("end"):
+            cave = self.get_cave('start')
+        if cave.name == 'end':
             return 1
         count = 0
         path.append(cave.name)
         for to_cave in cave.caves:
-            if to_cave == self.get_cave("start"):
+            if to_cave.name == 'start':
                 continue
             if to_cave.name in path and not to_cave.is_big and boost:
                 count += self.count_paths(False, to_cave, path.copy())

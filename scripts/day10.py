@@ -8,13 +8,27 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    return score_incomplete(incomplete_chars(filename))
+    return score_incomplete(filename)
 
 
 def score_corrupted(filename: str) -> int:
-    errors = corrupt_chars(filename)
     points = {')': 3, ']': 57, '}': 1197, '>': 25137}
-    return sum(points[char] for char in errors)
+    return sum(points[char] for char in corrupt_chars(filename))
+
+
+def score_incomplete(filename: str) -> int:
+    points = {')': 1, ']': 2, '}': 3, '>': 4}
+    errors = incomplete_chars(filename)
+    scores = []
+    for line in errors:
+        score = 0
+        for error in line:
+            score *= 5
+            score += points[error]
+        scores.append(score)
+    scores = sorted(scores)
+    middle = int((len(scores) - 1)/2)
+    return scores[middle]
 
 
 def corrupt_chars(filename: str) -> list:
@@ -44,17 +58,3 @@ def line_data(filename: str) -> list:
         if not corrupt:
             incomplete.append((line, list(reversed(stack))))
     return (corrupted, incomplete)
-
-
-def score_incomplete(errors: list) -> int:
-    points = {')': 1, ']': 2, '}': 3, '>': 4}
-    scores = []
-    for line in errors:
-        score = 0
-        for error in line:
-            score *= 5
-            score += points[error]
-        scores.append(score)
-    scores = sorted(scores)
-    middle = int((len(scores) - 1)/2)
-    return scores[middle]

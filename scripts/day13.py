@@ -91,7 +91,7 @@ class Paper():
 
 
 def get_points(filename: list) -> list:
-    lines = Reader(filename).halves()[0].split('\n')
+    lines = Reader(filename).halves_lined()[0]
     xy = []
     for line in lines:
         x, y = line.split(',')
@@ -100,7 +100,7 @@ def get_points(filename: list) -> list:
 
 
 def get_folds(filename: str) -> list:
-    lines = Reader(filename).halves()[1].split('\n')
+    lines = Reader(filename).halves_lined()[1]
     folds = []
     for line in lines:
         left, right = line.split('=')

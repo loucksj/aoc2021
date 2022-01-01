@@ -13,6 +13,9 @@ class Reader():
 
     def halves(self) -> list:
         return self.read().split('\n\n')
+    
+    def halves_lined(self) -> list:
+        return [half.split('\n') for half in self.halves()]
 
     def lines(self) -> list:
         return self.read().split('\n')

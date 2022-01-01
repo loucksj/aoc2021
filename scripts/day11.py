@@ -11,12 +11,13 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    return Board(filename).allflash_at()
+    return Board(filename).sync().steps
 
 
 class Board:
     def __init__(self, filename: str):
         self.rows = Reader(filename).integer_lines()
+        self.steps = 0
         self.flashes = 0
 
     def step(self, times: int) -> int:
@@ -24,30 +25,28 @@ class Board:
             self.energize_all()
         return self
 
-    def allflash_at(self) -> int:
-        step = 0
-        while True:
-            step += 1
+    def sync(self) -> int:
+        while sum(sum(col for col in row) for row in self.rows) != 0:
             self.energize_all()
-            if sum(sum(col for col in row) for row in self.rows) == 0:
-                return step
+        return self
 
     def energize_all(self):
-        for row in range(10):
-            for col in range(10):
-                self.energize(row, col)
+        self.steps += 1
+        for ri, row in enumerate(self.rows):
+            for ci, _ in enumerate(row):
+                self.energize(ri, ci)
         self.reset_nines()
 
     def energize(self, row: int, col: int):
-        if 0 <= row < 10 and 0 <= col < 10:
+        if 0 <= row < len(self.rows) and 0 <= col < len(self.rows[0]):
             self.rows[row][col] += 1
             if self.rows[row][col] == 10:
                 for r, c in DIRECTIONS:
                     self.energize(row + r, col + c)
 
     def reset_nines(self):
-        for row in range(10):
-            for col in range(10):
-                if self.rows[row][col] > 9:
-                    self.rows[row][col] = 0
+        for ri, row in enumerate(self.rows):
+            for ci, val in enumerate(row):
+                if val > 9:
+                    self.rows[ri][ci] = 0
                     self.flashes += 1

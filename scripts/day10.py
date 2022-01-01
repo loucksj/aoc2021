@@ -17,6 +17,12 @@ def score_corrupted(filename: str) -> int:
 
 
 def score_incomplete(filename: str) -> int:
+    scores = incomplete_scores(filename)
+    middle_index = int((len(scores) - 1) / 2)
+    return sorted(scores)[middle_index]
+
+
+def incomplete_scores(filename: str) -> int:
     points = {')': 1, ']': 2, '}': 3, '>': 4}
     errors = incomplete_chars(filename)
     scores = []
@@ -26,9 +32,7 @@ def score_incomplete(filename: str) -> int:
             score *= 5
             score += points[error]
         scores.append(score)
-    scores = sorted(scores)
-    middle = int((len(scores) - 1)/2)
-    return scores[middle]
+    return scores
 
 
 def corrupt_chars(filename: str) -> list:

@@ -17,11 +17,11 @@ class Paper():
         self.points = get_points(filename)
         row, col = self.get_max_xy()
         columns = col + 1
-        for _ in range(0, columns):
+        for _ in range(columns):
             rows = row + 1
             self.rows.append([0]*(rows))
-        for xy in self.points:
-            self.rows[xy[1]][xy[0]] += 1
+        for x, y in self.points:
+            self.rows[y][x] += 1
 
     def fold_once(self):
         if self.folds[0][0] == 'x':
@@ -59,11 +59,11 @@ class Paper():
 
     def fold_y(self, y: int):
         new = []
-        for row in range(0, len(self.rows)):
+        for row in range(len(self.rows)):
             if row < y:
                 new.append(self.rows[row])
             if row > y:
-                for col in range(0, len(self.rows[0])):
+                for col in range(len(self.rows[0])):
                     fold_row = y-(row-y)
                     if fold_row < 0:
                         self.rows.insert(0, self.rows[row])
@@ -72,7 +72,7 @@ class Paper():
 
     def fold_x(self, x: int):
         new = []
-        for row in range(0, len(self.rows)):
+        for row in range(len(self.rows)):
             new.append([0]*x)
             for col in range(len(self.rows[row])):
                 if col < x:

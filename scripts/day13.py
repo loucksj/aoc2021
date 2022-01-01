@@ -1,4 +1,4 @@
-from scripts.main import Reader
+from scripts.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
@@ -27,34 +27,9 @@ class Paper():
     def do_fold(self, fold: tuple):
         way, at = fold
         if way == 'x':
-            self.fold_x(at)
+            self.rows = fold_x(self.rows, at)
         if way == 'y':
-            self.fold_y(at)
-
-    def fold_y(self, y: int):
-        new = []
-        for row in range(len(self.rows)):
-            if row < y:
-                new.append(self.rows[row])
-            if row > y:
-                for col in range(len(self.rows[0])):
-                    fold_row = y-(row-y)
-                    if fold_row < 0:
-                        self.rows.insert(0, self.rows[row])
-                    new[fold_row][col] += self.rows[row][col]
-        self.rows = new
-
-    def fold_x(self, x: int):
-        new = []
-        for row in range(len(self.rows)):
-            new.append([0]*x)
-            for col in range(len(self.rows[row])):
-                if col < x:
-                    new[row][col] += self.rows[row][col]
-                if col > x:
-                    fold_col = x-(col-x)
-                    new[row][fold_col] += self.rows[row][col]
-        self.rows = new
+            self.rows = fold_y(self.rows, at)
 
     def dot_count(self) -> int:
         count = 0
@@ -89,6 +64,25 @@ class Paper():
             max_x = max(x, max_x)
             max_y = max(y, max_y)
         return (max_x, max_y)
+
+
+def fold_x(matrix: list, at_x: int) -> list:
+    return transpose(fold_y(transpose(matrix), at_x))
+
+
+def fold_y(matrix: list, at_y: int) -> list:
+    matrix = matrix.copy()
+    new = []
+    for row in range(len(matrix)):
+        if row < at_y:
+            new.append(matrix[row])
+        if row > at_y:
+            for col in range(len(matrix[0])):
+                fold_row = at_y - (row - at_y)
+                if fold_row < 0:
+                    matrix.insert(0, matrix[row])
+                new[fold_row][col] += matrix[row][col]
+    return new
 
 
 def get_points(filename: list) -> list:

@@ -8,11 +8,10 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
+    lines = Reader(filename).char_lines()
     incomplete = []
     for line in lines:
         next = []
-        line = [char for char in line]
         corrupt = False
         for char in line:
             if char in PAIRS.keys():
@@ -24,16 +23,15 @@ def part_two(filename: str) -> int:
             break
         if corrupt:
             continue
-        incomplete.append(reversed(next))
+        incomplete.append(list(reversed(next)))
     return score_incomplete(incomplete)
 
 
 def corrupted_characters(filename: str) -> list:
-    lines = Reader(filename).lines()
+    lines = Reader(filename).char_lines()
     corrupted = []
     for line in lines:
         next = []
-        line = [char for char in line]
         for char in line:
             if char in PAIRS.keys():
                 next.append(PAIRS[char])

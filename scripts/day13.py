@@ -26,18 +26,11 @@ class Paper():
 
     def do_fold(self, fold: tuple):
         way, at = fold
-        if way == 'x':
-            self.rows = fold_x(self.rows, at)
-        if way == 'y':
-            self.rows = fold_y(self.rows, at)
+        self.rows = fold_x(self.rows, at) if way == 'x' \
+            else fold_y(self.rows, at)
 
     def dot_count(self) -> int:
-        count = 0
-        for row in self.rows:
-            for val in row:
-                if val > 0:
-                    count += 1
-        return count
+        return sum(sum(1 for val in row if val > 0) for row in self.rows)
 
     def printstring(self):
         string = ''

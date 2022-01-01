@@ -1,24 +1,22 @@
 from scripts.main import Reader
 
+# up-left, up, up-right, left, right, down-left, down, down-right
+DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+
 def part_one(filename: str) -> int:
     lines = Reader(filename).lines()
-
     board = Board(lines)
-
     flashes = 0
-    for step in range(0, 100):
+    for _ in range(0, 100):
         for row in range(0, 10):
             for col in range(0, 10):
                 board.energize(row, col)
         flashes += board.reset()
-    
     return flashes
 
 def part_two(filename: str) -> int:
     lines = Reader(filename).lines()
-
     board = Board(lines)
-
     step = 0
     while True:
         step += 1
@@ -38,14 +36,8 @@ class Board:
         if 0 <= row < 10 and 0 <= col < 10:
             self.rows[row][col] += 1
             if self.rows[row][col] == 10:
-                self.energize(row-1, col-1) #UL
-                self.energize(row-1, col) #U
-                self.energize(row-1, col+1) #UR
-                self.energize(row, col-1) #L
-                self.energize(row, col+1) #R
-                self.energize(row+1, col-1) #DL
-                self.energize(row+1, col) #D
-                self.energize(row+1, col+1) #DR
+                for r, c in DIRECTIONS:
+                    self.energize(row + r, col + c)
     
     def reset(self) -> int:
         flashes = 0

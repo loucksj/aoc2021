@@ -12,15 +12,18 @@ def part_two(filename: str):
 class Paper():
     def __init__(self, filename: str):
         self.folds = get_folds(filename)
-        self.rows = []
         self.points = get_points(filename)
+        self.rows = self.make_rows()
+
+    def make_rows(self) -> list:
+        rows = []
         row, col = self.get_max_xy()
         columns = col + 1
         for _ in range(columns):
-            rows = row + 1
-            self.rows.append([0]*(rows))
+            rows.append([0]*(row + 1))
         for x, y in self.points:
-            self.rows[y][x] += 1
+            rows[y][x] += 1
+        return rows
 
     def fold_once(self):
         if self.folds[0][0] == 'x':

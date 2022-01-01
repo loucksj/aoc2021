@@ -27,6 +27,7 @@ def part_two(filename: str) -> int:
         incomplete.append(reversed(next))
     return score_incomplete(incomplete)
 
+
 def corrupted_characters(filename: str) -> list:
     lines = Reader(filename).lines()
     corrupted = []
@@ -43,6 +44,7 @@ def corrupted_characters(filename: str) -> list:
             break
     return corrupted
 
+
 def score_incomplete(errors: list) -> int:
     points = {')': 1, ']': 2, '}': 3, '>': 4}
     scores = []
@@ -58,8 +60,5 @@ def score_incomplete(errors: list) -> int:
 
 
 def score_corrupted(errors: list) -> int:
-    score = 0
     points = {')': 3, ']': 57, '}': 1197, '>': 25137}
-    for char in errors:
-        score += points[char]
-    return score
+    return sum(points[char] for char in errors)

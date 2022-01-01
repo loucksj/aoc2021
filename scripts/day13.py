@@ -3,8 +3,7 @@ import re
 
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-    folds = get_folds(lines)
+    folds = get_folds(filename)
     paper = Paper(filename)
     if folds[0][0] == 'x':
         paper.fold_x(folds[0][1])
@@ -15,8 +14,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str):
-    lines = Reader(filename).lines()
-    folds = get_folds(lines)
+    folds = get_folds(filename)
     paper = Paper(filename)
     for fold in folds:
         if fold[0] == 'x':
@@ -103,7 +101,8 @@ def get_max(coordinates: list):
     return (max_x, max_y)
 
 
-def get_folds(lines: list) -> list:
+def get_folds(filename: str) -> list:
+    lines = Reader(filename).lines()
     folds = []
     for line in lines:
         result = re.search('(\w)=(\d*)$', line)

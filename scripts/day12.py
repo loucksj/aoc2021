@@ -2,7 +2,7 @@ from scripts.main import Reader
 
 
 def part_one(filename: str) -> int:
-    return Caves(filename).explore()
+    return Caves(filename).count_paths()
 
 
 def part_two(filename: str) -> int:
@@ -34,17 +34,17 @@ class Caves:
             if cave.name == "end":
                 return cave
 
-    def explore(self, cave=[], path=[]) -> int:
-        if cave == []:
-            cave = self.start
-        path.append(cave.name)
-        if cave == self.end:
+    def count_paths(self, from_cave=None, visited=[]) -> int:
+        if from_cave == self.end:
             return 1
-        count = 0
-        for c in cave.caves:
-            if c.name not in path or c.is_big:
-                count += self.explore(c, path.copy())
-        return count
+        if from_cave == None:
+            from_cave = self.start
+        paths = 0
+        visited.append(from_cave.name)
+        for to_cave in from_cave.caves:
+            if to_cave.name not in visited or to_cave.is_big:
+                paths += self.count_paths(to_cave, visited.copy())
+        return paths
 
     def delve(self, cave=[], path=[], boost=True) -> int:
         if cave == []:

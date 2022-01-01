@@ -12,11 +12,8 @@ def part_two(filename: str) -> int:
 class Caves:
     def __init__(self, filename: str):
         self.caves = []
-        lines = Reader(filename).split_lines('-')
-        for line in lines:
+        for line in Reader(filename).split_lines('-'):
             self.add_connection(line[0], line[1])
-        self.start = self.start()
-        self.end = self.end()
 
     class Cave:
         def __init__(self, name: str):
@@ -24,25 +21,15 @@ class Caves:
             self.caves = []
             self.is_big = True if self.name.isupper() else False
 
-    def start(self) -> Cave:
-        for cave in self.caves:
-            if cave.name == "start":
-                return cave
-
-    def end(self) -> Cave:
-        for cave in self.caves:
-            if cave.name == "end":
-                return cave
-
     def count_paths(self, boost=False, cave=[], path=[]) -> int:
         if cave == []:
-            cave = self.start
-        if cave == self.end:
+            cave = self.get_cave("start")
+        if cave == self.get_cave("end"):
             return 1
         count = 0
         path.append(cave.name)
         for to_cave in cave.caves:
-            if to_cave == self.start:
+            if to_cave == self.get_cave("start"):
                 continue
             if to_cave.name in path and not to_cave.is_big and boost:
                 count += self.count_paths(False, to_cave, path.copy())
@@ -53,8 +40,10 @@ class Caves:
     def add_connection(self, from_name: str, to_name: str):
         from_cave = self.get_cave(from_name)
         to_cave = self.get_cave(to_name)
+
         from_cave.caves.append(to_cave)
         to_cave.caves.append(from_cave)
+
         if self.is_cave(from_name):
             self.caves.append(from_cave)
         if self.is_cave(to_name):

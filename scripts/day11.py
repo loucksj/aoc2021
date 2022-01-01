@@ -4,8 +4,7 @@ from scripts.main import Reader
 DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-    board = Board(lines)
+    board = Board(filename)
     flashes = 0
     for _ in range(0, 100):
         for row in range(0, 10):
@@ -15,8 +14,7 @@ def part_one(filename: str) -> int:
     return flashes
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
-    board = Board(lines)
+    board = Board(filename)
     step = 0
     while True:
         step += 1
@@ -27,9 +25,9 @@ def part_two(filename: str) -> int:
             return step
 
 class Board:
-    def __init__(self, data: list):
+    def __init__(self, filename: str):
         self.rows = []
-        for line in data:
+        for line in Reader(filename).lines():
             self.rows.append([int(x) for x in line])
 
     def energize(self, row: int, col: int):

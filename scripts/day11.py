@@ -1,9 +1,11 @@
 from scripts.main import Reader
 
-# up-left, up, up-right, left
-# right, down-left, down, down-right
-DIRECTIONS = [(-1, -1), (-1, 0), (-1, 1), (0, -1),
-              (0, 1), (1, -1), (1, 0), (1, 1)]
+# up-left, up, up-right
+# left, right
+# down-left, down, down-right
+DIRECTIONS = [(-1, -1), (-1, 0), (-1, 1),
+              (0, -1), (0, 1),
+              (1, -1), (1, 0), (1, 1)]
 
 
 def part_one(filename: str) -> int:
@@ -35,7 +37,7 @@ class Board:
         for ri, row in enumerate(self.rows):
             for ci, _ in enumerate(row):
                 self.energize(ri, ci)
-        self.reset_nines()
+        self.reset_tens()
 
     def energize(self, row: int, col: int):
         if 0 <= row < len(self.rows) and 0 <= col < len(self.rows[0]):
@@ -44,7 +46,7 @@ class Board:
                 for r, c in DIRECTIONS:
                     self.energize(row + r, col + c)
 
-    def reset_nines(self):
+    def reset_tens(self):
         for ri, row in enumerate(self.rows):
             for ci, val in enumerate(row):
                 if val > 9:

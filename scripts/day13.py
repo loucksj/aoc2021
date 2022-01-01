@@ -7,8 +7,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str):
-    Paper(filename).fold_all().print()
-    return 'CEJKLUGJ'
+    return Paper(filename).fold_all().printstring()
 
 
 class Paper():
@@ -39,14 +38,16 @@ class Paper():
                 self.fold_y(fold[1])
         return self
 
-    def print(self):
+    def printstring(self):
+        string = ''
         for row in self.rows:
             for col in row:
                 if col > 0:
-                    print('#', end='')
+                    string += '#'
                 else:
-                    print('.', end='')
-            print()
+                    string += '.'
+            string += '\n'
+        return string
 
     def dot_count(self) -> int:
         count = 0

@@ -4,44 +4,46 @@ PAIRS = {'(': ')', '[': ']', '{': '}', '<': '>', }
 
 
 def part_one(filename: str) -> int:
-    return score_corrupted(corrupt_chars(filename))
+    return score_corrupted(filename)
 
 
 def part_two(filename: str) -> int:
     return score_incomplete(incomplete_chars(filename))
 
 
-# The first incorrect closing characters.
+def score_corrupted(filename: str) -> int:
+    errors = corrupt_chars(filename)
+    points = {')': 3, ']': 57, '}': 1197, '>': 25137}
+    return sum(points[char] for char in errors)
+
+
 def corrupt_chars(filename: str) -> list:
+    return [char for _, char in line_data(filename)[0]]
+
+
+def incomplete_chars(filename: str) -> list:
+    # The missing closing characters.
+    return [chars for _, chars in line_data(filename)[1]]
+
+
+def line_data(filename: str) -> list:
+    # The first incorrect closing characters.
     lines = Reader(filename).char_lines()
     corrupted = []
-    for line in lines:
-        next = []
-        for char in line:
-            if char in PAIRS.keys():
-                next.append(PAIRS[char])
-            elif char != next.pop():
-                corrupted.append(char)
-                break
-    return corrupted
-
-# The missing closing characters.
-def incomplete_chars(filename: str) -> list:
-    lines = Reader(filename).char_lines()
     incomplete = []
     for line in lines:
-        next = []
+        stack = []
         corrupt = False
         for char in line:
             if char in PAIRS.keys():
-                next.append(PAIRS[char])
-            elif char != next.pop():
+                stack.append(PAIRS[char])
+            elif char != stack.pop():
+                corrupted.append((line, char))
                 corrupt = True
                 break
-        if corrupt:
-            continue
-        incomplete.append(list(reversed(next)))
-    return incomplete
+        if not corrupt:
+            incomplete.append((line, list(reversed(stack))))
+    return (corrupted, incomplete)
 
 
 def score_incomplete(errors: list) -> int:
@@ -56,8 +58,3 @@ def score_incomplete(errors: list) -> int:
     scores = sorted(scores)
     middle = int((len(scores) - 1)/2)
     return scores[middle]
-
-
-def score_corrupted(errors: list) -> int:
-    points = {')': 3, ']': 57, '}': 1197, '>': 25137}
-    return sum(points[char] for char in errors)

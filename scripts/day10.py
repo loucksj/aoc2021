@@ -20,11 +20,9 @@ def corrupt_chars(filename: str) -> list:
         for char in line:
             if char in PAIRS.keys():
                 next.append(PAIRS[char])
-                continue
-            if char == next.pop():
-                continue
-            corrupted.append(char)
-            break
+            elif char != next.pop():
+                corrupted.append(char)
+                break
     return corrupted
 
 # Missing closing chars.

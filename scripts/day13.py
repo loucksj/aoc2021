@@ -29,7 +29,7 @@ class Paper():
         if self.folds[0][0] == 'y':
             self.fold_y(self.folds[0][1])
         return self
-    
+
     def fold_all(self):
         for fold in self.folds:
             if fold[0] == 'x':

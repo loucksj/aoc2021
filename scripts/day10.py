@@ -11,7 +11,7 @@ def part_two(filename: str) -> int:
     return score_incomplete(incomplete_chars(filename))
 
 
-# First incorrect closing chars.
+# The first incorrect closing characters.
 def corrupt_chars(filename: str) -> list:
     lines = Reader(filename).char_lines()
     corrupted = []
@@ -25,7 +25,7 @@ def corrupt_chars(filename: str) -> list:
                 break
     return corrupted
 
-# Missing closing chars.
+# The missing closing characters.
 def incomplete_chars(filename: str) -> list:
     lines = Reader(filename).char_lines()
     incomplete = []
@@ -35,11 +35,9 @@ def incomplete_chars(filename: str) -> list:
         for char in line:
             if char in PAIRS.keys():
                 next.append(PAIRS[char])
-                continue
-            if char == next.pop():
-                continue
-            corrupt = True
-            break
+            elif char != next.pop():
+                corrupt = True
+                break
         if corrupt:
             continue
         incomplete.append(list(reversed(next)))

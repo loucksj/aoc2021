@@ -13,7 +13,7 @@ class Paper():
     def __init__(self, filename: str):
         self.folds = get_folds(filename)
         self.points = get_points(filename)
-        self.rows = self.make_rows()
+        self.matrix = self.make_rows()
 
     def fold_first(self):
         self.do_fold(self.folds[0])
@@ -26,8 +26,8 @@ class Paper():
 
     def do_fold(self, fold: tuple):
         way, at = fold
-        self.rows = fold_x(self.rows, at) if way == 'x' \
-            else fold_y(self.rows, at)
+        self.matrix = fold_x(self.matrix, at) if way == 'x' \
+            else fold_y(self.matrix, at)
 
     def make_rows(self) -> list:
         rows = []
@@ -48,11 +48,11 @@ class Paper():
         return (max_x, max_y)
 
     def dot_count(self) -> int:
-        return sum(sum(1 for val in row if val > 0) for row in self.rows)
+        return sum(sum(1 for val in row if val > 0) for row in self.matrix)
 
     def printstring(self):
         string = ''
-        for row in self.rows:
+        for row in self.matrix:
             for col in row:
                 string += '#' if col > 0 else '.'
             string += '\n'

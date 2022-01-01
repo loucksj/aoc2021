@@ -4,10 +4,31 @@ PAIRS = {'(': ')', '[': ']', '{': '}', '<': '>', }
 
 
 def part_one(filename: str) -> int:
-    return score_corrupted(corrupted_characters(filename))
+    return score_corrupted(corrupt_chars(filename))
 
 
 def part_two(filename: str) -> int:
+    return score_incomplete(incomplete_chars(filename))
+
+
+# First incorrect closing chars.
+def corrupt_chars(filename: str) -> list:
+    lines = Reader(filename).char_lines()
+    corrupted = []
+    for line in lines:
+        next = []
+        for char in line:
+            if char in PAIRS.keys():
+                next.append(PAIRS[char])
+                continue
+            if char == next.pop():
+                continue
+            corrupted.append(char)
+            break
+    return corrupted
+
+# Missing closing chars.
+def incomplete_chars(filename: str) -> list:
     lines = Reader(filename).char_lines()
     incomplete = []
     for line in lines:
@@ -24,23 +45,7 @@ def part_two(filename: str) -> int:
         if corrupt:
             continue
         incomplete.append(list(reversed(next)))
-    return score_incomplete(incomplete)
-
-
-def corrupted_characters(filename: str) -> list:
-    lines = Reader(filename).char_lines()
-    corrupted = []
-    for line in lines:
-        next = []
-        for char in line:
-            if char in PAIRS.keys():
-                next.append(PAIRS[char])
-                continue
-            if char == next.pop():
-                continue
-            corrupted.append(char)
-            break
-    return corrupted
+    return incomplete
 
 
 def score_incomplete(errors: list) -> int:

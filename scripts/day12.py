@@ -15,6 +15,8 @@ class Caves:
         lines = Reader(filename).split_lines('-')
         for line in lines:
             self.add(line[0], line[1])
+        self.start = self.start()
+        self.end = self.end()
 
     class Cave:
         def __init__(self, name: str):
@@ -34,9 +36,9 @@ class Caves:
 
     def explore(self, cave=[], path=[]) -> int:
         if cave == []:
-            cave = self.start()
+            cave = self.start
         path.append(cave.name)
-        if cave == self.end():
+        if cave == self.end:
             return 1
         count = 0
         for c in cave.caves:
@@ -46,13 +48,13 @@ class Caves:
 
     def delve(self, cave=[], path=[], boost=True) -> int:
         if cave == []:
-            cave = self.start()
+            cave = self.start
         path.append(cave.name)
-        if cave == self.end():
+        if cave == self.end:
             return 1
         count = 0
         for c in cave.caves:
-            if c == self.start():
+            if c == self.start:
                 continue
             if c.name in path and not c.is_big and boost:
                 count += self.delve(c, path.copy(), False)

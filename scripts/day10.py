@@ -1,6 +1,8 @@
 from scripts.main import Reader
 
 PAIRS = {'(': ')', '[': ']', '{': '}', '<': '>', }
+CORRUPT_POINTS = {')': 3, ']': 57, '}': 1197, '>': 25137}
+INCOMPLETE_POINTS = {')': 1, ']': 2, '}': 3, '>': 4}
 
 
 def part_one(filename: str) -> int:
@@ -12,8 +14,12 @@ def part_two(filename: str) -> int:
 
 
 def score_corrupted(filename: str) -> int:
-    points = {')': 3, ']': 57, '}': 1197, '>': 25137}
-    return sum(points[char] for char in corrupt_chars(filename))
+    return sum(CORRUPT_POINTS[char] for char in corrupt_chars(filename))
+
+
+def corrupt_chars(filename: str) -> list:
+    # The first incorrect closing characters.
+    return [char for _, char in line_data(filename)[0]]
 
 
 def score_incomplete(filename: str) -> int:
@@ -22,30 +28,27 @@ def score_incomplete(filename: str) -> int:
     return sorted(scores)[middle_index]
 
 
-def incomplete_scores(filename: str) -> int:
-    points = {')': 1, ']': 2, '}': 3, '>': 4}
-    errors = incomplete_chars(filename)
-    scores = []
-    for line in errors:
-        score = 0
-        for error in line:
-            score *= 5
-            score += points[error]
-        scores.append(score)
-    return scores
-
-
-def corrupt_chars(filename: str) -> list:
-    return [char for _, char in line_data(filename)[0]]
-
-
 def incomplete_chars(filename: str) -> list:
     # The missing closing characters.
     return [chars for _, chars in line_data(filename)[1]]
 
 
+def incomplete_scores(filename: str) -> int:
+    errors = incomplete_chars(filename)
+    scores = []
+    for line in errors:
+        scores.append(incomplete_line_score(line))
+    return scores
+
+
+def incomplete_line_score(line: list):
+    score = 0
+    for error in line:
+        score = score * 5 + INCOMPLETE_POINTS[error]
+    return score
+
+
 def line_data(filename: str) -> list:
-    # The first incorrect closing characters.
     lines = Reader(filename).char_lines()
     corrupted = []
     incomplete = []

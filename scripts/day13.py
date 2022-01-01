@@ -17,10 +17,10 @@ class Paper():
 
     def make_rows(self) -> list:
         rows = []
-        row, col = self.get_max_xy()
-        columns = col + 1
+        rowmax, colmax = self.get_max_xy()
+        columns = colmax + 1
         for _ in range(columns):
-            rows.append([0]*(row + 1))
+            rows.append([0]*(rowmax + 1))
         for x, y in self.points:
             rows[y][x] += 1
         return rows
@@ -44,18 +44,15 @@ class Paper():
         string = ''
         for row in self.rows:
             for col in row:
-                if col > 0:
-                    string += '#'
-                else:
-                    string += '.'
+                string += '#' if col > 0 else '.'
             string += '\n'
         return string
 
     def dot_count(self) -> int:
         count = 0
         for row in self.rows:
-            for col in row:
-                if col > 0:
+            for val in row:
+                if val > 0:
                     count += 1
         return count
 

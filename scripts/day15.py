@@ -13,45 +13,46 @@ class Map():
     def __init__(self, filename: str):
         self.point = [0, 0]
         self.matrix = Reader(filename).integer_lines()
-        self.risks = [[-1 for _ in row] for row in self.matrix]
+        self.distances = [[-1 for _ in row] for row in self.matrix]
         self.current = [[0, 0]]
 
     def lowest_path(self):
-        self.risks[0][0] = 0
+        self.distances[0][0] = 0  # start
         endpoint = [len(self.matrix) - 1, len(self.matrix[0]) - 1]
         while True:
             self.current.remove([self.point[0], self.point[1]])
             self.update()
             self.move()
             if self.point == endpoint:
-                return self.risks[-1][-1]
+                return self.distances[-1][-1]
 
+    # Add unexplored neighbors to current
+    # Update neighbor's distance
     def update(self):
         directions = [[-1, 0], [+1, 0],  # up, down
                       [0, -1], [0, +1]]  # left, right
-        for direction in directions:
-            row = self.point[0]+direction[0]
-            col = self.point[1]+direction[1]
+        for d_row, d_col in directions:
+            row, col = self.point[0] + d_row, self.point[1] + d_col
             if row < 0 or row >= len(self.matrix) or col < 0 or col >= len(self.matrix[0]):
                 continue  # edge
-            risk = self.risks[row][col]
+            risk = self.distances[row][col]
             if risk == 0:
                 continue  # visited
             distance = self.matrix[row][col] + \
-                self.risks[self.point[0]][self.point[1]]
+                self.distances[self.point[0]][self.point[1]]
             if risk == -1 or distance < risk:
                 if risk == -1:
                     self.current.append([row, col])
-                self.risks[row][col] = distance
+                self.distances[row][col] = distance
 
     def move(self) -> list:
-        self.risks[self.point[0]][self.point[1]] = 0
+        self.distances[self.point[0]][self.point[1]] = 0
         smallest = 0
         for point in self.current:
-            d = self.risks[point[0]][point[1]]
+            d = self.distances[point[0]][point[1]]
             if d > 0 and (smallest == 0 or d < smallest):
                 self.point = [point[0], point[1]]
-                smallest = self.risks[self.point[0]][self.point[1]]
+                smallest = self.distances[self.point[0]][self.point[1]]
 
     def expand(self):
         width, height = len(self.matrix), len(self.matrix[0])
@@ -66,5 +67,5 @@ class Map():
                 while new_map[row][col] > 9:
                     new_map[row][col] -= 9
         self.matrix = new_map
-        self.risks = [[-1 for _ in row] for row in self.matrix]
+        self.distances = [[-1 for _ in row] for row in self.matrix]
         return self

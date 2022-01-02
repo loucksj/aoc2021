@@ -16,7 +16,7 @@ class Polymer():
         lines = Reader(filename).halves_lined()
         self.original_chain = lines[0][0]
         self.rules = dict(line.split(' -> ') for line in lines[1])
-        self.pairs = self.get_pairs()
+        self.pair_counts = self.count_pairs()
 
     def do_steps(self, steps):
         for _ in range(steps):
@@ -28,46 +28,31 @@ class Polymer():
         return max(scores) - min(scores)
 
     def letter_scores(self):
-        # Each letter is part of two pairs, so its score is halved
+        # Each letter is part of two pairs, so its count is halved...
         scores = {}
-        for key in self.pairs.keys():
-            for s in key:
-                if s in scores:
-                    scores[s] += self.pairs[key] / 2
-                else:
-                    scores[s] = self.pairs[key] / 2
-        # Except the first and last letter
+        for key in self.pair_counts.keys():
+            for char in key:
+                scores[char] = scores.get(char, 0) + self.pair_counts[key] / 2
+        # ...except the first and last letter, which are un-halved
         first, last = self.original_chain[0], self.original_chain[-1]
         scores[first] += 0.5
         scores[last] += 0.5
         return scores.values()
 
     def step(self) -> dict:
-        new_pairs = {}
-        for pair in self.pairs:
+        next_pairs = {}
+        for pair in self.pair_counts:
             if pair in self.rules.keys():
-                magnitude = self.pairs[pair]
-                b = self.rules[pair]
-                ab = pair[0] + b
-                if ab in new_pairs:
-                    new_pairs[ab] += magnitude
-                else:
-                    new_pairs[ab] = magnitude
-                bc = b + pair[1]
-                if bc in new_pairs:
-                    new_pairs[bc] += magnitude
-                else:
-                    new_pairs[bc] = magnitude
-        self.pairs = new_pairs
+                count = self.pair_counts[pair]
+                left = pair[0] + self.rules[pair]
+                right = self.rules[pair] + pair[1]
+                next_pairs[left] = next_pairs.get(left, 0) + count
+                next_pairs[right] = next_pairs.get(right, 0) + count
+        self.pair_counts = next_pairs
 
-    def get_pairs(self) -> dict:
+    def count_pairs(self) -> dict:
         pairs = {}
         for i in range(len(self.original_chain)-1):
-            a = self.original_chain[i]
-            b = self.original_chain[i+1]
-            ab = a+b
-            if ab in pairs.keys():
-                pairs[ab] += 1
-            else:
-                pairs[ab] = 1
+            pair = self.original_chain[i] + self.original_chain[i + 1]
+            pairs[pair] = pairs.get(pair, 0) + 1
         return pairs

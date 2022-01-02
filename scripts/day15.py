@@ -1,25 +1,19 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    map = Map(filename)
-    risk = map.find_path()
-    return risk
+    return Map(filename).find_path()
 
 def part_two(filename: str) -> int:
-    map = Map(filename)
-    map.expand()
-    risk = map.find_path()
-    return risk
+    return Map(filename).expand().find_path()
 
 class Map():
     def __init__(self, filename: str):
-        lines = Reader(filename).lines()
         self.point = [0, 0]
         self.rows = []
         self.open = [[0, 0]]
-        for i in range(len(lines)):
+        for i, line in enumerate(Reader(filename).lines()):
             self.rows.append([])
-            for char in lines[i]:
+            for char in line:
                 self.rows[i].append([int(char), -1])
 
     def expand(self):
@@ -40,6 +34,7 @@ class Map():
                     if new_map[row][col][0] > 9:
                         new_map[row][col][0] = 1
         self.rows = new_map
+        return self
 
     def find_path(self):
         height = len(self.rows)

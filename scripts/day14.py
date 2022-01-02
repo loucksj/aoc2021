@@ -6,13 +6,7 @@ def part_one(filename: str) -> int:
 
 
 def part_two(filename: str) -> int:
-    polymer = Polymer(filename)
-
-    pairs = polymer.get_pairs()
-    for _ in range(40):
-        pairs = polymer.pair_insert(pairs)
-
-    return polymer.pair_score(pairs)
+    return Polymer(filename).do_steps_paired(40).pair_score()
 
 
 class Polymer():
@@ -20,10 +14,16 @@ class Polymer():
         lines = Reader(filename).halves_lined()
         self.chain = lines[0][0]
         self.rules = dict(line.split(' -> ') for line in lines[1])
+        self.pairs = self.get_pairs()
 
     def do_steps(self, steps):
         for _ in range(steps):
             self.chain = self.insert()
+        return self
+
+    def do_steps_paired(self, steps):
+        for _ in range(steps):
+            self.pair_insert()
         return self
 
     def insert(self) -> str:
@@ -49,11 +49,11 @@ class Polymer():
         most = max(counts.values())
         return most - least
 
-    def pair_score(self, pairs: dict):
+    def pair_score(self):
         first, last = self.chain[0], self.chain[-1]
         scores = {}
-        for key in pairs.keys():
-            magnitude = pairs[key]
+        for key in self.pairs.keys():
+            magnitude = self.pairs[key]
             for s in key:
                 if s in scores:
                     scores[s] += magnitude / 2
@@ -66,11 +66,11 @@ class Polymer():
         score = largest - smallest
         return int(score)
 
-    def pair_insert(self, pairs: dict) -> dict:
+    def pair_insert(self) -> dict:
         new_pairs = {}
-        for pair in pairs:
+        for pair in self.pairs:
             if pair in self.rules.keys():
-                magnitude = pairs[pair]
+                magnitude = self.pairs[pair]
                 b = self.rules[pair]
                 ab = pair[0] + b
                 if ab in new_pairs:
@@ -82,7 +82,7 @@ class Polymer():
                     new_pairs[bc] += magnitude
                 else:
                     new_pairs[bc] = magnitude
-        return new_pairs
+        self.pairs = new_pairs
 
     def get_pairs(self) -> dict:
         pairs = {}

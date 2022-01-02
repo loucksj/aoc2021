@@ -17,19 +17,18 @@ class Map():
         self.current = [[0, 0]]
 
     def lowest_path(self):
-        height = len(self.matrix)
-        width = len(self.matrix[0])
         self.risks[0][0] = 0
+        endpoint = [len(self.matrix) - 1, len(self.matrix[0]) - 1]
         while True:
             self.current.remove([self.point[0], self.point[1]])
             self.update()
             self.move()
-            if self.point[0] == height-1 and self.point[1] == width-1:
+            if self.point == endpoint:
                 return self.risks[-1][-1]
 
     def update(self):
-        directions = [[-1, 0], [+1, 0], [0, -1],
-                      [0, +1]]  # up, down, left, right
+        directions = [[-1, 0], [+1, 0],  # up, down
+                      [0, -1], [0, +1]]  # left, right
         for direction in directions:
             row = self.point[0]+direction[0]
             col = self.point[1]+direction[1]

@@ -110,7 +110,7 @@ def test_day15():
     assert day15.part_one('day15_ex.txt') == 40
     assert day15.part_one('day15.txt') == _key.DAY15_1
     assert day15.part_two('day15_ex.txt') == 315
-    # assert day15.part_two('day15.txt') == _key.DAY15_2 # correct, but slow
+    #assert day15.part_two('day15.txt') == _key.DAY15_2 # correct, but slow
 
 
 def test_day16():

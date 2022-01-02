@@ -11,7 +11,7 @@ def part_two(filename: str) -> int:
 
 class Polymer():
     # The polymer is tracked as the count of each unique pair of letters.
-    # With each step, each pair (with a rule) doubles into two new pairs.
+    # With each step, each pair with a rule doubles into two new pairs.
     def __init__(self, filename: str) -> None:
         lines = Reader(filename).halves_lined()
         self.original_chain = lines[0][0]
@@ -22,6 +22,16 @@ class Polymer():
         for _ in range(steps):
             self.step()
         return self
+
+    def step(self) -> dict:
+        pair_counts = {}
+        for pair in [pair for pair in self.pair_counts if pair in self.rules]:
+            left = pair[0] + self.rules[pair]
+            right = self.rules[pair] + pair[1]
+            count = self.pair_counts[pair]
+            pair_counts[left] = pair_counts.get(left, 0) + count
+            pair_counts[right] = pair_counts.get(right, 0) + count
+        self.pair_counts = pair_counts
 
     def score(self):
         scores = self.letter_scores()
@@ -37,16 +47,6 @@ class Polymer():
         scores[self.original_chain[0]] += 0.5
         scores[self.original_chain[-1]] += 0.5
         return scores.values()
-
-    def step(self) -> dict:
-        pair_counts = {}
-        for pair in [pair for pair in self.pair_counts if pair in self.rules]:
-            left = pair[0] + self.rules[pair]
-            right = self.rules[pair] + pair[1]
-            count = self.pair_counts[pair]
-            pair_counts[left] = pair_counts.get(left, 0) + count
-            pair_counts[right] = pair_counts.get(right, 0) + count
-        self.pair_counts = pair_counts
 
     def count_pairs(self) -> dict:
         pairs = {}

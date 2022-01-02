@@ -1,28 +1,23 @@
 from scripts.main import Reader
 
 def part_one(filename: str) -> int:
-    lines = Reader(filename).lines()
-
-    map = Map(lines)
+    map = Map(filename)
     risk = map.find_path()
-
     return risk
 
 def part_two(filename: str) -> int:
-    lines = Reader(filename).lines()
-
-    map = Map(lines)
+    map = Map(filename)
     map.expand()
     risk = map.find_path()
-
     return risk
 
 class Map():
-    def __init__(self, lines: list):
+    def __init__(self, filename: str):
+        lines = Reader(filename).lines()
         self.point = [0, 0]
         self.rows = []
         self.open = [[0, 0]]
-        for i in range(0, len(lines)):
+        for i in range(len(lines)):
             self.rows.append([])
             for char in lines[i]:
                 self.rows[i].append([int(char), -1])
@@ -31,9 +26,9 @@ class Map():
         height = len(self.rows)
         width = len(self.rows[0])
         new_map = []
-        for row in range(0, 5*height):
+        for row in range(5*height):
             new_map.append([])
-            for col in range(0, 5*width):
+            for col in range(5*width):
                 if row < height and col < width:
                     new_map[row].append(self.rows[row][col].copy())
                 elif row >= height:

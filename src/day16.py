@@ -16,21 +16,22 @@ def get_binary_list(filename: str) -> list:
     return binary_list
 
 
-def int_from_binary_list(binary: list) -> int:
+def int_from(binary: list) -> int:
     return int(''.join([str(digit) for digit in binary]), 2)
 
 
 class Packet:
     def __init__(self, binary):
         self.binary = binary
-        self.version = int_from_binary_list(self.binary[:3])
-        self.type = self.binary[3:6]
+        self.version = int_from(self.binary[:3])
+        self.type = int_from(self.binary[3:6])
         self.subpackets = []
-        self.process_subpackets()
+        self.value = None
+        self.process()
 
-    def process_subpackets(self):
+    def process(self):
         if self.type == 4:  # Spec: Type of '4' is literal.
-            return self.as_literal()
+            self.value = self.as_literal()
 
     def as_literal(self):
         binary = []
@@ -40,7 +41,7 @@ class Packet:
             if self.binary[i] == 0:
                 break
             i += 5
-        return int_from_binary_list(binary)
+        return int_from(binary)
 
     def sum_all_versions(self) -> int:
         return self.version + sum(packet.version for packet in self.subpackets)

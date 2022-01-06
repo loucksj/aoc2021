@@ -117,7 +117,7 @@ def test_day15():
 
 def test_day16():
     assert day16.part_one('day16_ex_literal.txt') == 6
-    # assert day16.part_one('day16_ex_operator.txt') == 1
+    assert day16.part_one('day16_ex_operator_15bit.txt') == 1
     # assert day16.part_one('day16_ex1.txt') == 16
     # assert day16.part_one('day16_ex2.txt') == 12
     # assert day16.part_one('day16_ex3.txt') == 23

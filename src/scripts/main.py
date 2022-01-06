@@ -1,4 +1,6 @@
-PATH = './src/inputs/'
+from pathlib import Path
+
+PATH = Path('./src/inputs/')
 
 
 class Reader():
@@ -6,14 +8,14 @@ class Reader():
         self.filename = filename
 
     def read(self) -> str:
-        file_ = open(PATH + self.filename, 'r')
+        file_ = open(PATH / self.filename, 'r')
         string = file_.read().strip()
         file_.close()
         return string
 
     def halves(self) -> list:
         return self.read().split('\n\n')
-    
+
     def halves_lined(self) -> list:
         return [half.split('\n') for half in self.halves()]
 
@@ -25,7 +27,7 @@ class Reader():
 
     def char_lines(self):
         return [[char for char in line] for line in self.lines()]
-    
+
     def split_first_ints(self, at=' '):
         return [int(val) for val in self.lines()[0].split(at)]
 
@@ -34,7 +36,7 @@ class Reader():
 
     def integers(self) -> list:
         return [int(s) for s in self.lines()]
-    
+
     def integer_lines(self) -> list:
         return [[int(digit) for digit in line] for line in self.lines()]
 

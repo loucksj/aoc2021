@@ -22,12 +22,12 @@ class Board:
         self.steps = 0
         self.flashes = 0
 
-    def step(self, times: int) -> int:
+    def step(self, times: int):
         for _ in range(times):
             self.energize_all()
         return self
 
-    def sync(self) -> int:
+    def sync(self):
         while sum(sum(col for col in row) for row in self.rows) != 0:
             self.energize_all()
         return self

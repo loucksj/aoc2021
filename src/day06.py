@@ -9,7 +9,7 @@ def part_two(filename: str) -> int:
     return Fishes(filename).after(256)
 
 
-class Fishes():
+class Fishes:
     def __init__(self, filename: str) -> None:
         fishes = Reader(filename).split_first_ints(',')
         self.fish = [fishes.count(i) for i in range(9)]

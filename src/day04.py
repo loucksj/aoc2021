@@ -1,4 +1,5 @@
-from src.main import Reader, transpose
+from src import main
+from src.main import Reader
 
 
 def part_one(filename: str) -> int:
@@ -9,7 +10,7 @@ def part_two(filename: str) -> int:
     return BingoGame(filename).winners[-1].score()
 
 
-class BingoGame():
+class BingoGame:
     def __init__(self, filename: str) -> None:
         self.draws = Reader(filename).split_first_ints(',')
         self.active = self.get_boards_from_file(filename)
@@ -19,7 +20,8 @@ class BingoGame():
     def get_boards_from_file(self, filename: str) -> list:
         return [self.board_from_string(board_str) for board_str in Reader(filename).halves()[1:]]
 
-    def board_from_string(self, string: str):
+    @staticmethod
+    def board_from_string(string: str):
         return Board([list(map(int, line.split())) for line in string.split('\n')])
 
     def run(self):
@@ -35,7 +37,7 @@ class BingoGame():
 
 
 class Board:
-    def __init__(self, matrix: str):
+    def __init__(self, matrix: list):
         self.numbers = matrix
         self.won_on = -1
 
@@ -46,7 +48,7 @@ class Board:
             self.won_on = draw
 
     def win_check(self):
-        for line in self.numbers + transpose(self.numbers):
+        for line in self.numbers + main.transpose(self.numbers):
             if line.count(-1) == len(line):
                 return True
 

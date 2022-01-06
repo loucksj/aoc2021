@@ -9,7 +9,7 @@ def part_two(filename: str) -> int:
     return AimSubmarine().navigate_from_file(filename).vector()
 
 
-class Submarine():
+class Submarine:
     def __init__(self):
         self.aim = 0
         self.depth = 0

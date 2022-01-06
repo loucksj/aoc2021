@@ -9,7 +9,7 @@ def part_two(filename: str) -> int:
     return Polymer(filename).steps(40).score()
 
 
-class Polymer():
+class Polymer:
     # The polymer is tracked as the count of each unique pair of letters.
     # With each step, each pair with a rule doubles into two new pairs.
     def __init__(self, filename: str) -> None:
@@ -23,7 +23,7 @@ class Polymer():
             self.step()
         return self
 
-    def step(self) -> dict:
+    def step(self):
         pair_counts = {}
         for pair in [pair for pair in self.pair_counts if pair in self.rules]:
             left = pair[0] + self.rules[pair]

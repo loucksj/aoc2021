@@ -12,14 +12,14 @@ def part_two(filename: str) -> int:
     return IntMatrix(filename).basinproduct()
 
 
-class IntMatrix():
+class IntMatrix:
     def __init__(self, filename) -> None:
         self.matrix = Reader(filename).integer_lines()
 
     def risksum(self):
         return sum(1 + val for val in self.lowpoint_values())
 
-    def basinproduct(self) -> list:
+    def basinproduct(self) -> int:
         sizes = sorted(self.basin_sizes())
         return sizes[-1] * sizes[-2] * sizes[-3]
 
@@ -38,8 +38,8 @@ class IntMatrix():
                     lows.append((row, col))
         return lows
 
-    def basin_size(self, row: int, col: int, matrix=[]) -> int:
-        if matrix == []:
+    def basin_size(self, row: int, col: int, matrix=None) -> int:
+        if not matrix:
             matrix = self.matrix.copy()
         count = 1
         matrix[row][col] = 0

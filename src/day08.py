@@ -16,11 +16,11 @@ def part_two(filename: str) -> int:
     return Decoder(filename).sum_outputs()
 
 
-def sumif_2347(strings: list):
+def sumif_2347(strings: str):
     return sum(1 for digit in strings.split() if len(digit) in [2, 3, 4, 7])
 
 
-class Decoder():
+class Decoder:
     def __init__(self, filename: str):
         lines = Reader(filename).split_lines(' | ')
         self.outputs = [sorted_elements(output) for _, output in lines]
@@ -33,7 +33,8 @@ class Decoder():
             total += int("".join(str(decoder[digit]) for digit in output))
         return total
 
-    def decode(self, signals: list) -> dict:
+    @staticmethod
+    def decode(signals: list) -> dict:
         sums = letter_sums(signals)
         return {signal: SUM_KEY[sums[signal]] for signal in signals}
 

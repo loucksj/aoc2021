@@ -17,7 +17,7 @@ def part_two(filename: str) -> int:
     return Syntax(filename).score_incomplete()
 
 
-class Syntax():
+class Syntax:
     def __init__(self, filename: str) -> None:
         self.lines = Reader(filename).char_lines()
 
@@ -32,19 +32,20 @@ class Syntax():
         middle_index = int((len(scores) - 1) / 2)
         return sorted(scores)[middle_index]
 
-    def incomplete_scores(self) -> int:
+    def incomplete_scores(self) -> list:
         return [self.incomplete_line_score(line) for line in self.incomplete_chars()]
 
     def incomplete_chars(self) -> list:
         return [chars for _, chars in self.line_data()[1]]
 
-    def incomplete_line_score(self, line: list):
+    @staticmethod
+    def incomplete_line_score(line: list):
         score = 0
         for error in line:
             score = score * 5 + INCOMPLETE_POINTS[error]
         return score
 
-    def line_data(self) -> list:
+    def line_data(self) -> tuple:
         corrupted = []
         incomplete = []
         for line in self.lines:
@@ -59,4 +60,4 @@ class Syntax():
                     break
             if not corrupt:
                 incomplete.append((line, list(reversed(stack))))
-        return (corrupted, incomplete)
+        return corrupted, incomplete

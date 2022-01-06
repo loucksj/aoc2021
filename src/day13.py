@@ -9,7 +9,7 @@ def part_two(filename: str):
     return Paper(filename).fold_all().printstring()
 
 
-class Paper():
+class Paper:
     def __init__(self, filename: str):
         self.folds = get_folds(filename)
         self.points = get_points(filename)
@@ -45,7 +45,7 @@ class Paper():
         for x, y in self.points:
             max_x = max(x, max_x)
             max_y = max(y, max_y)
-        return (max_x, max_y)
+        return max_x, max_y
 
     def dot_count(self) -> int:
         return sum(sum(1 for val in row if val > 0) for row in self.matrix)
@@ -78,7 +78,7 @@ def fold_y(matrix: list, at_y: int) -> list:
     return new
 
 
-def get_points(filename: list) -> list:
+def get_points(filename: str) -> list:
     lines = Reader(filename).halves_lined()[0]
     points = []
     for line in lines:

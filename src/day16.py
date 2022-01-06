@@ -20,7 +20,7 @@ def int_from_binary_list(binary: list) -> int:
     return int(''.join([str(digit) for digit in binary]), 2)
 
 
-class Packet():
+class Packet:
     def __init__(self, binary):
         self.binary = binary
         self.version = int_from_binary_list(self.binary[:3])

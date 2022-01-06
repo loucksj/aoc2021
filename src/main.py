@@ -3,7 +3,7 @@ from pathlib import Path
 PATH = Path('./inputs/')
 
 
-class Reader():
+class Reader:
     def __init__(self, filename: str):
         self.filename = filename
 

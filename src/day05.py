@@ -14,7 +14,8 @@ class Vents:
         self.paths = self.paths_from_file(filename)
         self.rows = [[0] * (self.max_y() + 1) for _ in range(self.max_x() + 1)]
 
-    def paths_from_file(self, filename: str) -> list:
+    @staticmethod
+    def paths_from_file(filename: str) -> list:
         return [[list(map(int, pair.split(','))) for pair in path] for path in Reader(filename).split_lines(' -> ')]
 
     def score(self) -> int:
@@ -41,7 +42,8 @@ class Vents:
         length = max(abs(x_start - x_end), abs(y_start - y_end)) + 1
         return list(zip(self.make_range(x_start, x_end, length), self.make_range(y_start, y_end, length)))
 
-    def make_range(self, start: int, end: int, length: int):
+    @staticmethod
+    def make_range(start: int, end: int, length: int):
         values = list(range(min(start, end), max(start, end) + 1))
         if start > end:
             values = list(reversed(values))

@@ -9,7 +9,7 @@ def part_two(filename: str) -> int:
     return Map(filename).expand().lowest_path()
 
 
-class Map():
+class Map:
     def __init__(self, filename: str):
         self.point = [0, 0]
         self.matrix = Reader(filename).integer_lines()
@@ -38,14 +38,13 @@ class Map():
             risk = self.distances[row][col]
             if risk == 0:
                 continue  # visited
-            distance = self.matrix[row][col] + \
-                       self.distances[self.point[0]][self.point[1]]
+            distance = self.matrix[row][col] + self.distances[self.point[0]][self.point[1]]
             if risk == -1 or distance < risk:
                 if risk == -1:
                     self.current.append([row, col])
                 self.distances[row][col] = distance
 
-    def move(self) -> list:
+    def move(self):
         self.distances[self.point[0]][self.point[1]] = 0
         smallest = 0
         for point in self.current:

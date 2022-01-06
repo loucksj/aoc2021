@@ -1,4 +1,4 @@
-from src.scripts.main import Reader
+from src.main import Reader
 
 
 def part_one(filename: str) -> int:

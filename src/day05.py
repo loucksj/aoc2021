@@ -1,4 +1,4 @@
-from src.scripts.main import Reader
+from src.main import Reader
 
 
 def part_one(filename: str) -> int:
@@ -12,7 +12,7 @@ def part_two(filename: str) -> int:
 class Vents:
     def __init__(self, filename: str):
         self.paths = self.paths_from_file(filename)
-        self.rows = [[0]*(self.max_y() + 1) for _ in range(self.max_x() + 1)]
+        self.rows = [[0] * (self.max_y() + 1) for _ in range(self.max_x() + 1)]
 
     def paths_from_file(self, filename: str) -> list:
         return [[list(map(int, pair.split(','))) for pair in path] for path in Reader(filename).split_lines(' -> ')]
@@ -46,7 +46,7 @@ class Vents:
         if start > end:
             values = list(reversed(values))
         if len(values) == 1:
-            values = [start]*length
+            values = [start] * length
         return values
 
     def max_x(self) -> int:

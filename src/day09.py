@@ -1,4 +1,4 @@
-from src.scripts.main import Reader
+from src.main import Reader
 
 # left, right, up, down
 ORTHOGONALS = [(0, -1), (0, 1), (-1, 0), (1, 0)]

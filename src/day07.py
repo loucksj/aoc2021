@@ -1,4 +1,4 @@
-from src.scripts.main import Reader
+from src.main import Reader
 
 
 def part_one(filename: str) -> int:
@@ -15,7 +15,7 @@ class Crabs():
         self.spent_fuel = 0
 
     def make_crabs(self, positions: list) -> list:
-        return [[positions.count(i)] for i in range(max(positions)+1)]
+        return [[positions.count(i)] for i in range(max(positions) + 1)]
 
     def merge(self, cumulative=False) -> int:
         bump = 1 if cumulative else 0

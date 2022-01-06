@@ -1,4 +1,4 @@
-from src.scripts.main import Reader, transpose
+from src.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
@@ -34,7 +34,7 @@ class Paper():
         rowmax, colmax = self.get_max_xy()
         columns = colmax + 1
         for _ in range(columns):
-            rows.append([0]*(rowmax + 1))
+            rows.append([0] * (rowmax + 1))
         for x, y in self.points:
             rows[y][x] += 1
         return rows

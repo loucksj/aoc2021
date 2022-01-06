@@ -1,4 +1,4 @@
-from src.scripts.main import Reader
+from src.main import Reader
 
 
 def part_one(filename: str) -> int:
@@ -39,7 +39,7 @@ class Map():
             if risk == 0:
                 continue  # visited
             distance = self.matrix[row][col] + \
-                self.distances[self.point[0]][self.point[1]]
+                       self.distances[self.point[0]][self.point[1]]
             if risk == -1 or distance < risk:
                 if risk == -1:
                     self.current.append([row, col])
@@ -62,7 +62,7 @@ class Map():
             for col in range(new_width):
                 r = row % height
                 c = col % width
-                bonus = int(row/height) + int(col/width)
+                bonus = int(row / height) + int(col / width)
                 new_map[row][col] = self.matrix[r][c] + bonus
                 while new_map[row][col] > 9:
                     new_map[row][col] -= 9

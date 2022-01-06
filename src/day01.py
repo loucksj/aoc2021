@@ -1,4 +1,4 @@
-from src.scripts.main import Reader
+from src.main import Reader
 
 
 def part_one(filename: str) -> int:
@@ -14,4 +14,4 @@ def count_greaterthan_prev(values: list):
 
 
 def add_neighbors(values: list, neighbors: int) -> list:
-    return [sum(values[i:i+1+neighbors]) for i in range(len(values)-neighbors)]
+    return [sum(values[i:i + 1 + neighbors]) for i in range(len(values) - neighbors)]

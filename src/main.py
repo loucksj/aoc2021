@@ -1,6 +1,6 @@
 from pathlib import Path
 
-PATH = Path('./src/inputs/')
+PATH = Path('./inputs/')
 
 
 class Reader():

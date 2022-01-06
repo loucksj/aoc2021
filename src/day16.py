@@ -45,21 +45,32 @@ class Packet:
     def operator_15bit(self):
         subpacket_length = int_from(self.binary[7:22])
         packages = self.binary[22:22 + subpacket_length]
-        start = 0
-        end = 6
-        while start < len(packages):
-            if packages[end] == 0:
-                end += 5
-                binary = packages[start:end]
-                self.subpackets.append(Packet(binary))
-                start = end
-                end = start + 6
-            else:
-                end += 5
+        while sum(packages) > 0:
+            packages = self.process_next(packages)
 
     def operator_11bit(self):
         subpacket_count = int_from(self.binary[7:18])
-        #todo process
+        packages = self.binary[18:]
+        count = 0
+        while count < subpacket_count:
+            packages += self.process_next(packages)
+            count += 1
+
+    def process_next(self, binary: list) -> list:
+        is_literal = int_from(binary[3:6]) == 4
+        start = 0
+        end = 6
+        if is_literal:
+            while start < len(binary):
+                if binary[end] == 0:
+                    end += 5
+                    literal = binary[start:end]
+                    self.subpackets.append(Packet(literal))
+                    return binary[end:]
+                else:
+                    end += 5
+        else:
+            pass  # todo
 
     def as_literal(self):
         binary = []

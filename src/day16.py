@@ -43,9 +43,19 @@ class Packet:
             self.operator_11bit()
 
     def operator_15bit(self):
-        subpacket_length = int_from(self.binary[7:23])
-        packages = self.binary[23:23 + subpacket_length]
-        #todo: process
+        subpacket_length = int_from(self.binary[7:22])
+        packages = self.binary[22:22 + subpacket_length]
+        start = 0
+        end = 6
+        while start < len(packages):
+            if packages[end] == 0:
+                end += 5
+                binary = packages[start:end]
+                self.subpackets.append(Packet(binary))
+                start = end
+                end = start + 6
+            else:
+                end += 5
 
     def operator_11bit(self):
         subpacket_count = int_from(self.binary[7:18])

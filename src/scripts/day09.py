@@ -1,4 +1,4 @@
-from scripts.main import Reader
+from src.scripts.main import Reader
 
 # left, right, up, down
 ORTHOGONALS = [(0, -1), (0, 1), (-1, 0), (1, 0)]
@@ -28,7 +28,7 @@ class IntMatrix():
 
     def lowpoint_values(self) -> list:
         return [self.matrix[row][col] for row, col in self.lowpoints()]
-    
+
     # Inputs include no adjacent lowpoints.
     def lowpoints(self) -> list:
         lows = []

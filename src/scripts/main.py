@@ -1,4 +1,4 @@
-PATH = './input/'
+PATH = './src/inputs/'
 
 
 class Reader():

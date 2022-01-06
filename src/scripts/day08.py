@@ -1,4 +1,4 @@
-from scripts.main import Reader
+from src.scripts.main import Reader
 
 # Each number 0-9 has a (luckily) unique sum of the frequencies of each letter in it.
 # Ex: 1 is made of two letters, which in total appear 17 (8+9) times each signal.

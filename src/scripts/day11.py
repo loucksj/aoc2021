@@ -1,4 +1,4 @@
-from scripts.main import Reader
+from src.scripts.main import Reader
 
 # up-left, up, up-right
 # left, right

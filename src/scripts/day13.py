@@ -1,4 +1,4 @@
-from scripts.main import Reader, transpose
+from src.scripts.main import Reader, transpose
 
 
 def part_one(filename: str) -> int:
